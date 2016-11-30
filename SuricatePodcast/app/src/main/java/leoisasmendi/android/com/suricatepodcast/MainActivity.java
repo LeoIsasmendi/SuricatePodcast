@@ -11,14 +11,80 @@
 
 package leoisasmendi.android.com.suricatepodcast;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
+import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
+import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
+
+public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
+
+    private FragmentManager fragmentManager;
+    private MainFragment mainFragment;
+    private DetailFragment detailFragment;
+    private SearchFragment searchFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        fragmentManager = getFragmentManager();
+        loadFragment();
+    }
+
+    private void loadFragment() {
+
+        //TODO: load fragments in TabletUI
+
+        if (mainFragment == null) {
+            mainFragment = new MainFragment();
+        }
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.activity_main, mainFragment);
+        fragmentTransaction.commit();
+
+    }
+
+    private void showSearchFragment() {
+
+        if (searchFragment == null) {
+            searchFragment = new SearchFragment();
+        }
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.activity_main, searchFragment);
+        fragmentTransaction.addToBackStack("search");
+        fragmentTransaction.commit();
+
+    }
+
+    // SET ACTION BAR TITLE
+
+    public void setActionBarTitle(int resourceId) {
+        getSupportActionBar().setTitle(resourceId);
+    }
+
+    //    SEARCH BUTTON
+    public void doSearch(View v) {
+        final String TAG = getClass().getSimpleName();
+        Log.i(TAG, "doSearch: ");
+        showSearchFragment();
+    }
+
+    // INTERFACES
+
+    @Override
+    public void onFragmentInteraction() {
+        //TODO
+        String TAG = getClass().getSimpleName();
+        Log.i(TAG, "onFragmentInteraction: SEARCH FAB PRESSED");
     }
 }
