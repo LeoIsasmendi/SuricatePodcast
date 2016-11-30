@@ -51,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         loadFragment();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void loadFragment() {
 
         //TODO: load fragments in TabletUI
