@@ -31,5 +31,5 @@
     <dimen name="search_add_button_margin">4dp</dimen>
     <dimen name="search_button">4dp</dimen>
     <dimen name="fab_size">56dp</dimen>
-    <dimen name="playlist_item_margin">4dp</dimen>
+    <dimen name="list_item_margin">4dp</dimen>
 </resources>
