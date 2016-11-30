@@ -24,7 +24,6 @@
 package leoisasmendi.android.com.suricatepodcast.data;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,10 +44,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
     @Override
     public void onBindViewHolder(SearchListViewHolder holder, int position) {
-        Log.i("PlaylistAdapter", "onBindViewHolder: " + position);
         holder.getNameView().setText(list.get(position).getName());
         holder.getLengthView().setText(list.get(position).getLength());
-        holder.getSelected().setActivated(list.get(position).getSelected());
+        holder.getSelected().setChecked(list.get(position).getSelected());
     }
 
     @Override
