@@ -50,15 +50,3 @@ public class PodcastItem {
         this.id = id;
     }
 }
-
-//    private List<PodcastItem> podcastPlaylist;
-//
-//    // This method creates an ArrayList that has three Person objects
-//// Checkout the project associated with this tutorial on Github if
-//// you want to use the same images.
-//    private void initializeData() {
-//        podcastPlaylist = new ArrayList<>();
-//        podcastPlaylist.add(new PodcastItem(1, "Emma Wilson", "3s"));
-//        podcastPlaylist.add(new PodcastItem(2, "Lavery Maiss", "25 years old"));
-//        podcastPlaylist.add(new PodcastItem(3, "Lillie Watts", "35 years old"));
-//    }
