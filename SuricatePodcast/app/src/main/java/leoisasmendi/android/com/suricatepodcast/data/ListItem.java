@@ -23,23 +23,28 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
-public class PodcastItem {
-    private String name;
-    private String length;
+public class ListItem {
+
+    private String title;
+    private String duration;
     private int id;
 
-    public PodcastItem(int anId, String aName, String aLength) {
+    public ListItem() {
+        // default constructor
+    }
+
+    public ListItem(int anId, String aName, String aLength) {
         id = anId;
-        name = aName;
-        length = aLength;
+        title = aName;
+        duration = aLength;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public String getLength() {
-        return length;
+    public String getDuration() {
+        return duration;
     }
 
     public int getId() {

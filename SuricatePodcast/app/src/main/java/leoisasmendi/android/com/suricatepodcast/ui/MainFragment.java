@@ -39,7 +39,7 @@ import java.util.List;
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
-import leoisasmendi.android.com.suricatepodcast.data.PodcastItem;
+import leoisasmendi.android.com.suricatepodcast.data.ListItem;
 
 
 public class MainFragment extends Fragment {
@@ -81,12 +81,12 @@ public class MainFragment extends Fragment {
     }
 
     private void loadFakeData() {
-        List<PodcastItem> playlist;
+        List<ListItem> playlist;
 
         playlist = new ArrayList<>();
-        playlist.add(new PodcastItem(1, "Emma Wilson", "11:11:11"));
-        playlist.add(new PodcastItem(2, "Lavery Maiss", "22:22:22"));
-        playlist.add(new PodcastItem(3, "Lillie Watts", "33:33:33"));
+        playlist.add(new ListItem(1, "Emma Wilson", "11:11:11"));
+        playlist.add(new ListItem(2, "Lavery Maiss", "22:22:22"));
+        playlist.add(new ListItem(3, "Lillie Watts", "33:33:33"));
 
 
         Log.i("MainFragment", "onCreateView: " + mListener.toString());

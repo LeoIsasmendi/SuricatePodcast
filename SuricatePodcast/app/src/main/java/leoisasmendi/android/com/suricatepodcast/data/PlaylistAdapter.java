@@ -24,7 +24,6 @@
 package leoisasmendi.android.com.suricatepodcast.data;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +36,12 @@ import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
-    private List<PodcastItem> playlist;
-    private final MainFragment.OnFragmentInteractionListener mListener;
+    private List<ListItem> mList;
+    private MainFragment.OnFragmentInteractionListener mListener;
     private View.OnClickListener mClickListener;
 
-    public PlaylistAdapter(List<PodcastItem> aPlaylist, MainFragment.OnFragmentInteractionListener listener) {
-        playlist = aPlaylist;
+    public PlaylistAdapter(List<ListItem> aPlaylist, MainFragment.OnFragmentInteractionListener listener) {
+        mList = aPlaylist;
         mListener = listener;
         mClickListener = new View.OnClickListener() {
             @Override
@@ -58,16 +57,16 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     @Override
     public void onBindViewHolder(PlaylistViewHolder holder, int position) {
-        holder.getNameView().setText(playlist.get(position).getName());
-        holder.getLengthView().setText(playlist.get(position).getLength());
-        holder.getmView().setOnClickListener(mClickListener);
+        holder.getNameView().setText(mList.get(position).getTitle());
+        holder.getDurationView().setText(mList.get(position).getDuration());
+        holder.getView().setOnClickListener(mClickListener);
     }
 
     @Override
     public PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_playlist_item, parent, false);
-        PlaylistViewHolder playlistViewHolder = new PlaylistViewHolder(view);
-        return playlistViewHolder;
+        PlaylistViewHolder mViewHolder = new PlaylistViewHolder(view);
+        return mViewHolder;
     }
 
     @Override
@@ -77,31 +76,32 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     @Override
     public int getItemCount() {
-        return playlist.size();
+        return mList.size();
     }
 
+    // View Holder
     public static class PlaylistViewHolder extends RecyclerView.ViewHolder {
         private TextView nameView;
-        private TextView lengthView;
-        private final View mView;
+        private TextView durationView;
+        private final View view;
 
         PlaylistViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
+            view = itemView;
             nameView = (TextView) itemView.findViewById(R.id.playlist_item_name);
-            lengthView = (TextView) itemView.findViewById(R.id.playlist_item_length);
+            durationView = (TextView) itemView.findViewById(R.id.playlist_item_length);
         }
 
         public TextView getNameView() {
             return nameView;
         }
 
-        public TextView getLengthView() {
-            return lengthView;
+        public TextView getDurationView() {
+            return durationView;
         }
 
-        public View getmView() {
-            return mView;
+        public View getView() {
+            return view;
         }
     }
 }

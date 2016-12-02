@@ -24,31 +24,15 @@
 package leoisasmendi.android.com.suricatepodcast.data;
 
 
-public class SearchItem {
+public class SearchItem extends ListItem {
 
-    private int id;
-    private String name;
-    private String length;
     private Boolean selected;
 
     public SearchItem(int anId, String aName, String aLength) {
-        id = anId;
-        name = aName;
-        length = aLength;
+        super(anId, aName, aLength);
         selected = true;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getLength() {
-        return length;
-    }
-
-    public String getName() {
-        return name;
-    }
 
     public Boolean getSelected() {
         return selected;

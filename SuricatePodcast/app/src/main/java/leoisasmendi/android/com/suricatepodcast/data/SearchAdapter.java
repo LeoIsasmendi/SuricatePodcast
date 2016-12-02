@@ -37,19 +37,19 @@ import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchListViewHolder> {
 
-    private List<SearchItem> list;
-    private final SearchFragment.OnFragmentInteractionListener mListener;
+    private List<SearchItem> mList;
+    private SearchFragment.OnFragmentInteractionListener mListener;
     private View.OnClickListener mClickListener;
 
     public SearchAdapter(List<SearchItem> aList, SearchFragment.OnFragmentInteractionListener listener) {
-        list = aList;
+        mList = aList;
         mListener = listener;
         mClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
+                    // fragment is attached to one) that an item has been selectedView.
                     mListener.onAddObjectToPlaylist();
                 }
             }
@@ -58,17 +58,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
     @Override
     public void onBindViewHolder(SearchListViewHolder holder, int position) {
-        holder.getNameView().setText(list.get(position).getName());
-        holder.getLengthView().setText(list.get(position).getLength());
-        holder.getSelected().setChecked(list.get(position).getSelected());
-        holder.getmView().setOnClickListener(mClickListener);
+        holder.getNameView().setText(mList.get(position).getTitle());
+        holder.getDurationView().setText(mList.get(position).getDuration());
+        holder.getSelectedView().setChecked(mList.get(position).getSelected());
+        holder.getView().setOnClickListener(mClickListener);
     }
 
     @Override
     public SearchListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_list_item, parent, false);
-        SearchListViewHolder listViewHolder = new SearchListViewHolder(view);
-        return listViewHolder;
+        SearchListViewHolder mViewHolder = new SearchListViewHolder(view);
+        return mViewHolder;
     }
 
     @Override
@@ -78,37 +78,38 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return mList.size();
     }
 
+    // View Holder
     public static class SearchListViewHolder extends RecyclerView.ViewHolder {
         private TextView nameView;
-        private TextView lengthView;
-        private CheckBox selected;
-        private final View mView;
+        private TextView durationView;
+        private CheckBox selectedView;
+        private final View view;
 
         SearchListViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
+            view = itemView;
             nameView = (TextView) itemView.findViewById(R.id.search_item_name);
-            lengthView = (TextView) itemView.findViewById(R.id.search_item_length);
-            selected = (CheckBox) itemView.findViewById(R.id.search_item_selected);
+            durationView = (TextView) itemView.findViewById(R.id.search_item_length);
+            selectedView = (CheckBox) itemView.findViewById(R.id.search_item_selected);
         }
 
         public TextView getNameView() {
             return nameView;
         }
 
-        public TextView getLengthView() {
-            return lengthView;
+        public TextView getDurationView() {
+            return durationView;
         }
 
-        public CheckBox getSelected() {
-            return selected;
+        public CheckBox getSelectedView() {
+            return selectedView;
         }
 
-        public View getmView() {
-            return mView;
+        public View getView() {
+            return view;
         }
     }
 }
