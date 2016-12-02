@@ -83,6 +83,19 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     }
 
+    private void showDetailFragment() {
+
+        if (detailFragment == null) {
+            detailFragment= new DetailFragment();
+        }
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.activity_main, detailFragment);
+        fragmentTransaction.addToBackStack("detail");
+        fragmentTransaction.commit();
+
+    }
+
     // SET ACTION BAR TITLE
 
     public void setActionBarTitle(int resourceId) {
@@ -93,15 +106,16 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     public void doSearch(View v) {
         final String TAG = getClass().getSimpleName();
         Log.i(TAG, "doSearch: ");
-        showSearchFragment();
+//        showSearchFragment();
     }
 
     // INTERFACES
-
     @Override
     public void onFragmentInteraction() {
         //TODO
         String TAG = getClass().getSimpleName();
-        Log.i(TAG, "onFragmentInteraction: SEARCH FAB PRESSED");
+        Log.i(TAG, "onFragmentInteraction: playlist item pressed");
+        showDetailFragment();
+
     }
 }

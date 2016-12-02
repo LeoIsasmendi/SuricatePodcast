@@ -87,7 +87,7 @@ public class SearchFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        loadFakeData();
+//        loadFakeData();
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
@@ -99,7 +99,7 @@ public class SearchFragment extends Fragment {
         playlist.add(new PodcastItem(1, "Emma Wilson", "11:11:11"));
         playlist.add(new PodcastItem(2, "Lavery Maiss", "22:22:22"));
 
-        mAdapter = new PlaylistAdapter(playlist);
+//        mAdapter = new PlaylistAdapter(playlist);
         Log.i("MainFragment", "onCreateView: " + mAdapter.getItemCount());
     }
 

@@ -33,21 +33,34 @@ import android.widget.TextView;
 import java.util.List;
 
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
     private List<PodcastItem> playlist;
+    private final MainFragment.OnFragmentInteractionListener mListener;
+    private View.OnClickListener mClickListener;
 
-    public PlaylistAdapter(List<PodcastItem> aPlaylist) {
+    public PlaylistAdapter(List<PodcastItem> aPlaylist, MainFragment.OnFragmentInteractionListener listener) {
         playlist = aPlaylist;
+        mListener = listener;
+        mClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onFragmentInteraction();
+                }
+            }
+        };
     }
 
     @Override
     public void onBindViewHolder(PlaylistViewHolder holder, int position) {
-
-        Log.i("PlaylistAdapter", "onBindViewHolder: " + position);
         holder.getNameView().setText(playlist.get(position).getName());
         holder.getLengthView().setText(playlist.get(position).getLength());
+        holder.getmView().setOnClickListener(mClickListener);
     }
 
     @Override
@@ -70,9 +83,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     public static class PlaylistViewHolder extends RecyclerView.ViewHolder {
         private TextView nameView;
         private TextView lengthView;
+        private final View mView;
 
         PlaylistViewHolder(View itemView) {
             super(itemView);
+            mView = itemView;
             nameView = (TextView) itemView.findViewById(R.id.playlist_item_name);
             lengthView = (TextView) itemView.findViewById(R.id.playlist_item_length);
         }
@@ -83,6 +98,10 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
         public TextView getLengthView() {
             return lengthView;
+        }
+
+        public View getmView() {
+            return mView;
         }
     }
 }
