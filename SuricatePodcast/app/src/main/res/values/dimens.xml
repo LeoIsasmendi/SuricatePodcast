@@ -32,4 +32,7 @@
     <dimen name="search_button">4dp</dimen>
     <dimen name="fab_size">56dp</dimen>
     <dimen name="list_item_margin">4dp</dimen>
+    <dimen name="detail_fragment_padding">12dp</dimen>
+    <dimen name="detail_head_text">10dp</dimen>
+    <dimen name="description_margin_top_bottom">10dp</dimen>
 </resources>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <!--
   ~ The MIT License (MIT)
   ~ Copyright (c) 2016. Sergio Leonardo Isasmendi
@@ -25,11 +26,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="@dimen/detail_fragment_padding">
 
     <include layout="@layout/detail_head" />
 
-    <include layout="@layout/detail_description"/>
+    <include layout="@layout/detail_description" />
 
     <include layout="@layout/detail_related_list" />
 
