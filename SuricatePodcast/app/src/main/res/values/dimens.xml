@@ -35,4 +35,5 @@
     <dimen name="detail_fragment_padding">12dp</dimen>
     <dimen name="detail_head_text">10dp</dimen>
     <dimen name="description_margin_top_bottom">10dp</dimen>
+    <dimen name="playlist_item_margin">10dp</dimen>
 </resources>
