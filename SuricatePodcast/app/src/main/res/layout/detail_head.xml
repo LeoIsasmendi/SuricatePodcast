@@ -46,6 +46,8 @@
             android:id="@+id/detail_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:maxLines="1"
             android:text="@string/default_detail_name"
             tools:text="Podcast Name" />
 
