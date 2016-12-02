@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
@@ -87,6 +88,15 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         if (detailFragment == null) {
             detailFragment= new DetailFragment();
+            EpisodeParcelable data = new EpisodeParcelable();
+            data.setId(0);
+            data.setTitle("Test Title");
+            data.setDetail("Bla bla bla and batabla");
+            data.setDuration(999);
+
+            Bundle mBundle = new Bundle();
+            mBundle.putParcelable("EXTRA_EPISODE", data);
+            detailFragment.setArguments(mBundle);
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

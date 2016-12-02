@@ -28,41 +28,23 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DetailFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class DetailFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-
+    private EpisodeParcelable mParcelable;
 
     public DetailFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment DetailFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DetailFragment newInstance(String param1) {
+    public static DetailFragment newInstance() {
         DetailFragment fragment = new DetailFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -70,7 +52,7 @@ public class DetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParcelable = getArguments().getParcelable("EXTRA_EPISODE");
         }
     }
 
@@ -86,6 +68,31 @@ public class DetailFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle(R.string.detail_fragment_title);
+        loadParcelableIntoView();
     }
+
+    private void loadParcelableIntoView() {
+        if (mParcelable != null) {
+            setTitle(mParcelable.getTitle());
+            setDetail(mParcelable.getDetail());
+            setDuration(mParcelable.getDuration());
+        }
+    }
+
+    private void setTitle(String aString) {
+        TextView textView = (TextView) getView().findViewById(R.id.detail_name);
+        textView.setText(aString);
+    }
+
+    private void setDetail(String aString) {
+        TextView textView = (TextView) getView().findViewById(R.id.detail_description);
+        textView.setText(aString);
+    }
+
+    private void setDuration(int aInteger) {
+        TextView textView = (TextView) getView().findViewById(R.id.detail_duration);
+        textView.setText(Integer.toString(aInteger));
+    }
+
 
 }
