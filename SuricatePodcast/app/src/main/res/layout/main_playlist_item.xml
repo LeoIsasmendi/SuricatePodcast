@@ -39,8 +39,8 @@
         android:id="@+id/playlist_item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/playlist_item_margin"
-        android:layout_marginStart="@dimen/playlist_item_margin"
+        android:layout_marginEnd="@dimen/list_item_name_margin"
+        android:layout_marginStart="@dimen/list_item_name_margin"
         android:layout_weight="1"
         tools:text="The joe rogan experience" />
 
