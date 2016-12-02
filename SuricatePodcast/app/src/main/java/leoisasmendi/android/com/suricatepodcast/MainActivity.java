@@ -34,7 +34,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
     private FragmentManager fragmentManager;
     private MainFragment mainFragment;
@@ -106,7 +106,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     public void doSearch(View v) {
         final String TAG = getClass().getSimpleName();
         Log.i(TAG, "doSearch: ");
-//        showSearchFragment();
+        showSearchFragment();
+    }
+
+    //    SEARCH BUTTON
+    public void addItemsToPlaylist(View v) {
+        final String TAG = getClass().getSimpleName();
+        Log.i(TAG, "addItemsToPlaylist: ");
     }
 
     // INTERFACES
@@ -117,5 +123,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Log.i(TAG, "onFragmentInteraction: playlist item pressed");
         showDetailFragment();
 
+    }
+
+    @Override
+    public void onAddObjectToPlaylist() {
+        //TODO
+        String TAG = getClass().getSimpleName();
+        Log.i(TAG, "onFragmentInteraction: search item selected");
     }
 }

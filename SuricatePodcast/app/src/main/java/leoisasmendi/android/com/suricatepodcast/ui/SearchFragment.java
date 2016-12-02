@@ -38,8 +38,8 @@ import java.util.List;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
-import leoisasmendi.android.com.suricatepodcast.data.PodcastItem;
+import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
+import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,30 +82,33 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
-        mRecyclerView.setHasFixedSize(true);
-
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-//        loadFakeData();
+        checkListenerImplementation(view.getContext());
+        loadFakeData();
         mRecyclerView.setAdapter(mAdapter);
         return view;
     }
 
     private void loadFakeData() {
-        List<PodcastItem> playlist;
+        List<SearchItem> playlist;
 
         playlist = new ArrayList<>();
-        playlist.add(new PodcastItem(1, "Emma Wilson", "11:11:11"));
-        playlist.add(new PodcastItem(2, "Lavery Maiss", "22:22:22"));
+        playlist.add(new SearchItem(1, "Emma Wilson", "11:11:11"));
+        playlist.add(new SearchItem(2, "Lavery Maiss", "22:22:22"));
 
-//        mAdapter = new PlaylistAdapter(playlist);
+        mAdapter = new SearchAdapter(playlist, mListener);
         Log.i("MainFragment", "onCreateView: " + mAdapter.getItemCount());
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        checkListenerImplementation(context);
+    }
+
+    private void checkListenerImplementation(Context context) {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {

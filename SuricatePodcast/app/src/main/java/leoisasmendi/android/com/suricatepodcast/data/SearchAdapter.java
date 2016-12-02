@@ -33,13 +33,27 @@ import android.widget.TextView;
 import java.util.List;
 
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchListViewHolder> {
 
     private List<SearchItem> list;
+    private final SearchFragment.OnFragmentInteractionListener mListener;
+    private View.OnClickListener mClickListener;
 
-    public SearchAdapter(List<SearchItem> aList) {
+    public SearchAdapter(List<SearchItem> aList, SearchFragment.OnFragmentInteractionListener listener) {
         list = aList;
+        mListener = listener;
+        mClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onAddObjectToPlaylist();
+                }
+            }
+        };
     }
 
     @Override
@@ -47,6 +61,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
         holder.getNameView().setText(list.get(position).getName());
         holder.getLengthView().setText(list.get(position).getLength());
         holder.getSelected().setChecked(list.get(position).getSelected());
+        holder.getmView().setOnClickListener(mClickListener);
     }
 
     @Override
@@ -70,9 +85,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
         private TextView nameView;
         private TextView lengthView;
         private CheckBox selected;
+        private final View mView;
 
         SearchListViewHolder(View itemView) {
             super(itemView);
+            mView = itemView;
             nameView = (TextView) itemView.findViewById(R.id.search_item_name);
             lengthView = (TextView) itemView.findViewById(R.id.search_item_length);
             selected = (CheckBox) itemView.findViewById(R.id.search_item_selected);
@@ -88,6 +105,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
         public CheckBox getSelected() {
             return selected;
+        }
+
+        public View getmView() {
+            return mView;
         }
     }
 }
