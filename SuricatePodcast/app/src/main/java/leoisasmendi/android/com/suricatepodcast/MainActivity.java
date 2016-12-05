@@ -25,12 +25,17 @@ package leoisasmendi.android.com.suricatepodcast;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
+import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
@@ -63,12 +68,32 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         if (mainFragment == null) {
             mainFragment = new MainFragment();
-        }
 
+        }
+        loadPlaylistData();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.activity_main, mainFragment);
         fragmentTransaction.commit();
 
+    }
+
+    private void loadPlaylistData() {
+        //LOAD THIS ASYNC WAY
+        // Retrieve student records
+        String URL = "content://suricatepodcast";
+
+        Uri data = Uri.parse(URL);
+        Cursor c = getApplicationContext().getContentResolver().query(data, null, null, null, "name");
+
+//        if (c.moveToFirst()) {
+//            do {
+//                Toast.makeText(this,
+//                        c.getString(c.getColumnIndex(StudentsProvider._ID)) +
+//                                ", " + c.getString(c.getColumnIndex(StudentsProvider.NAME)) +
+//                                ", " + c.getString(c.getColumnIndex(StudentsProvider.GRADE)),
+//                        Toast.LENGTH_SHORT).show();
+//            } while (c.moveToNext());
+//        }
     }
 
     private void showSearchFragment() {
@@ -87,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private void showDetailFragment() {
 
         if (detailFragment == null) {
-            detailFragment= new DetailFragment();
+            detailFragment = new DetailFragment();
             EpisodeParcelable data = new EpisodeParcelable();
             data.setId(0);
             data.setTitle("Test Title");
@@ -111,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     public void setActionBarTitle(int resourceId) {
         getSupportActionBar().setTitle(resourceId);
     }
+
 
     //    SEARCH BUTTON
     public void doSearch(View v) {
@@ -136,9 +162,15 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
 
     @Override
-    public void onAddObjectToPlaylist() {
+    public void onAddObjectToPlaylist(ContentValues aValue) {
         //TODO
         String TAG = getClass().getSimpleName();
         Log.i(TAG, "onFragmentInteraction: search item selected");
+
+        Uri uri = getContentResolver().insert(
+                DataProvider.CONTENT_URI, aValue);
+
+        Toast.makeText(getBaseContext(),
+                uri.toString(), Toast.LENGTH_LONG).show();
     }
 }

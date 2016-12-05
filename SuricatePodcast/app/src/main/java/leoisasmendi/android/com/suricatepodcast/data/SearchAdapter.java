@@ -50,7 +50,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selectedView.
-                    mListener.onAddObjectToPlaylist();
+                    mListener.onAddObjectToPlaylist(null); //TODO: FIX PARAM
                 }
             }
         };

@@ -26,48 +26,45 @@ package leoisasmendi.android.com.suricatepodcast.data;
 import android.content.Context;
 import android.provider.BaseColumns;
 
-public class PlaylistDataSource {
+public class PodcastsDataSource {
 
     //Metadata
-    public static final String FAVORITES_TABLE_NAME = "Playlist";
+    public static final String PODCASTS_TABLE_NAME = "Playlist";
     public static final String STRING_TYPE = "text";
     public static final String INT_TYPE = "integer";
     public static final String LONG_TYPE = "long";
 
     //Quotes fields
-    public static class ColumnFavorites {
-        public static final String ID_FAVORITES = BaseColumns._ID;
-        public static final String ID_MOVIES = "movies";
+    public static class ColumnPodcasts {
+        public static final String ID_PODCASTS = BaseColumns._ID;
+        public static final String ID_PODCAST = "podcast";
         public static final String TITLE = "title";
         public static final String POSTER = "poster";
     }
 
     //Script of creation
     public static final String CREATE_SCRIPT =
-            "create table " + FAVORITES_TABLE_NAME + "(" +
-                    ColumnFavorites.ID_FAVORITES + " " + INT_TYPE + " primary key autoincrement," +
-                    ColumnFavorites.ID_MOVIES + " " + LONG_TYPE + " not null," +
-                    ColumnFavorites.TITLE + " " + STRING_TYPE + " not null," +
-                    ColumnFavorites.POSTER + " " + STRING_TYPE + " not null)";
+            "create table " + PODCASTS_TABLE_NAME + "(" +
+                    ColumnPodcasts.ID_PODCASTS + " " + INT_TYPE + " primary key autoincrement," +
+                    ColumnPodcasts.ID_PODCAST + " " + LONG_TYPE + " not null," +
+                    ColumnPodcasts.TITLE + " " + STRING_TYPE + " not null," +
+                    ColumnPodcasts.POSTER + " " + STRING_TYPE + " not null)";
 
     //Scripts default insertion
 /*    public static final String INSERT_SCRIPT =
-            "insert into "+FAVORITES_TABLE_NAME+" values" +
+            "insert into "+PODCASTS_TABLE_NAME+" values" +
                     "(null,"+
                     "293660," +
                     "\"TITLE\"," +
-                    "\"ORIGINAL_TITLE\"," +
                     "\"http://image.tmdb.org/t/p/w185/inVq3FRqcYIRl2la8iZikYYxFNR.jpg\","+
                     "\"OVERVIEW\"," +
-                    "\"RELEASE_DATA\"," +
-                    "3.3" +
                     ")";
 //                    "(null, 246655," + "\"http://image.tmdb.org/t/p/w185/zSouWWrySXshPCT4t3UKCQGayyo.jpg\")";
 */
-    private PlayListDatabase openHelper;
+    private PodcastsHelper openHelper;
 
-    public PlaylistDataSource(Context context) {
+    public PodcastsDataSource(Context context) {
         //New database instance
-        openHelper = new PlayListDatabase(context);
+        openHelper = new PodcastsHelper(context);
     }
 }
