@@ -30,7 +30,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +38,7 @@ import android.widget.Toast;
 
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
+import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
@@ -69,15 +69,27 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuOp1:
-                //TODO: show themes selection
+                showThemes();
                 return true;
             case R.id.menuOp2:
-                //TODO: show about
+                showAbout();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void showThemes() {
+        //TODO: show themes
+    }
+
+    private void showAbout() {
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        AboutFragment about = new AboutFragment();
+        fragmentTransaction.replace(R.id.activity_main, about);
+        fragmentTransaction.addToBackStack("about");
+        fragmentTransaction.commit();
     }
 
     @Override
