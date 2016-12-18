@@ -42,6 +42,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
+import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
@@ -81,7 +82,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     }
 
     private void showThemes() {
-        //TODO: show themes
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        ThemesFragment themes = new ThemesFragment();
+        fragmentTransaction.replace(R.id.activity_main, themes);
+        fragmentTransaction.addToBackStack("themes");
+        fragmentTransaction.commit();
     }
 
     private void showAbout() {

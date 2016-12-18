@@ -50,5 +50,10 @@
         Licence: The MIT License (MIT)
         ]]>
     </string>
+    <string name="themes_selection_title">Select your theme</string>
+    <string name="theme_op_1">Red</string>
+    <string name="theme_op_2">Blue</string>
+    <string name="theme_op_3">Orange</string>
+    <string name="theme_op_4">Default</string>
 
 </resources>
