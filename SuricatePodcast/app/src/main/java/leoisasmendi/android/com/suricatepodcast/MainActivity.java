@@ -30,7 +30,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -47,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private DetailFragment detailFragment;
     private SearchFragment searchFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,27 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
         fragmentManager = getFragmentManager();
         loadFragment();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuOp1:
+                //TODO: show themes selection
+                return true;
+            case R.id.menuOp2:
+                //TODO: show about
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 
     @Override
