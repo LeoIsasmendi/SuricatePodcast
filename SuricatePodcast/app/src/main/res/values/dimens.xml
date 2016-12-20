@@ -26,14 +26,23 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="main_item_margin">4dp</dimen>
+
     <dimen name="detail_podcast_poster">96dp</dimen>
+    <dimen name="detail_fragment_padding">12dp</dimen>
+    <dimen name="detail_head_text">10dp</dimen>
+
     <dimen name="search_input_margin">4dp</dimen>
     <dimen name="search_add_button_margin">4dp</dimen>
     <dimen name="search_button">4dp</dimen>
+
+
+    <dimen name="list_item_padding_start_end">16dp</dimen>
+    <dimen name="list_item_padding_top_bottom">8dp</dimen>
+    <dimen name="list_item_name_margin">12dp</dimen>
+    <dimen name="list_item_height">56dp</dimen>
+
+
     <dimen name="fab_size">56dp</dimen>
-    <dimen name="list_item_margin">4dp</dimen>
-    <dimen name="detail_fragment_padding">12dp</dimen>
-    <dimen name="detail_head_text">10dp</dimen>
     <dimen name="description_margin_top_bottom">10dp</dimen>
-    <dimen name="list_item_name_margin">10dp</dimen>
+    <dimen name="item_text_size">16sp</dimen>
 </resources>

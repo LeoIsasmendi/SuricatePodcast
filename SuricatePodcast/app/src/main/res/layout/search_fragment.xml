@@ -39,7 +39,11 @@
         android:id="@+id/search_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:paddingBottom="@dimen/list_item_padding_top_bottom"
+        android:paddingEnd="@dimen/list_item_padding_start_end"
+        android:paddingStart="@dimen/list_item_padding_start_end"
+        android:paddingTop="@dimen/list_item_padding_top_bottom" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="@dimen/fab_size"
