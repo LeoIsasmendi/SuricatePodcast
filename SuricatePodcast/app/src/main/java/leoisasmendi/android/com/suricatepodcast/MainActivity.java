@@ -46,6 +46,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
+    final String TAG = getClass().getSimpleName();
     private FragmentManager fragmentManager;
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
@@ -180,22 +181,46 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     //    SEARCH BUTTON
     public void doSearch(View v) {
-        final String TAG = getClass().getSimpleName();
         Log.i(TAG, "doSearch: ");
         showSearchFragment();
     }
 
     //    SEARCH BUTTON
     public void addItemsToPlaylist(View v) {
-        final String TAG = getClass().getSimpleName();
         Log.i(TAG, "addItemsToPlaylist: ");
+    }
+
+
+    // MEDIA PLAYER
+    public void playAudio(View v) {
+        Log.i(TAG, "playAudio: ");
+//        String url = "http://........"; // your URL here
+//        MediaPlayer mediaPlayer = new MediaPlayer();
+//        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        mediaPlayer.setDataSource(url);
+//        mediaPlayer.prepare(); // might take long! (for buffering, etc)
+//        mediaPlayer.start();
+    }
+
+    public void stopAudio(View v) {
+        Log.i(TAG, "stopAudio: ");
+        // TODO: stop audio
+    }
+
+    public void nextAudio(View v) {
+        Log.i(TAG, "nextAudio: ");
+        // TODO: next audio
+    }
+
+    public void prevAudio(View v) {
+        Log.i(TAG, "prevAudio: ");
+        // TODO: prev audio
     }
 
     // INTERFACES
     @Override
     public void onFragmentInteraction() {
         //TODO
-        String TAG = getClass().getSimpleName();
         Log.i(TAG, "onFragmentInteraction: playlist item pressed");
         showDetailFragment();
 
@@ -204,9 +229,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     @Override
     public void onAddObjectToPlaylist(ContentValues aValue) {
         //TODO
-        String TAG = getClass().getSimpleName();
         Log.i(TAG, "onFragmentInteraction: search item selected");
-
         Uri uri = getContentResolver().insert(
                 DataProvider.CONTENT_URI, aValue);
 

@@ -52,6 +52,9 @@
             android:onClick="doSearch"
             android:src="@drawable/magnifier" />
 
+        <include layout="@layout/fragment_media_player" />
     </LinearLayout>
+
+
 
 </LinearLayout>

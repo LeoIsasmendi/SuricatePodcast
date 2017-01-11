@@ -24,7 +24,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="64dp"
     tools:context="leoisasmendi.android.com.suricatepodcast.ui.MediaPlayerFragment">
 
     <LinearLayout
@@ -36,24 +36,28 @@
             android:id="@+id/media_player_prev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/media_player_next" />
+            android:onClick="prevAudio"
+            android:src="@drawable/media_player_prev" />
 
         <ImageButton
             android:id="@+id/media_player_play"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="playAudio"
             android:src="@drawable/media_player_play" />
 
         <ImageButton
             android:id="@+id/media_player_stop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="stopAudio"
             android:src="@drawable/media_player_stop" />
 
         <ImageButton
             android:id="@+id/media_player_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="nextAudio"
             android:src="@drawable/media_player_next" />
     </LinearLayout>
 
