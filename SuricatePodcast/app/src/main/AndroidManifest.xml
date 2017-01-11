@@ -40,6 +40,9 @@
         <provider
             android:name=".provider.DataProvider"
             android:authorities="leoisasmendi.android.com.suricatepodcast.provider.DataProvider" />
+        <service
+            android:name=".services.AudioService"
+            android:exported="false"></service>
     </application>
 
 </manifest>
