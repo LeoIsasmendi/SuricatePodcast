@@ -25,38 +25,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="64dp"
+    android:layout_centerHorizontal="true"
     tools:context="leoisasmendi.android.com.suricatepodcast.ui.MediaPlayerFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="@android:color/darker_gray"
+        android:orientation="horizontal"
+        android:paddingEnd="4.0dp"
+        android:paddingStart="4.0dp">
 
         <ImageButton
             android:id="@+id/media_player_prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0.0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
             android:onClick="prevAudio"
             android:src="@drawable/media_player_prev" />
 
         <ImageButton
             android:id="@+id/media_player_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0.0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
             android:onClick="playAudio"
             android:src="@drawable/media_player_play" />
 
         <ImageButton
             android:id="@+id/media_player_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0.0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
             android:onClick="stopAudio"
             android:src="@drawable/media_player_stop" />
 
         <ImageButton
             android:id="@+id/media_player_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0.0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
             android:onClick="nextAudio"
             android:src="@drawable/media_player_next" />
     </LinearLayout>
