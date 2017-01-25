@@ -36,6 +36,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
@@ -51,14 +54,40 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private MainFragment mainFragment;
     private DetailFragment detailFragment;
     private SearchFragment searchFragment;
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
+
         fragmentManager = getFragmentManager();
         loadFragment();
+    }
+
+    private void loadAds() {
+        AdRequest adRequest = getAdRequestObject();
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest);
+    }
+
+    private AdRequest getAdRequestObject() {
+        return new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                // Check the LogCat to get your test device ID
+                .addTestDevice(getString(R.string.testDeviceAdsId))
+                .build();
+    }
+
+    private void showAds() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            loadAds();
+        }
     }
 
     @Override
@@ -69,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        showAds();
         switch (item.getItemId()) {
             case R.id.menuOp1:
                 showThemes();
@@ -79,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
     private void showThemes() {

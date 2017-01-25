@@ -34,6 +34,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,14 +45,6 @@ import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SearchFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SearchFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SearchFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
@@ -57,17 +52,12 @@ public class SearchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private AdView mAdView;
 
     public SearchFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance() {
         SearchFragment fragment = new SearchFragment();
         return fragment;
@@ -82,6 +72,7 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -89,7 +80,19 @@ public class SearchFragment extends Fragment {
         checkListenerImplementation(view.getContext());
         loadFakeData();
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdView = (AdView) view.findViewById(R.id.adBannerView);
+        AdRequest adRequest = getAdRequestObject();
+        mAdView.loadAd(adRequest);
         return view;
+    }
+
+    private AdRequest getAdRequestObject() {
+        return new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                // Check the LogCat to get your test device ID
+                .addTestDevice(getString(R.string.testDeviceAdsId))
+                .build();
     }
 
     private void loadFakeData() {
@@ -127,15 +130,33 @@ public class SearchFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((MainActivity)getActivity()).setActionBarTitle(R.string.search_fragment_title);
+        ((MainActivity) getActivity()).setActionBarTitle(R.string.search_fragment_title);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
+    @Override
+    public void onPause() {
+        if (mAdView != null) {
+            mAdView.pause();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mAdView != null) {
+            mAdView.resume();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mAdView != null) {
+            mAdView.destroy();
+        }
+        super.onDestroy();
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onAddObjectToPlaylist(ContentValues aValue);

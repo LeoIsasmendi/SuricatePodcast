@@ -56,4 +56,8 @@
     <string name="theme_op_3">Orange</string>
     <string name="theme_op_4">Default</string>
 
+    <!-- AdMob ad unit IDs -->
+    <string name="banner_home_footer">ca-app-pub-0664570763252260/3326522424</string>
+    <string name="interstitial_full_screen">ca-app-pub-0664570763252260/3326522424</string>
+    <string name="testDeviceAdsId">853DED8B285280057103C32F0E698153</string>
 </resources>
