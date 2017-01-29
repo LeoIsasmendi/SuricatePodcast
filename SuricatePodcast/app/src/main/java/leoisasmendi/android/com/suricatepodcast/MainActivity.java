@@ -26,6 +26,7 @@ package leoisasmendi.android.com.suricatepodcast;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -55,6 +56,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private DetailFragment detailFragment;
     private SearchFragment searchFragment;
     InterstitialAd mInterstitialAd;
+
+    public static final String ACTION_DATA_UPDATED = "leoisasmendi.android.com.suricatepodcast.app.ACTION_DATA_UPDATED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +226,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     // MEDIA PLAYER
     public void playAudio(View v) {
         Log.i(TAG, "playAudio: ");
+
+        Log.i(TAG, "playAudio: updating widget too");
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+        getApplicationContext().sendBroadcast(dataUpdatedIntent);
+
 //        String url = "http://........"; // your URL here
 //        MediaPlayer mediaPlayer = new MediaPlayer();
 //        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

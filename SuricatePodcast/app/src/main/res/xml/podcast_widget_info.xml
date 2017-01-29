@@ -1,6 +1,6 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ The MIT License (MIT)
-  ~ Copyright (c) 2016. Sergio Leonardo Isasmendi
+  ~ Copyright (c) 2017. Sergio Leonardo Isasmendi
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a
   ~ copy of this software and associated documentation files (the "Software"),
@@ -21,30 +21,10 @@
   ~ THE SOFTWARE.
   -->
 
-<resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="main_item_margin">4dp</dimen>
-
-    <dimen name="detail_podcast_poster">96dp</dimen>
-    <dimen name="detail_fragment_padding">12dp</dimen>
-    <dimen name="detail_head_text">10dp</dimen>
-
-    <dimen name="search_input_margin">4dp</dimen>
-    <dimen name="search_add_button_margin">4dp</dimen>
-    <dimen name="search_button">4dp</dimen>
-
-
-    <dimen name="list_item_padding_start_end">16dp</dimen>
-    <dimen name="list_item_padding_top_bottom">8dp</dimen>
-    <dimen name="list_item_name_margin">12dp</dimen>
-    <dimen name="list_item_height">56dp</dimen>
-
-
-    <dimen name="fab_size">56dp</dimen>
-    <dimen name="description_margin_top_bottom">10dp</dimen>
-    <dimen name="item_text_size">16sp</dimen>
-    <dimen name="widget_min_height">110dp</dimen>
-    <dimen name="widget_min_width">250dp</dimen>
-</resources>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/podcast_widget_player"
+    android:minHeight="40dp"
+    android:minWidth="40dp"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen" />

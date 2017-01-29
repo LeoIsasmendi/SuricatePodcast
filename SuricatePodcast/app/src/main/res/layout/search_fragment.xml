@@ -22,6 +22,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -52,4 +53,12 @@
         android:layout_margin="@dimen/search_add_button_margin"
         android:onClick="addItemsToPlaylist"
         android:src="@drawable/plus" />
+
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adBannerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_home_footer" />
+
 </LinearLayout>

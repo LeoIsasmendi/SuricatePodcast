@@ -58,6 +58,21 @@
             android:name=".services.AudioService"
             android:exported="false" />
 
+        <service
+            android:name=".services.WidgetIntentService"
+            android:exported="false" />
+
+        <receiver
+            android:name=".widget.PodcastWidgetProvider"
+            android:label="@string/podcast_widget_provider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="leoisasmendi.android.com.suricatepodcast.app.ACTION_DATA_UPDATED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/podcast_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
