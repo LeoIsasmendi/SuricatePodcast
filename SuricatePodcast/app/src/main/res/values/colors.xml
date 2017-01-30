@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ The MIT License (MIT)
   ~ Copyright (c) 2016. Sergio Leonardo Isasmendi
   ~
@@ -26,5 +25,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorLightPrimary">#C5CAE9</color>
+    <color name="colorWidgetBackground">#E8EAF6</color>
     <color name="color_search_background">#C5CAE9</color>
+    <color name="colorPrimaryText">#212121</color>
+    <color name="colorSecondatyText">#757575</color>
+    <color name="colorDivider">#BDBDBD</color>
+
 </resources>

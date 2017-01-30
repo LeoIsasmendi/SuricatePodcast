@@ -45,6 +45,14 @@
     <dimen name="fab_size">56dp</dimen>
     <dimen name="description_margin_top_bottom">10dp</dimen>
     <dimen name="item_text_size">16sp</dimen>
-    <dimen name="widget_min_height">110dp</dimen>
-    <dimen name="widget_min_width">250dp</dimen>
+
+    <dimen name="widget_min_height">100dp</dimen>
+    <dimen name="widget_min_width">266dp</dimen>
+
+    <dimen name="widget_padding_TopBottom">4dp</dimen>
+    <dimen name="widget_padding_StartEnd">8dp</dimen>
+    <dimen name="widget_thumbail_size">100dp</dimen>
+    <dimen name="widget_text_size_title">18sp</dimen>
+    <dimen name="widget_text_size_length">16sp</dimen>
+
 </resources>
