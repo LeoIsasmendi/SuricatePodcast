@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
 
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+//        setSupportActionBar(myToolbar);
+
         fragmentManager = getFragmentManager();
         loadFragment();
     }
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -101,8 +105,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        showAds();
         switch (item.getItemId()) {
+            case R.id.action_search:
+                showSearchFragment();
+                return true;
             case R.id.menuOp1:
                 showThemes();
                 return true;
@@ -115,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     }
 
     private void showThemes() {
+        showAds();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         ThemesFragment themes = new ThemesFragment();
         fragmentTransaction.replace(R.id.activity_main, themes);
@@ -123,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     }
 
     private void showAbout() {
+        showAds();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         AboutFragment about = new AboutFragment();
         fragmentTransaction.replace(R.id.activity_main, about);
@@ -204,6 +212,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     }
 
+    private void showMediaPlayer() {
+        //TODO show media player fragment
+    }
     // SET ACTION BAR TITLE
 
     public void setActionBarTitle(int resourceId) {
@@ -260,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         //TODO
         Log.i(TAG, "onLongClickFragmentInteraction: playlist item pressed");
         showDetailFragment();
-
     }
 
     @Override

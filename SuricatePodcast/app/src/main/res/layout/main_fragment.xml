@@ -42,19 +42,11 @@
             android:paddingStart="@dimen/list_item_padding_start_end"
             android:paddingTop="@dimen/list_item_padding_top_bottom" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/search_fab"
-            android:layout_width="@dimen/fab_size"
-            android:layout_height="@dimen/fab_size"
-            android:layout_gravity="end"
-            android:layout_margin="@dimen/search_button"
-            android:clickable="true"
-            android:onClick="doSearch"
-            android:src="@drawable/magnifier" />
-
-        <include layout="@layout/fragment_media_player" />
+        <include
+            android:id="@+id/media_player_fragment"
+            layout="@layout/fragment_media_player"
+            android:visibility="gone" />
     </LinearLayout>
-
 
 
 </LinearLayout>
