@@ -44,7 +44,7 @@ import leoisasmendi.android.com.suricatepodcast.data.ListItem;
 
 public class MainFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
+    private OnMainListInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -100,11 +100,11 @@ public class MainFragment extends Fragment {
     }
 
     private void checkListenerImplementation(Context context) {
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnMainListInteractionListener) {
+            mListener = (OnMainListInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnMainListInteractionListener");
         }
     }
 
@@ -127,8 +127,9 @@ public class MainFragment extends Fragment {
      * to the activity and potentially other fragments contained in that
      * activity.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnMainListInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction();
+        void onClickFragmentInteraction();
+        void onLongClickFragmentInteraction();
     }
 }

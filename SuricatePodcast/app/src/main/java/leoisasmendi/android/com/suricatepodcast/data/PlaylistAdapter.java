@@ -37,10 +37,11 @@ import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
     private List<ListItem> mList;
-    private MainFragment.OnFragmentInteractionListener mListener;
+    private MainFragment.OnMainListInteractionListener mListener;
+    private View.OnLongClickListener mLongClickListener;
     private View.OnClickListener mClickListener;
 
-    public PlaylistAdapter(List<ListItem> aPlaylist, MainFragment.OnFragmentInteractionListener listener) {
+    public PlaylistAdapter(List<ListItem> aPlaylist, MainFragment.OnMainListInteractionListener listener) {
         mList = aPlaylist;
         mListener = listener;
         mClickListener = new View.OnClickListener() {
@@ -49,8 +50,20 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onFragmentInteraction();
+                    mListener.onClickFragmentInteraction();
                 }
+            }
+        };
+        mLongClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onLongClickFragmentInteraction();
+                    return true;
+                }
+                return false;
             }
         };
     }
@@ -60,6 +73,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         holder.getNameView().setText(mList.get(position).getTitle());
         holder.getDurationView().setText(mList.get(position).getDuration());
         holder.getView().setOnClickListener(mClickListener);
+        holder.getView().setOnLongClickListener(mLongClickListener);
+//        holder.getView().setOnClickListener(mLongClickListener);
     }
 
     @Override

@@ -48,7 +48,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener, SearchFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnMainListInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
     final String TAG = getClass().getSimpleName();
     private FragmentManager fragmentManager;
@@ -256,17 +256,23 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     // INTERFACES
     @Override
-    public void onFragmentInteraction() {
+    public void onLongClickFragmentInteraction() {
         //TODO
-        Log.i(TAG, "onFragmentInteraction: playlist item pressed");
+        Log.i(TAG, "onLongClickFragmentInteraction: playlist item pressed");
         showDetailFragment();
 
     }
 
     @Override
+    public void onClickFragmentInteraction() {
+        //TODO
+        Log.i(TAG, "onClickFragmentInteraction: playlist item pressed");
+    }
+
+    @Override
     public void onAddObjectToPlaylist(ContentValues aValue) {
         //TODO
-        Log.i(TAG, "onFragmentInteraction: search item selected");
+        Log.i(TAG, "onLongClickFragmentInteraction: search item selected");
         Uri uri = getContentResolver().insert(
                 DataProvider.CONTENT_URI, aValue);
 
