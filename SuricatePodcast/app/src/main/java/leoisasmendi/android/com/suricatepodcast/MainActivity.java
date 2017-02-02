@@ -25,10 +25,14 @@ package leoisasmendi.android.com.suricatepodcast;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,6 +46,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
+import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
@@ -52,8 +57,8 @@ import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 public class MainActivity extends AppCompatActivity implements MainFragment.OnMainListInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
     final String TAG = getClass().getSimpleName();
-    private static final String TAG_MAIN = MainFragment.class.getSimpleName();
 
+    private static final String TAG_MAIN = MainFragment.class.getSimpleName();
     private static final String TAG_DETAIL = DetailFragment.class.getSimpleName();
     private static final String TAG_SEARCH = SearchFragment.class.getSimpleName();
     private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
@@ -65,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     private boolean mTwoPane;
 
+    // MEDIA PLAYER
+    private MediaPlayerService player;
+    boolean serviceBound = false;
+    private ServiceConnection serviceConnection;
+
+    // ADS MOB
     InterstitialAd mInterstitialAd;
 
     public static final String ACTION_DATA_UPDATED = "leoisasmendi.android.com.suricatepodcast.app.ACTION_DATA_UPDATED";
@@ -79,6 +90,28 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
         fragmentManager = getFragmentManager();
         loadFragment(savedInstanceState);
+
+        //Binding this Client to the AudioPlayer Service
+        serviceConnection = getServiceConnection();
+    }
+
+    private ServiceConnection getServiceConnection() {
+        return new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                // We've bound to LocalService, cast the IBinder and get LocalService instance
+                MediaPlayerService.LocalBinder binder = (MediaPlayerService.LocalBinder) service;
+                player = binder.getService();
+                serviceBound = true;
+
+                Toast.makeText(MainActivity.this, "Service Bound", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                serviceBound = false;
+            }
+        };
     }
 
     private void loadAds() {
@@ -279,15 +312,21 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         Log.i(TAG, "playAudio: ");
 
         Log.i(TAG, "playAudio: updating widget too");
-        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-        getApplicationContext().sendBroadcast(dataUpdatedIntent);
+//        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+//        getApplicationContext().sendBroadcast(dataUpdatedIntent);
 
-//        String url = "http://........"; // your URL here
-//        MediaPlayer mediaPlayer = new MediaPlayer();
-//        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-//        mediaPlayer.setDataSource(url);
-//        mediaPlayer.prepare(); // might take long! (for buffering, etc)
-//        mediaPlayer.start();
+        String media = "https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg";
+        //Check is service is active
+        if (!serviceBound) {
+            Intent playerIntent = new Intent(this, MediaPlayerService.class);
+            playerIntent.putExtra("media", media);
+            startService(playerIntent);
+            bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+        } else {
+            //Service is active
+            //Send media with BroadcastReceiver
+        }
+
     }
 
     public void stopAudio(View v) {
