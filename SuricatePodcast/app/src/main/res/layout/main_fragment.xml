@@ -22,6 +22,7 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/master_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -42,10 +43,12 @@
             android:paddingStart="@dimen/list_item_padding_start_end"
             android:paddingTop="@dimen/list_item_padding_top_bottom" />
 
-        <include
-            android:id="@+id/media_player_fragment"
-            layout="@layout/fragment_media_player"
-            android:visibility="gone" />
+        <FrameLayout
+            android:id="@+id/media_player_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="bottom" />
     </LinearLayout>
 
 

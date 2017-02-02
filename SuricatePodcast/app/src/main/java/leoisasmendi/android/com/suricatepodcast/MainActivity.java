@@ -45,16 +45,26 @@ import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
+import leoisasmendi.android.com.suricatepodcast.ui.MediaPlayerFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnMainListInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
     final String TAG = getClass().getSimpleName();
+    private static final String TAG_MAIN = MainFragment.class.getSimpleName();
+
+    private static final String TAG_DETAIL = DetailFragment.class.getSimpleName();
+    private static final String TAG_SEARCH = SearchFragment.class.getSimpleName();
+    private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
+    private static final String TAG_THEMES = ThemesFragment.class.getSimpleName();
+    private static final String TAG_MEDIAPLAYER = MediaPlayerFragment.class.getSimpleName();
+//    private final String TAG_PLAYER = MediaPlayerFragment.class.getSimpleName();
+
     private FragmentManager fragmentManager;
-    private MainFragment mainFragment;
-    private DetailFragment detailFragment;
-    private SearchFragment searchFragment;
+
+    private boolean mTwoPane;
+
     InterstitialAd mInterstitialAd;
 
     public static final String ACTION_DATA_UPDATED = "leoisasmendi.android.com.suricatepodcast.app.ACTION_DATA_UPDATED";
@@ -67,11 +77,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
 
-//        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-//        setSupportActionBar(myToolbar);
-
         fragmentManager = getFragmentManager();
-        loadFragment();
+        loadFragment(savedInstanceState);
     }
 
     private void loadAds() {
@@ -122,19 +129,29 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     private void showThemes() {
         showAds();
+        ThemesFragment themes = (ThemesFragment) fragmentManager.findFragmentByTag(TAG_THEMES);
+
+        if (themes == null) {
+            themes = new ThemesFragment();
+        }
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ThemesFragment themes = new ThemesFragment();
         fragmentTransaction.replace(R.id.activity_main, themes);
-        fragmentTransaction.addToBackStack("themes");
+        fragmentTransaction.addToBackStack(TAG_THEMES);
         fragmentTransaction.commit();
     }
 
     private void showAbout() {
         showAds();
+        AboutFragment about = (AboutFragment) fragmentManager.findFragmentByTag(TAG_ABOUT);
+
+        if (about == null) {
+            about = new AboutFragment();
+        }
+
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        AboutFragment about = new AboutFragment();
         fragmentTransaction.replace(R.id.activity_main, about);
-        fragmentTransaction.addToBackStack("about");
+        fragmentTransaction.addToBackStack(TAG_ABOUT);
         fragmentTransaction.commit();
     }
 
@@ -143,19 +160,27 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         super.onResume();
     }
 
-    private void loadFragment() {
-
-        //TODO: load fragments in TabletUI
-
-        if (mainFragment == null) {
-            mainFragment = new MainFragment();
-
+    private void loadFragment(Bundle savedInstanceState) {
+        if (findViewById(R.id.podcast_second_container) != null) {
+            // The detail container view will be present only in the large-screen layouts
+            // (res/layout-sw600dp). If this view is present, then the activity should be
+            // in two-pane mode.
+            mTwoPane = true;
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a
+            // fragment transaction.
+            if (savedInstanceState == null) {
+                fragmentManager.beginTransaction()
+                        .replace(R.id.podcast_second_container, new DetailFragment(), TAG_DETAIL)
+                        .commit();
+            }
+        } else {
+            mTwoPane = false;
+            loadPlaylistData();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.activity_main, new MainFragment(), TAG_MAIN);
+            fragmentTransaction.commit();
         }
-        loadPlaylistData();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity_main, mainFragment);
-        fragmentTransaction.commit();
-
     }
 
     private void loadPlaylistData() {
@@ -178,19 +203,26 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     }
 
     private void showSearchFragment() {
+        SearchFragment searchFragment = (SearchFragment) fragmentManager.findFragmentByTag(TAG_SEARCH);
 
         if (searchFragment == null) {
             searchFragment = new SearchFragment();
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity_main, searchFragment);
-        fragmentTransaction.addToBackStack("search");
-        fragmentTransaction.commit();
 
+        if (mTwoPane) {
+            fragmentTransaction.replace(R.id.podcast_second_container, searchFragment, TAG_SEARCH);
+        } else {
+            fragmentTransaction.replace(R.id.activity_main, searchFragment);
+        }
+
+        fragmentTransaction.addToBackStack(TAG_SEARCH);
+        fragmentTransaction.commit();
     }
 
     private void showDetailFragment() {
+        DetailFragment detailFragment = (DetailFragment) fragmentManager.findFragmentByTag(TAG_DETAIL);
 
         if (detailFragment == null) {
             detailFragment = new DetailFragment();
@@ -207,13 +239,21 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.activity_main, detailFragment);
-        fragmentTransaction.addToBackStack("detail");
+        fragmentTransaction.addToBackStack(TAG_DETAIL);
         fragmentTransaction.commit();
-
     }
 
     private void showMediaPlayer() {
-        //TODO show media player fragment
+        Log.i(TAG, "showMediaPlayer: ");
+        MediaPlayerFragment mediaPlayer = (MediaPlayerFragment) fragmentManager.findFragmentByTag(TAG_MEDIAPLAYER);
+
+        if (mediaPlayer == null) {
+            mediaPlayer = new MediaPlayerFragment();
+        }
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.media_player_container, mediaPlayer);
+        fragmentTransaction.commit();
     }
     // SET ACTION BAR TITLE
 
@@ -268,8 +308,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     // INTERFACES
     @Override
     public void onLongClickFragmentInteraction() {
-        //TODO
-        Log.i(TAG, "onLongClickFragmentInteraction: playlist item pressed");
+        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment");
         showDetailFragment();
     }
 
@@ -277,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     public void onClickFragmentInteraction() {
         //TODO
         Log.i(TAG, "onClickFragmentInteraction: playlist item pressed");
+        showMediaPlayer();
     }
 
     @Override
