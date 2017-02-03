@@ -306,15 +306,37 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         Log.i(TAG, "addItemsToPlaylist: ");
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putBoolean("ServiceState", serviceBound);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        serviceBound = savedInstanceState.getBoolean("ServiceState");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (serviceBound) {
+            unbindService(serviceConnection);
+            //service is active
+            player.stopSelf();
+        }
+    }
 
     // MEDIA PLAYER
     public void playAudio(View v) {
         Log.i(TAG, "playAudio: ");
 
         Log.i(TAG, "playAudio: updating widget too");
-//        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-//        getApplicationContext().sendBroadcast(dataUpdatedIntent);
+        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+        getApplicationContext().sendBroadcast(dataUpdatedIntent);
 
+        //TODO : REMOVE THIS HARDCODED MEDIA
         String media = "https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg";
         //Check is service is active
         if (!serviceBound) {
@@ -326,7 +348,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
             //Service is active
             //Send media with BroadcastReceiver
         }
-
     }
 
     public void stopAudio(View v) {
