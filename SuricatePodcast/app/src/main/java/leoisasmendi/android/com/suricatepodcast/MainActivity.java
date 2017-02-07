@@ -44,6 +44,9 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.util.ArrayList;
+
+import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
@@ -53,6 +56,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MediaPlayerFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
+import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
 public class MainActivity extends AppCompatActivity implements MainFragment.OnMainListInteractionListener, SearchFragment.OnFragmentInteractionListener {
 
@@ -64,11 +68,17 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
     private static final String TAG_THEMES = ThemesFragment.class.getSimpleName();
     private static final String TAG_MEDIAPLAYER = MediaPlayerFragment.class.getSimpleName();
-//    private final String TAG_PLAYER = MediaPlayerFragment.class.getSimpleName();
+    public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
 
     private FragmentManager fragmentManager;
 
     private boolean mTwoPane;
+
+    //List of available Audio files
+    private ArrayList<AudioModel> audioList;
+    private int audioIndex = -1;
+    private AudioModel activeAudio; //an object of the currently playing audio
+
 
     // MEDIA PLAYER
     private MediaPlayerService player;
@@ -329,24 +339,48 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     }
 
     // MEDIA PLAYER
-    public void playAudio(View v) {
-        Log.i(TAG, "playAudio: ");
+//    public void playAudio(View v) {
+//        // OLD PLAY AUDIO METHOD
+//        Log.i(TAG, "playAudio: ");
+//
+//        Log.i(TAG, "playAudio: updating widget too");
+//        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
+//        getApplicationContext().sendBroadcast(dataUpdatedIntent);
+//
+//        //TODO : REMOVE THIS HARDCODED MEDIA
+//        String media = "https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg";
+//        //Check is service is active
+//        if (!serviceBound) {
+//            Intent playerIntent = new Intent(this, MediaPlayerService.class);
+//            playerIntent.putExtra("media", media);
+//            startService(playerIntent);
+//            bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+//        } else {
+//            //Service is active
+//            //Send media with BroadcastReceiver
+//        }
+//    }
 
-        Log.i(TAG, "playAudio: updating widget too");
-        Intent dataUpdatedIntent = new Intent(ACTION_DATA_UPDATED);
-        getApplicationContext().sendBroadcast(dataUpdatedIntent);
-
-        //TODO : REMOVE THIS HARDCODED MEDIA
-        String media = "https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg";
+    private void playAudio(int audioIndex) {
         //Check is service is active
         if (!serviceBound) {
+            //Store Serializable audioList to SharedPreferences
+            StorageUtil storage = new StorageUtil(getApplicationContext());
+            storage.storeAudio(audioList);
+            storage.storeAudioIndex(audioIndex);
+
             Intent playerIntent = new Intent(this, MediaPlayerService.class);
-            playerIntent.putExtra("media", media);
             startService(playerIntent);
             bindService(playerIntent, serviceConnection, Context.BIND_AUTO_CREATE);
         } else {
+            //Store the new audioIndex to SharedPreferences
+            StorageUtil storage = new StorageUtil(getApplicationContext());
+            storage.storeAudioIndex(audioIndex);
+
             //Service is active
-            //Send media with BroadcastReceiver
+            //Send a broadcast to the service -> PLAY_NEW_AUDIO
+            Intent broadcastIntent = new Intent(Broadcast_PLAY_NEW_AUDIO);
+            sendBroadcast(broadcastIntent);
         }
     }
 
