@@ -80,7 +80,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private int audioIndex = -1;
     private AudioModel activeAudio; //an object of the currently playing audio
 
-    private BroadcastReceiver playNewAudio = getNewAudioBroadcastReciver();
+    private BroadcastReceiver playNewAudio = getNewAudioBroadcastReceiver();
     //Becoming noisy (headphone removed)
     private BroadcastReceiver becomingNoisyReceiver = getBecomingNoisyReceiver();
 
@@ -478,7 +478,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 audioManager.abandonAudioFocus(this);
     }
 
-    private BroadcastReceiver getNewAudioBroadcastReciver() {
+    private BroadcastReceiver getNewAudioBroadcastReceiver() {
         return new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
