@@ -209,7 +209,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private void updateMetaData() {
         //TODO: replace with you own image
         Bitmap albumArt = BitmapFactory.decodeResource(getResources(),
-                R.drawable.cast_ic_notification_1); //replace with medias albumArt
+                R.drawable.ic_default_poster); //replace with medias albumArt
         // Update the current metadata
         mediaSession.setMetadata(new MediaMetadataCompat.Builder()
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
@@ -221,23 +221,23 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     private void buildNotification(PlaybackStatus playbackStatus) {
 
-        int notificationAction = android.R.drawable.ic_media_pause;//needs to be initialized
+        int notificationAction = R.drawable.ic_media_control_pause;//needs to be initialized
         PendingIntent play_pauseAction = null;
 
         //Build a new notification according to the current state of the MediaPlayer
         if (playbackStatus == PlaybackStatus.PLAYING) {
-            notificationAction = android.R.drawable.ic_media_pause;
+            notificationAction = R.drawable.ic_media_control_pause;
             //create the pause action
             play_pauseAction = playbackAction(1);
         } else if (playbackStatus == PlaybackStatus.PAUSED) {
-            notificationAction = android.R.drawable.ic_media_play;
+            notificationAction = R.drawable.ic_media_control_play;
             //create the play action
             play_pauseAction = playbackAction(0);
         }
 
         //TODO: replace this with my icon
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(),
-                R.drawable.cast_ic_notification_0); //replace with your own image
+                R.drawable.ic_default_poster); //replace with your own image
 
         // Create a new Notification
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
@@ -249,18 +249,18 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                         // Show our playback controls in the compact notification view.
                         .setShowActionsInCompactView(0, 1, 2))
                 // Set the Notification color
-                .setColor(getResources().getColor(R.color.colorPrimary))
+                .setColor(getResources().getColor(R.color.colorPrimaryDark))
                 // Set the large and small icons
                 .setLargeIcon(largeIcon)
-                .setSmallIcon(android.R.drawable.stat_sys_headset)
+                .setSmallIcon(R.drawable.ic_headphones)
                 // Set Notification content information
                 .setContentText(activeAudio.getArtist())
                 .setContentTitle(activeAudio.getAlbum())
                 .setContentInfo(activeAudio.getTitle())
                 // Add playback actions
-                .addAction(android.R.drawable.ic_media_previous, "previous", playbackAction(3))
+                .addAction(R.drawable.ic_media_control_prev, "previous", playbackAction(3))
                 .addAction(notificationAction, "pause", play_pauseAction)
-                .addAction(android.R.drawable.ic_media_next, "next", playbackAction(2));
+                .addAction(R.drawable.ic_media_control_next, "next", playbackAction(2));
 
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notificationBuilder.build());
     }

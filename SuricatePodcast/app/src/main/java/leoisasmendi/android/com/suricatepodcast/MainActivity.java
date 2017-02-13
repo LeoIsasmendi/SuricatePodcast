@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     private static final String TAG_SEARCH = SearchFragment.class.getSimpleName();
     private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
     private static final String TAG_THEMES = ThemesFragment.class.getSimpleName();
-    private static final String TAG_MEDIAPLAYER = MediaPlayerFragment.class.getSimpleName();
+    private static final String TAG_MEDIA_PLAYER = MediaPlayerFragment.class.getSimpleName();
     public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
 
     private FragmentManager fragmentManager;
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     private void showMediaPlayer() {
         Log.i(TAG, "showMediaPlayer: ");
-        MediaPlayerFragment mediaPlayer = (MediaPlayerFragment) fragmentManager.findFragmentByTag(TAG_MEDIAPLAYER);
+        MediaPlayerFragment mediaPlayer = (MediaPlayerFragment) fragmentManager.findFragmentByTag(TAG_MEDIA_PLAYER);
 
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayerFragment();
@@ -338,17 +338,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
     }
 
-    // MEDIA PLAYER
-    public void playAudio(View v) {
-        Log.i(TAG, "playAudio: ");
-        //TODO: remove hardcoded audiolist
-        if (audioList == null) {
-            audioList = new ArrayList<>();
-            audioList.add(new AudioModel("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg", "test", "test", "test"));
-        }
-        this.playAudio(0);
-    }
-
     private void playAudio(int audioIndex) {
         //Check is service is active
         if (!serviceBound) {
@@ -372,21 +361,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
     }
 
-    public void stopAudio(View v) {
-        Log.i(TAG, "stopAudio: ");
-        // TODO: stop audio
-    }
-
-    public void nextAudio(View v) {
-        Log.i(TAG, "nextAudio: ");
-        // TODO: next audio
-    }
-
-    public void prevAudio(View v) {
-        Log.i(TAG, "prevAudio: ");
-        // TODO: prev audio
-    }
-
     // INTERFACES
     @Override
     public void onLongClickFragmentInteraction() {
@@ -396,9 +370,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     @Override
     public void onClickFragmentInteraction() {
-        //TODO
         Log.i(TAG, "onClickFragmentInteraction: playlist item pressed");
-        showMediaPlayer();
+        //TODO: remove hardcoded audiolist
+        if (audioList == null) {
+            audioList = new ArrayList<>();
+            audioList.add(new AudioModel("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg", "test", "test", "test"));
+        }
+        this.playAudio(0);
     }
 
     @Override
