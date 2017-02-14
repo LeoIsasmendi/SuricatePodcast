@@ -28,8 +28,8 @@ public class SearchItem extends ListItem {
 
     private Boolean selected;
 
-    public SearchItem(int anId, String aName, String aLength) {
-        super(anId, aName, aLength);
+    public SearchItem(int anId, String aName, String aLength, String poster) {
+        super(anId, aName, aLength, poster);
         selected = true;
     }
 

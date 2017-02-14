@@ -28,7 +28,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -41,20 +44,22 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     private MainFragment.OnMainListInteractionListener mListener;
     private Context mContext;
 
-    public PlaylistAdapter(List<ListItem> aPlaylist, MainFragment.OnMainListInteractionListener listener) {
+    public PlaylistAdapter(Context context, List<ListItem> aPlaylist, MainFragment.OnMainListInteractionListener listener) {
         mList = aPlaylist;
         mListener = listener;
-//        mContext = context; //TODO: add context to params
+        mContext = context;
     }
 
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
         holder.item = mList.get(position);
-//        Picasso.with(mContext)
-//                .load(buildPosterUrl(holder.mItem.getPoster()))
-//                .placeholder(mContext.getResources().getDrawable(R.drawable.poster_default))
-//                .error(mContext.getResources().getDrawable(R.drawable.poster_default))
-//                .into(holder.mPosterView);
+
+        Picasso.with(mContext)
+                .load(holder.item.getPoster())
+                .placeholder(R.drawable.picture)
+                .error(R.drawable.picture)
+                .into(holder.posterView);
+
         holder.getNameView().setText(mList.get(position).getTitle());
         holder.getDurationView().setText(mList.get(position).getDuration());
 
@@ -109,12 +114,14 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
         private TextView nameView;
         private TextView durationView;
+        private ImageView posterView;
 
         PlaylistViewHolder(View itemView) {
             super(itemView);
             view = itemView;
             nameView = (TextView) itemView.findViewById(R.id.playlist_item_name);
             durationView = (TextView) itemView.findViewById(R.id.playlist_item_length);
+            posterView = (ImageView) itemView.findViewById(R.id.playlist_item_poster);
         }
 
         public TextView getNameView() {

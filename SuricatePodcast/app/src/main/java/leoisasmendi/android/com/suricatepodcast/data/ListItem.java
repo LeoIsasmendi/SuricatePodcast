@@ -23,20 +23,24 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
+import android.net.Uri;
+
 public class ListItem {
 
     private String title;
     private String duration;
     private int id;
+    private String poster;
 
     public ListItem() {
         // default constructor
     }
 
-    public ListItem(int anId, String aName, String aLength) {
+    public ListItem(int anId, String aName, String aLength, String poster) {
         id = anId;
         title = aName;
         duration = aLength;
+        this.poster = poster;
     }
 
     public String getTitle() {
@@ -53,5 +57,22 @@ public class ListItem {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPoster() {
+        Uri.Builder builder = new Uri.Builder();
+
+        builder.scheme("https")
+                .authority("audiosear.ch")
+                .appendPath("media")
+                .appendPath("a47b09f9bb2bcb78400a38326e48b5d3/0/thumb/image_file/108563")
+                .appendEncodedPath(poster);
+
+        return builder.build().toString();
+    }
+
+    public ListItem setPoster(String poster) {
+        this.poster = poster;
+        return this;
     }
 }

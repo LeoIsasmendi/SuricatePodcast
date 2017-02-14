@@ -26,6 +26,7 @@ package leoisasmendi.android.com.suricatepodcast.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -84,13 +85,13 @@ public class MainFragment extends Fragment {
         List<ListItem> playlist;
 
         playlist = new ArrayList<>();
-        playlist.add(new ListItem(1, "Emma Wilson", "11:11:11"));
-        playlist.add(new ListItem(2, "Lavery Maiss", "22:22:22"));
-        playlist.add(new ListItem(3, "Lillie Watts", "33:33:33"));
+        playlist.add(new ListItem(1, "Emma Wilson", "11:11:11", "100x100bb.jpg"));
+        playlist.add(new ListItem(2, "Lavery Maiss", "22:22:22", "100x100bb.jpg"));
+        playlist.add(new ListItem(3, "Lillie Watts", "33:33:33", "100x100bb.jpg"));
 
 
         Log.i("MainFragment", "onCreateView: " + mListener.toString());
-        mAdapter = new PlaylistAdapter(playlist, mListener);
+        mAdapter = new PlaylistAdapter(getActivity(), playlist, mListener);
     }
 
     @Override
@@ -130,6 +131,7 @@ public class MainFragment extends Fragment {
     public interface OnMainListInteractionListener {
         // TODO: Update argument type and name
         void onClickFragmentInteraction(ListItem item);
+
         void onLongClickFragmentInteraction(ListItem item);
     }
 }

@@ -99,8 +99,8 @@ public class SearchFragment extends Fragment {
         List<SearchItem> playlist;
 
         playlist = new ArrayList<>();
-        playlist.add(new SearchItem(1, "Emma Wilson", "11:11:11"));
-        playlist.add(new SearchItem(2, "Lavery Maiss", "22:22:22"));
+        playlist.add(new SearchItem(1, "Emma Wilson", "11:11:11", "100x100bb.jpg"));
+        playlist.add(new SearchItem(2, "Lavery Maiss", "22:22:22", "100x100bb.jpg"));
 
         mAdapter = new SearchAdapter(playlist, mListener);
         Log.i("MainFragment", "onCreateView: " + mAdapter.getItemCount());
