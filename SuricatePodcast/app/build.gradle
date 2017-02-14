@@ -55,5 +55,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:10.0.1'
     compile 'com.google.android.gms:play-services-ads:10.0.1'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7', changing: true
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
 }
