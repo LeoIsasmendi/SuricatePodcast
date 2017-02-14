@@ -129,7 +129,7 @@ public class MainFragment extends Fragment {
      */
     public interface OnMainListInteractionListener {
         // TODO: Update argument type and name
-        void onClickFragmentInteraction();
-        void onLongClickFragmentInteraction();
+        void onClickFragmentInteraction(ListItem item);
+        void onLongClickFragmentInteraction(ListItem item);
     }
 }

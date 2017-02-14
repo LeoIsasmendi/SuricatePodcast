@@ -46,6 +46,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 
+import leoisasmendi.android.com.suricatepodcast.data.ListItem;
 import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
@@ -363,13 +364,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     // INTERFACES
     @Override
-    public void onLongClickFragmentInteraction() {
-        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment");
+    public void onLongClickFragmentInteraction(ListItem item) {
+        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment"+item.getTitle());
         showDetailFragment();
     }
 
     @Override
-    public void onClickFragmentInteraction() {
+    public void onClickFragmentInteraction(ListItem item) {
         Log.i(TAG, "onClickFragmentInteraction: playlist item pressed");
         //TODO: remove hardcoded audiolist
         if (audioList == null) {

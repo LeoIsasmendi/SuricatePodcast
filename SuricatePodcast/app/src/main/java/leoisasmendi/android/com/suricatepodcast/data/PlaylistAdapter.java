@@ -23,6 +23,7 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,43 +39,49 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     private List<ListItem> mList;
     private MainFragment.OnMainListInteractionListener mListener;
-    private View.OnLongClickListener mLongClickListener;
-    private View.OnClickListener mClickListener;
+    private Context mContext;
 
     public PlaylistAdapter(List<ListItem> aPlaylist, MainFragment.OnMainListInteractionListener listener) {
         mList = aPlaylist;
         mListener = listener;
-        mClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onClickFragmentInteraction();
-                }
-            }
-        };
-        mLongClickListener = new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onLongClickFragmentInteraction();
-                    return true;
-                }
-                return false;
-            }
-        };
+//        mContext = context; //TODO: add context to params
     }
 
     @Override
-    public void onBindViewHolder(PlaylistViewHolder holder, int position) {
+    public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
+        holder.item = mList.get(position);
+//        Picasso.with(mContext)
+//                .load(buildPosterUrl(holder.mItem.getPoster()))
+//                .placeholder(mContext.getResources().getDrawable(R.drawable.poster_default))
+//                .error(mContext.getResources().getDrawable(R.drawable.poster_default))
+//                .into(holder.mPosterView);
         holder.getNameView().setText(mList.get(position).getTitle());
         holder.getDurationView().setText(mList.get(position).getDuration());
-        holder.getView().setOnClickListener(mClickListener);
-        holder.getView().setOnLongClickListener(mLongClickListener);
-//        holder.getView().setOnClickListener(mLongClickListener);
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (null != mListener) {
+                    mListener.onClickFragmentInteraction(holder.item);
+                }
+
+            }
+        });
+
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+
+                if (null != mListener) {
+                    mListener.onLongClickFragmentInteraction(holder.item);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -95,10 +102,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     }
 
     // View Holder
-    public static class PlaylistViewHolder extends RecyclerView.ViewHolder {
+    public class PlaylistViewHolder extends RecyclerView.ViewHolder {
+
+        public final View view;
+        public ListItem item;
+
         private TextView nameView;
         private TextView durationView;
-        private final View view;
 
         PlaylistViewHolder(View itemView) {
             super(itemView);
@@ -115,8 +125,5 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             return durationView;
         }
 
-        public View getView() {
-            return view;
-        }
     }
 }
