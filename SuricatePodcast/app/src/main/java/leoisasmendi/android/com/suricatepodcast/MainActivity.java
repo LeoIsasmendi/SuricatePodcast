@@ -265,19 +265,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         fragmentTransaction.commit();
     }
 
-    private void showDetailFragment() {
+    private void showDetailFragment(EpisodeParcelable parcelable) {
         DetailFragment detailFragment = (DetailFragment) fragmentManager.findFragmentByTag(TAG_DETAIL);
 
         if (detailFragment == null) {
             detailFragment = new DetailFragment();
-            EpisodeParcelable data = new EpisodeParcelable();
-            data.setId(0);
-            data.setTitle("Test Title");
-            data.setDetail("Bla bla bla and batabla");
-            data.setDuration(999);
-
             Bundle mBundle = new Bundle();
-            mBundle.putParcelable("EXTRA_EPISODE", data);
+            mBundle.putParcelable("EXTRA_EPISODE", parcelable);
             detailFragment.setArguments(mBundle);
         }
 
@@ -365,8 +359,12 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     // INTERFACES
     @Override
     public void onLongClickFragmentInteraction(ListItem item) {
-        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment"+item.getTitle());
-        showDetailFragment();
+        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment" + item.getTitle());
+        EpisodeParcelable parcelable = new EpisodeParcelable();
+        parcelable.setId(item.getId());
+        parcelable.setTitle(item.getTitle());
+        parcelable.setDuration(item.getDuration());
+        showDetailFragment(parcelable);
     }
 
     @Override

@@ -89,9 +89,9 @@ public class DetailFragment extends Fragment {
         textView.setText(aString);
     }
 
-    private void setDuration(int aInteger) {
+    private void setDuration(String aString) {
         TextView textView = (TextView) getView().findViewById(R.id.detail_duration);
-        textView.setText(Integer.toString(aInteger));
+        textView.setText(aString);
     }
 
 
