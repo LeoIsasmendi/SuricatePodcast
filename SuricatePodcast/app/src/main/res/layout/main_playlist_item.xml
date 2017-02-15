@@ -32,6 +32,8 @@
         android:id="@+id/playlist_item_poster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:adjustViewBounds="true"
         android:src="@drawable/picture" />
 
     <TextView
