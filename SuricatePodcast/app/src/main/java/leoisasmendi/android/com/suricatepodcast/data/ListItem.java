@@ -23,32 +23,44 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
-import android.net.Uri;
-
 public class ListItem {
 
+    private int id;
     private String title;
     private String duration;
-    private int id;
     private String poster;
+    private String audio;
 
     public ListItem() {
         // default constructor
+        id = 0;
+        title = "";
+        duration = "";
+        this.poster = "";
     }
 
-    public ListItem(int anId, String aName, String aLength, String poster) {
-        id = anId;
-        title = aName;
-        duration = aLength;
+    public ListItem(int id, String title, String duration, String poster, String audio) {
+        this.title = title;
+        this.duration = duration;
+        this.id = id;
         this.poster = poster;
+        this.audio = audio;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDuration() {
         return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
     public int getId() {
@@ -60,19 +72,20 @@ public class ListItem {
     }
 
     public String getPoster() {
-        Uri.Builder builder = new Uri.Builder();
-
-        builder.scheme("https")
-                .authority("audiosear.ch")
-                .appendPath("media")
-                .appendPath("a47b09f9bb2bcb78400a38326e48b5d3/0/thumb/image_file/108563")
-                .appendEncodedPath(poster);
-
-        return builder.build().toString();
+        return poster;
     }
 
-    public ListItem setPoster(String poster) {
+    public void setPoster(String poster) {
         this.poster = poster;
-        return this;
     }
+
+    public String getAudio() {
+        return audio;
+    }
+
+    public void setAudio(String audio) {
+        this.audio = audio;
+    }
+
+
 }
