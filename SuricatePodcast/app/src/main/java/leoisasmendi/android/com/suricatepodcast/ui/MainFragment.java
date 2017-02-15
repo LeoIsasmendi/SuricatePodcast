@@ -85,10 +85,24 @@ public class MainFragment extends Fragment {
         List<ListItem> playlist;
 
         playlist = new ArrayList<>();
-        playlist.add(new ListItem(1, "Emma Wilson", "11:11:11", "100x100bb.jpg"));
-        playlist.add(new ListItem(2, "Lavery Maiss", "22:22:22", "100x100bb.jpg"));
-        playlist.add(new ListItem(3, "Lillie Watts", "33:33:33", "100x100bb.jpg"));
 
+        playlist.add(new ListItem(1,
+                "Joe Rogan",
+                "00:25:00",
+                "https://www.audiosear.ch/media/1c3e4f220a635aaaaac081fa952649e5/0/thumb/image_file/128654/Keep-Hammering.jpg",
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+
+        playlist.add(new ListItem(2,
+                "Joe Rogan",
+                "00:25:00",
+                "https://www.audiosear.ch/media/1c3e4f220a635aaaaac081fa952649e5/0/thumb/image_file/128654/Keep-Hammering.jpg",
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+
+        playlist.add(new ListItem(3,
+                "Joe Rogan",
+                "00:25:00",
+                "https://www.audiosear.ch/media/1c3e4f220a635aaaaac081fa952649e5/0/thumb/image_file/128654/Keep-Hammering.jpg",
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
 
         Log.i("MainFragment", "onCreateView: " + mListener.toString());
         mAdapter = new PlaylistAdapter(getActivity(), playlist, mListener);
