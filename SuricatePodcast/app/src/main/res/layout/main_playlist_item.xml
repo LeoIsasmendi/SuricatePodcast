@@ -30,8 +30,8 @@
 
     <ImageView
         android:id="@+id/playlist_item_poster"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/item_list_thumb_size"
+        android:layout_height="@dimen/item_list_thumb_size"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:src="@drawable/picture" />

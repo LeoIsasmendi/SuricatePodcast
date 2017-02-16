@@ -54,5 +54,6 @@
     <dimen name="widget_thumbail_size">100dp</dimen>
     <dimen name="widget_text_size_title">18sp</dimen>
     <dimen name="widget_text_size_length">16sp</dimen>
+    <dimen name="item_list_thumb_size">32dp</dimen>
 
 </resources>
