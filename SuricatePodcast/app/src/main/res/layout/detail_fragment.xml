@@ -33,6 +33,4 @@
 
     <include layout="@layout/detail_description" />
 
-    <include layout="@layout/detail_related_list" />
-
 </LinearLayout>
