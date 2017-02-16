@@ -44,18 +44,14 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-import java.util.ArrayList;
-
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
-import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
-import leoisasmendi.android.com.suricatepodcast.ui.MediaPlayerFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
@@ -69,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     private static final String TAG_SEARCH = SearchFragment.class.getSimpleName();
     private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
     private static final String TAG_THEMES = ThemesFragment.class.getSimpleName();
-    private static final String TAG_MEDIA_PLAYER = MediaPlayerFragment.class.getSimpleName();
     public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
 
     private FragmentManager fragmentManager;
@@ -307,20 +302,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         fragmentTransaction.commit();
     }
 
-    private void showMediaPlayer() {
-        Log.i(TAG, "showMediaPlayer: ");
-        MediaPlayerFragment mediaPlayer = (MediaPlayerFragment) fragmentManager.findFragmentByTag(TAG_MEDIA_PLAYER);
-
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayerFragment();
-        }
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.media_player_container, mediaPlayer);
-        fragmentTransaction.commit();
-    }
     // SET ACTION BAR TITLE
-
     public void setActionBarTitle(int resourceId) {
         getSupportActionBar().setTitle(resourceId);
     }

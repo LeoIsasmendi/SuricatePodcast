@@ -47,13 +47,11 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
-import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
 import leoisasmendi.android.com.suricatepodcast.utils.PlaybackStatus;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
