@@ -89,19 +89,19 @@ public class MainFragment extends Fragment {
         playlist.add(new ListItem(1,
                 "Joe Rogan",
                 "00:25:00",
-                "https://www.audiosear.ch/media/1c3e4f220a635aaaaac081fa952649e5/0/thumb/image_file/128654/Keep-Hammering.jpg",
+                "http://static.libsyn.com/p/assets/0/4/1/e/041e18fe8e7b1c67/rogan.jpg",
                 "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
 
         playlist.add(new ListItem(2,
                 "Joe Rogan",
                 "00:25:00",
-                "https://www.audiosear.ch/media/1c3e4f220a635aaaaac081fa952649e5/0/thumb/image_file/128654/Keep-Hammering.jpg",
+                "http://static.libsyn.com/p/assets/2/3/6/c/236cb6c10b89befa/Keep-Hammering.jpg",
                 "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
 
         playlist.add(new ListItem(3,
                 "Joe Rogan",
                 "00:25:00",
-                "https://www.audiosear.ch/media/1c3e4f220a635aaaaac081fa952649e5/0/thumb/image_file/128654/Keep-Hammering.jpg",
+                "http://is4.mzstatic.com/image/thumb/Music62/v4/8e/0a/70/8e0a7014-9ccc-b532-5eb7-2b803d1a571a/source/600x600bb.jpg",
                 "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
 
         Log.i("MainFragment", "onCreateView: " + mListener.toString());
