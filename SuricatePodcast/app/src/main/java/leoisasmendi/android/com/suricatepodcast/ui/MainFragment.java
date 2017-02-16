@@ -26,21 +26,19 @@ package leoisasmendi.android.com.suricatepodcast.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
-import leoisasmendi.android.com.suricatepodcast.data.ListItem;
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 
 
 public class MainFragment extends Fragment {
@@ -50,6 +48,8 @@ public class MainFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private Playlist mParcelable;
 
     public MainFragment() {
         // Required empty public constructor
@@ -63,6 +63,9 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParcelable = getArguments().getParcelable("EXTRA_LIST");
+        }
     }
 
     @Override
@@ -75,37 +78,11 @@ public class MainFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         checkListenerImplementation(view.getContext());
-        loadFakeData();
+
+        mAdapter = new PlaylistAdapter(getActivity(), mParcelable, mListener);
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
-    }
-
-    private void loadFakeData() {
-        List<ListItem> playlist;
-
-        playlist = new ArrayList<>();
-
-        playlist.add(new ListItem(1,
-                "Joe Rogan",
-                "00:25:00",
-                "http://static.libsyn.com/p/assets/0/4/1/e/041e18fe8e7b1c67/rogan.jpg",
-                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
-
-        playlist.add(new ListItem(2,
-                "Joe Rogan",
-                "00:25:00",
-                "http://static.libsyn.com/p/assets/2/3/6/c/236cb6c10b89befa/Keep-Hammering.jpg",
-                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
-
-        playlist.add(new ListItem(3,
-                "Joe Rogan",
-                "00:25:00",
-                "http://is4.mzstatic.com/image/thumb/Music62/v4/8e/0a/70/8e0a7014-9ccc-b532-5eb7-2b803d1a571a/source/600x600bb.jpg",
-                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
-
-        Log.i("MainFragment", "onCreateView: " + mListener.toString());
-        mAdapter = new PlaylistAdapter(getActivity(), playlist, mListener);
     }
 
     @Override
@@ -144,8 +121,8 @@ public class MainFragment extends Fragment {
      */
     public interface OnMainListInteractionListener {
         // TODO: Update argument type and name
-        void onClickFragmentInteraction(ListItem item);
+        void onClickFragmentInteraction(int position);
 
-        void onLongClickFragmentInteraction(ListItem item);
+        void onLongClickFragmentInteraction(PlaylistItem item);
     }
 }

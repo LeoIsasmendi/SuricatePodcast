@@ -51,6 +51,8 @@ import java.util.ArrayList;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.data.Playlist;
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
 import leoisasmendi.android.com.suricatepodcast.utils.PlaybackStatus;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
@@ -76,9 +78,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
 
     //List of available Audio files
-    private ArrayList<AudioModel> audioList;
+    private Playlist audioList;
     private int audioIndex = -1;
-    private AudioModel activeAudio; //an object of the currently playing audio
+    private PlaylistItem activeAudio; //an object of the currently playing audio
 
     private BroadcastReceiver playNewAudio = getNewAudioBroadcastReceiver();
     //Becoming noisy (headphone removed)
@@ -133,7 +135,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             // Set the data source to the mediaFile location
-            mediaPlayer.setDataSource(activeAudio.getData());
+            mediaPlayer.setDataSource(activeAudio.getAudio());
         } catch (IOException e) {
             e.printStackTrace();
             stopSelf();
@@ -213,8 +215,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         // Update the current metadata
         mediaSession.setMetadata(new MediaMetadataCompat.Builder()
                 .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, activeAudio.getArtist())
-                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, activeAudio.getAlbum())
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, activeAudio.getTitle())
+//                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, activeAudio.getAlbum())
                 .putString(MediaMetadataCompat.METADATA_KEY_TITLE, activeAudio.getTitle())
                 .build());
     }
@@ -254,8 +256,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 .setLargeIcon(largeIcon)
                 .setSmallIcon(R.drawable.ic_headphones)
                 // Set Notification content information
-                .setContentText(activeAudio.getArtist())
-                .setContentTitle(activeAudio.getAlbum())
+                .setContentText(activeAudio.getTitle())
+//                .setContentTitle(activeAudio.getAlbum())
                 .setContentInfo(activeAudio.getTitle())
                 // Add playback actions
                 .addAction(R.drawable.ic_media_control_prev, "previous", playbackAction(3))

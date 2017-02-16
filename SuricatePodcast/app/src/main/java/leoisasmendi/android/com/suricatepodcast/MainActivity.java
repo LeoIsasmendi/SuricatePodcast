@@ -46,9 +46,11 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 
-import leoisasmendi.android.com.suricatepodcast.data.ListItem;
+import leoisasmendi.android.com.suricatepodcast.data.Playlist;
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
+import leoisasmendi.android.com.suricatepodcast.parcelable.ListParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
@@ -76,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     private boolean mTwoPane;
 
     //List of available Audio files
+
+    private Playlist playlist;
+
     private ArrayList<AudioModel> audioList;
     private int audioIndex = -1;
     private AudioModel activeAudio; //an object of the currently playing audio
@@ -221,15 +226,43 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         } else {
             mTwoPane = false;
             loadPlaylistData();
+            loadFakeData();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.activity_main, new MainFragment(), TAG_MAIN);
+
+            MainFragment mainFragment= new MainFragment();
+            Bundle mBundle = new Bundle();
+            mBundle.putParcelable("EXTRA_LIST", playlist);
+            mainFragment.setArguments(mBundle);
+
+            fragmentTransaction.replace(R.id.activity_main, mainFragment, TAG_MAIN);
             fragmentTransaction.commit();
         }
     }
 
+    private void loadFakeData() {
+        playlist = new Playlist();
+
+        playlist.add(new PlaylistItem(1,
+                "Joe Rogan",
+                "00:25:00",
+                "http://static.libsyn.com/p/assets/0/4/1/e/041e18fe8e7b1c67/rogan.jpg",
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+
+        playlist.add(new PlaylistItem(2,
+                "Joe Rogan",
+                "00:25:00",
+                "http://static.libsyn.com/p/assets/2/3/6/c/236cb6c10b89befa/Keep-Hammering.jpg",
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+
+        playlist.add(new PlaylistItem(3,
+                "Joe Rogan",
+                "00:25:00",
+                "http://is4.mzstatic.com/image/thumb/Music62/v4/8e/0a/70/8e0a7014-9ccc-b532-5eb7-2b803d1a571a/source/600x600bb.jpg",
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+    }
+
     private void loadPlaylistData() {
         //LOAD THIS ASYNC WAY
-        // Retrieve student records
         String URL = "content://suricatepodcast";
 
         Uri data = Uri.parse(URL);
@@ -338,7 +371,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         if (!serviceBound) {
             //Store Serializable audioList to SharedPreferences
             StorageUtil storage = new StorageUtil(getApplicationContext());
-            storage.storeAudio(audioList);
+            storage.storeAudio(playlist);
             storage.storeAudioIndex(audioIndex);
 
             Intent playerIntent = new Intent(this, MediaPlayerService.class);
@@ -358,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     // INTERFACES
     @Override
-    public void onLongClickFragmentInteraction(ListItem item) {
+    public void onLongClickFragmentInteraction(PlaylistItem item) {
         Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment" + item.getTitle());
         EpisodeParcelable parcelable = new EpisodeParcelable();
         parcelable.setId(item.getId());
@@ -369,9 +402,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     }
 
     @Override
-    public void onClickFragmentInteraction(ListItem item) {
-        Log.i(TAG, "onClickFragmentInteraction: playlist item pressed");
+    public void onClickFragmentInteraction(int position) {
+        Log.d(TAG, "onClickFragmentInteraction: playlist item pressed " + position);
         //TODO: remove hardcoded audiolist
+
         if (audioList == null) {
             audioList = new ArrayList<>();
             audioList.add(new AudioModel("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg", "test", "test", "test"));

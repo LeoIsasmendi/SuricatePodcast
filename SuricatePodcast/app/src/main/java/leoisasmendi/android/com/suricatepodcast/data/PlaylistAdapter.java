@@ -40,11 +40,11 @@ import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
-    private List<ListItem> mList;
+    private Playlist mList;
     private MainFragment.OnMainListInteractionListener mListener;
     private Context mContext;
 
-    public PlaylistAdapter(Context context, List<ListItem> aPlaylist, MainFragment.OnMainListInteractionListener listener) {
+    public PlaylistAdapter(Context context, Playlist aPlaylist, MainFragment.OnMainListInteractionListener listener) {
         mList = aPlaylist;
         mListener = listener;
         mContext = context;
@@ -53,6 +53,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
         holder.item = mList.get(position);
+        final int index = position;
 
         Picasso.with(mContext)
                 .load(holder.item.getPoster())
@@ -68,7 +69,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             public void onClick(View view) {
 
                 if (null != mListener) {
-                    mListener.onClickFragmentInteraction(holder.item);
+                    mListener.onClickFragmentInteraction(index);
                 }
 
             }
@@ -110,7 +111,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     public class PlaylistViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
-        public ListItem item;
+        public PlaylistItem item;
 
         private TextView nameView;
         private TextView durationView;

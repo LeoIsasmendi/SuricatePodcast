@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2016. Sergio Leonardo Isasmendi
+ * Copyright (c) 2017. Sergio Leonardo Isasmendi
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -23,19 +23,54 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class SearchItem extends PlaylistItem {
+import java.util.ArrayList;
 
-    private Boolean selected;
+public class Playlist implements Parcelable {
 
-    public SearchItem(int anId, String aName, String aLength, String poster, String audio) {
-        super(anId, aName, aLength, poster, audio);
-        selected = true;
+    private ArrayList<PlaylistItem> list;
+
+    public Playlist() {
+        list = new ArrayList<>();
     }
 
-
-    public Boolean getSelected() {
-        return selected;
+    public void add(PlaylistItem item) {
+        list.add(item);
     }
 
+    public int size() {
+        return list.size();
+    }
+
+    public PlaylistItem get(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(this.list);
+    }
+
+    protected Playlist(Parcel in) {
+        this.list = in.createTypedArrayList(PlaylistItem.CREATOR);
+    }
+
+    public static final Parcelable.Creator<Playlist> CREATOR = new Parcelable.Creator<Playlist>() {
+        @Override
+        public Playlist createFromParcel(Parcel source) {
+            return new Playlist(source);
+        }
+
+        @Override
+        public Playlist[] newArray(int size) {
+            return new Playlist[size];
+        }
+    };
 }

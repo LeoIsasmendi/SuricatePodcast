@@ -30,9 +30,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 
-import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
+import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 
 public class StorageUtil {
 
@@ -44,7 +43,7 @@ public class StorageUtil {
         this.context = context;
     }
 
-    public void storeAudio(ArrayList<AudioModel> arrayList) {
+    public void storeAudio(Playlist arrayList) {
         preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
 
         SharedPreferences.Editor editor = preferences.edit();
@@ -54,11 +53,11 @@ public class StorageUtil {
         editor.apply();
     }
 
-    public ArrayList<AudioModel> loadAudio() {
+    public Playlist loadAudio() {
         preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = preferences.getString("audioArrayList", null);
-        Type type = new TypeToken<ArrayList<AudioModel>>() {
+        Type type = new TypeToken<Playlist>() {
         }.getType();
         return gson.fromJson(json, type);
     }
