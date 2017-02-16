@@ -85,17 +85,25 @@ public class DetailFragment extends Fragment {
 
     private void setTitle(String aString) {
         TextView textView = (TextView) getView().findViewById(R.id.detail_name);
-        textView.setText(aString);
+        setText(textView, aString, R.string.default_detail_title);
     }
 
     private void setDetail(String aString) {
         TextView textView = (TextView) getView().findViewById(R.id.detail_description);
-        textView.setText(aString);
+        setText(textView, aString, R.string.default_description_text);
     }
 
     private void setDuration(String aString) {
         TextView textView = (TextView) getView().findViewById(R.id.detail_duration);
-        textView.setText(aString);
+        setText(textView, aString, R.string.default_detail_duration);
+    }
+
+    private void setText(TextView textView, String aString, int resource_id) {
+        if (aString != null && !aString.isEmpty()) {
+            textView.setText(aString);
+        } else {
+            textView.setText(resource_id);
+        }
     }
 
     private void setPoster(String aString) {
