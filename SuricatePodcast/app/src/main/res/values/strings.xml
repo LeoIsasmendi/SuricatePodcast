@@ -30,7 +30,7 @@
     <string name="main_fragment_title">Podcast List</string>
     <string name="search_fragment_title">Search Podcast</string>
     <string name="detail_fragment_title">Details</string>
-    <string name="default_detail_name">Podcast Name</string>
+    <string name="default_detail_title">Podcast Name</string>
     <string name="default_detail_date">01/01/01</string>
     <string name="default_detail_duration">00:00:00</string>
     <string name="description_header_text">DETAILS</string>

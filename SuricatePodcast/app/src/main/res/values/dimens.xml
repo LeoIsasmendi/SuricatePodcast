@@ -29,7 +29,9 @@
 
     <dimen name="detail_podcast_poster">96dp</dimen>
     <dimen name="detail_fragment_padding">12dp</dimen>
-    <dimen name="detail_head_text">10dp</dimen>
+    <dimen name="detail_head_text_margin">8dp</dimen>
+    <dimen name="detail_primary_text">18sp</dimen>
+    <dimen name="detail_secondary_text">16sp</dimen>
 
     <dimen name="search_input_margin">4dp</dimen>
     <dimen name="search_add_button_margin">4dp</dimen>

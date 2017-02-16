@@ -35,6 +35,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/description_header_text"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="@dimen/detail_primary_text"
         tools:text="DETAILS" />
 
     <TextView
@@ -42,6 +44,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/default_description_text"
+        android:textColor="@color/colorSecondatyText"
+        android:textSize="@dimen/detail_secondary_text"
         tools:text="Bla bla bla bla bla bla bla bla bla bla bla details" />
 </LinearLayout>
 
