@@ -50,7 +50,6 @@ import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.model.AudioModel;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
-import leoisasmendi.android.com.suricatepodcast.parcelable.ListParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
@@ -78,13 +77,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     private boolean mTwoPane;
 
     //List of available Audio files
-
     private Playlist playlist;
-
-    private ArrayList<AudioModel> audioList;
-    private int audioIndex = -1;
-    private AudioModel activeAudio; //an object of the currently playing audio
-
 
     // MEDIA PLAYER
     private MediaPlayerService player;
@@ -229,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
             loadFakeData();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-            MainFragment mainFragment= new MainFragment();
+            MainFragment mainFragment = new MainFragment();
             Bundle mBundle = new Bundle();
             mBundle.putParcelable("EXTRA_LIST", playlist);
             mainFragment.setArguments(mBundle);
@@ -246,13 +239,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
                 "Joe Rogan",
                 "00:25:00",
                 "http://static.libsyn.com/p/assets/0/4/1/e/041e18fe8e7b1c67/rogan.jpg",
-                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+                "https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg"));
 
         playlist.add(new PlaylistItem(2,
                 "Joe Rogan",
                 "00:25:00",
                 "http://static.libsyn.com/p/assets/2/3/6/c/236cb6c10b89befa/Keep-Hammering.jpg",
-                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+                "https://www.audiosear.ch/media/80de28fbeb78605e66fa8df7d223b584/0/public/audio_file/154656/113974051-startalk-the-joe-rogan-experience.mp3"));
 
         playlist.add(new PlaylistItem(3,
                 "Joe Rogan",
@@ -404,13 +397,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     @Override
     public void onClickFragmentInteraction(int position) {
         Log.d(TAG, "onClickFragmentInteraction: playlist item pressed " + position);
-        //TODO: remove hardcoded audiolist
-
-        if (audioList == null) {
-            audioList = new ArrayList<>();
-            audioList.add(new AudioModel("https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg", "test", "test", "test"));
-        }
-        this.playAudio(0);
+        this.playAudio(position);
     }
 
     @Override
