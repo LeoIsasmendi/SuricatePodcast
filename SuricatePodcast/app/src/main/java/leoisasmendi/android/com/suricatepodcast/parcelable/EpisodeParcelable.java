@@ -46,6 +46,7 @@ public class EpisodeParcelable implements Parcelable {
     private String title;
     private String detail;
     private String duration;
+    private String poster;
 
     // No-arg Ctor
     public EpisodeParcelable() {
@@ -59,6 +60,7 @@ public class EpisodeParcelable implements Parcelable {
         title = pc.readString();
         detail = pc.readString();
         duration = pc.readString();
+        poster = pc.readString();
     }
 
     @Override
@@ -72,6 +74,7 @@ public class EpisodeParcelable implements Parcelable {
         pc.writeString(title);
         pc.writeString(detail);
         pc.writeString(duration);
+        pc.writeString(poster);
     }
 
     public void setId(int id) {
@@ -104,6 +107,14 @@ public class EpisodeParcelable implements Parcelable {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
     }
 
 }

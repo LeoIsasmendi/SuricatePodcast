@@ -364,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         parcelable.setId(item.getId());
         parcelable.setTitle(item.getTitle());
         parcelable.setDuration(item.getDuration());
+        parcelable.setPoster(item.getPoster());
         showDetailFragment(parcelable);
     }
 
