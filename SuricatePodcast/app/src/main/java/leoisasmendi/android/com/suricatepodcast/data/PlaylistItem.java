@@ -23,7 +23,10 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
-public class ListItem {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PlaylistItem implements Parcelable {
 
     private int id;
     private String title;
@@ -31,7 +34,7 @@ public class ListItem {
     private String poster;
     private String audio;
 
-    public ListItem() {
+    public PlaylistItem() {
         // default constructor
         id = 0;
         title = "";
@@ -39,7 +42,7 @@ public class ListItem {
         this.poster = "";
     }
 
-    public ListItem(int id, String title, String duration, String poster, String audio) {
+    public PlaylistItem(int id, String title, String duration, String poster, String audio) {
         this.title = title;
         this.duration = duration;
         this.id = id;
@@ -88,4 +91,37 @@ public class ListItem {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.duration);
+        dest.writeString(this.poster);
+        dest.writeString(this.audio);
+    }
+
+    protected PlaylistItem(Parcel in) {
+        this.id = in.readInt();
+        this.title = in.readString();
+        this.duration = in.readString();
+        this.poster = in.readString();
+        this.audio = in.readString();
+    }
+
+    public static final Parcelable.Creator<PlaylistItem> CREATOR = new Parcelable.Creator<PlaylistItem>() {
+        @Override
+        public PlaylistItem createFromParcel(Parcel source) {
+            return new PlaylistItem(source);
+        }
+
+        @Override
+        public PlaylistItem[] newArray(int size) {
+            return new PlaylistItem[size];
+        }
+    };
 }
