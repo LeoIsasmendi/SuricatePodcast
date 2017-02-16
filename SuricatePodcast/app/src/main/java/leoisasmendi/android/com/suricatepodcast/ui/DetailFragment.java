@@ -28,7 +28,10 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
@@ -76,6 +79,7 @@ public class DetailFragment extends Fragment {
             setTitle(mParcelable.getTitle());
             setDetail(mParcelable.getDetail());
             setDuration(mParcelable.getDuration());
+            setPoster(mParcelable.getPoster());
         }
     }
 
@@ -92,6 +96,15 @@ public class DetailFragment extends Fragment {
     private void setDuration(String aString) {
         TextView textView = (TextView) getView().findViewById(R.id.detail_duration);
         textView.setText(aString);
+    }
+
+    private void setPoster(String aString) {
+        ImageView imageView = (ImageView) getView().findViewById(R.id.detail_poster);
+        Picasso.with(getActivity())
+                .load(aString)
+                .placeholder(R.drawable.default_poster)
+                .error(R.drawable.default_poster)
+                .into(imageView);
     }
 
 
