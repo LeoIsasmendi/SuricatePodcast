@@ -167,5 +167,6 @@ public class SearchFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onAddObjectToPlaylist(SearchItem item);
+        void updateSelectedList(SearchItem item);
     }
 }

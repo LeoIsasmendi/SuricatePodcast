@@ -69,7 +69,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
             public void onClick(View view) {
 
                 if (null != mListener) {
-                    mListener.onAddObjectToPlaylist(item);
+                    mListener.updateSelectedList(item);
                 }
 
             }
