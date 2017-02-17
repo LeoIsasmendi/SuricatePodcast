@@ -109,7 +109,7 @@ public class SearchFragment extends Fragment {
                 "http://is4.mzstatic.com/image/thumb/Music62/v4/8e/0a/70/8e0a7014-9ccc-b532-5eb7-2b803d1a571a/source/600x600bb.jpg",
                 "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
 
-        mAdapter = new SearchAdapter(playlist, mListener);
+        mAdapter = new SearchAdapter(getActivity(), playlist, mListener);
         Log.i("MainFragment", "onCreateView: " + mAdapter.getItemCount());
     }
 
@@ -166,6 +166,6 @@ public class SearchFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onAddObjectToPlaylist(ContentValues aValue);
+        void onAddObjectToPlaylist(SearchItem item);
     }
 }

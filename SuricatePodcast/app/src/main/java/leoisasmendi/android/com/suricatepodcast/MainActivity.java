@@ -46,6 +46,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
+import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
@@ -383,13 +384,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     }
 
     @Override
-    public void onAddObjectToPlaylist(ContentValues aValue) {
+    public void onAddObjectToPlaylist(SearchItem aValue) {
         //TODO
         Log.i(TAG, "onLongClickFragmentInteraction: search item selected");
-        Uri uri = getContentResolver().insert(
-                DataProvider.CONTENT_URI, aValue);
-
-        Toast.makeText(getBaseContext(),
-                uri.toString(), Toast.LENGTH_LONG).show();
+//        Uri uri = getContentResolver().insert(
+//                DataProvider.CONTENT_URI, aValue);
+//
+//        Toast.makeText(getBaseContext(),
+//                uri.toString(), Toast.LENGTH_LONG).show();
     }
 }

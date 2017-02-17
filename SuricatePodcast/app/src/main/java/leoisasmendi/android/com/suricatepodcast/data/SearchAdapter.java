@@ -23,12 +23,16 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
@@ -37,29 +41,39 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
     private SearchList mList;
     private SearchFragment.OnFragmentInteractionListener mListener;
-    private View.OnClickListener mClickListener;
+    private Context mContext;
 
-    public SearchAdapter(SearchList aList, SearchFragment.OnFragmentInteractionListener listener) {
+    public SearchAdapter(Context context, SearchList aList, SearchFragment.OnFragmentInteractionListener listener) {
+        mContext = context;
         mList = aList;
         mListener = listener;
-        mClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selectedView.
-                    mListener.onAddObjectToPlaylist(null); //TODO: FIX PARAM
-                }
-            }
-        };
     }
 
     @Override
     public void onBindViewHolder(SearchListViewHolder holder, int position) {
-        holder.getNameView().setText(mList.get(position).getTitle());
-        holder.getDurationView().setText(mList.get(position).getDuration());
-        holder.getSelectedView().setChecked(mList.get(position).getSelected());
-        holder.getView().setOnClickListener(mClickListener);
+        final SearchItem item = mList.get(position);
+        holder.item = item;
+
+        Picasso.with(mContext)
+                .load(holder.item.getPoster())
+                .placeholder(R.drawable.picture)
+                .error(R.drawable.picture)
+                .into(holder.posterView);
+
+        holder.getNameView().setText(item.getTitle());
+        holder.getDurationView().setText(item.getDuration());
+        holder.getSelectedView().setChecked(item.getSelected());
+
+        holder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (null != mListener) {
+                    mListener.onAddObjectToPlaylist(item);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -80,15 +94,20 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
     }
 
     // View Holder
-    public static class SearchListViewHolder extends RecyclerView.ViewHolder {
+    public class SearchListViewHolder extends RecyclerView.ViewHolder {
+
+        private final View view;
+        public SearchItem item;
+
         private TextView nameView;
         private TextView durationView;
         private CheckBox selectedView;
-        private final View view;
+        private ImageView posterView;
 
         SearchListViewHolder(View itemView) {
             super(itemView);
             view = itemView;
+            posterView = (ImageView) itemView.findViewById(R.id.search_item_poster);
             nameView = (TextView) itemView.findViewById(R.id.search_item_name);
             durationView = (TextView) itemView.findViewById(R.id.search_item_length);
             selectedView = (CheckBox) itemView.findViewById(R.id.search_item_selected);
@@ -108,6 +127,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
         public View getView() {
             return view;
+        }
+
+        public SearchItem getItem() {
+            return item;
         }
     }
 }
