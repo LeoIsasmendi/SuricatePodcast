@@ -37,13 +37,11 @@ import android.view.ViewGroup;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
+import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 
 public class SearchFragment extends Fragment {
 
@@ -96,9 +94,9 @@ public class SearchFragment extends Fragment {
     }
 
     private void loadFakeData() {
-        List<SearchItem> playlist;
+        SearchList playlist;
 
-        playlist = new ArrayList<>();
+        playlist = new SearchList();
         playlist.add(new SearchItem(1,
                 "Joe Rogan",
                 "00:25:00",

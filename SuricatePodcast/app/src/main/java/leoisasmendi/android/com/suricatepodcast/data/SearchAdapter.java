@@ -30,18 +30,16 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import java.util.List;
-
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchListViewHolder> {
 
-    private List<SearchItem> mList;
+    private SearchList mList;
     private SearchFragment.OnFragmentInteractionListener mListener;
     private View.OnClickListener mClickListener;
 
-    public SearchAdapter(List<SearchItem> aList, SearchFragment.OnFragmentInteractionListener listener) {
+    public SearchAdapter(SearchList aList, SearchFragment.OnFragmentInteractionListener listener) {
         mList = aList;
         mListener = listener;
         mClickListener = new View.OnClickListener() {
