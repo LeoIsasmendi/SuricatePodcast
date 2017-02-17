@@ -28,24 +28,9 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class Playlist implements Parcelable {
-
-    private ArrayList<PlaylistItem> list;
+public class Playlist extends ArrayList<PlaylistItem> implements Parcelable {
 
     public Playlist() {
-        list = new ArrayList<>();
-    }
-
-    public void add(PlaylistItem item) {
-        list.add(item);
-    }
-
-    public int size() {
-        return list.size();
-    }
-
-    public PlaylistItem get(int position) {
-        return list.get(position);
     }
 
     @Override
@@ -55,11 +40,9 @@ public class Playlist implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.list);
     }
 
     protected Playlist(Parcel in) {
-        this.list = in.createTypedArrayList(PlaylistItem.CREATOR);
     }
 
     public static final Parcelable.Creator<Playlist> CREATOR = new Parcelable.Creator<Playlist>() {
