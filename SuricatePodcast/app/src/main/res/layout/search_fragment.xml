@@ -51,7 +51,7 @@
         android:layout_height="@dimen/fab_size"
         android:layout_gravity="end"
         android:layout_margin="@dimen/search_add_button_margin"
-        android:onClick="addItemsToPlaylist"
+        android:onClick="addSelectedItemsToPlaylist"
         android:src="@drawable/plus" />
 
     <com.google.android.gms.ads.AdView

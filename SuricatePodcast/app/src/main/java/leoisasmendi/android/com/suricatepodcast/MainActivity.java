@@ -316,8 +316,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     }
 
     //    SEARCH BUTTON
-    public void addItemsToPlaylist(View v) {
-        Log.i(TAG, "addItemsToPlaylist: ");
+    public void addSelectedItemsToPlaylist(View v) {
+        Log.i(TAG, "addSelectedItemsToPlaylist: ");
+//        Uri uri = getContentResolver().insert(
+//                DataProvider.CONTENT_URI, aValue);
+//
+//        Toast.makeText(getBaseContext(),
+//                uri.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -385,17 +390,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     @Override
     public void updateSelectedList(SearchItem item) {
-        Log.d(TAG, "updateSelectedList: "+ item.getTitle());
+        Log.d(TAG, "updateSelectedList: " + item.getTitle());
     }
 
-    @Override
-    public void onAddObjectToPlaylist(SearchItem aValue) {
-        //TODO
-        Log.i(TAG, "onLongClickFragmentInteraction: search item selected");
-//        Uri uri = getContentResolver().insert(
-//                DataProvider.CONTENT_URI, aValue);
-//
-//        Toast.makeText(getBaseContext(),
-//                uri.toString(), Toast.LENGTH_LONG).show();
-    }
 }
