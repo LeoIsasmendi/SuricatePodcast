@@ -151,9 +151,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_search:
-                showSearchFragment();
-                return true;
             case R.id.menuOp1:
                 showThemes();
                 return true;
@@ -311,13 +308,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     //    SEARCH BUTTON
     public void doSearch(View v) {
-        Log.i(TAG, "doSearch: ");
+        Log.d(TAG, "doSearch: ");
         showSearchFragment();
     }
 
     //    SEARCH BUTTON
     public void addSelectedItemsToPlaylist(View v) {
-        Log.i(TAG, "addSelectedItemsToPlaylist: ");
+        Log.d(TAG, "addSelectedItemsToPlaylist: ");
 //        Uri uri = getContentResolver().insert(
 //                DataProvider.CONTENT_URI, aValue);
 //
