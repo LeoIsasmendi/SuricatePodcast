@@ -23,19 +23,20 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
-
 public class SearchItem extends PlaylistItem {
 
     private Boolean selected;
 
     public SearchItem(int anId, String aName, String aLength, String poster, String audio) {
         super(anId, aName, aLength, poster, audio);
-        selected = true;
+        selected = false;
     }
-
 
     public Boolean getSelected() {
         return selected;
     }
 
+    public void toggleSelected() {
+        selected = !selected;
+    }
 }

@@ -25,6 +25,7 @@ package leoisasmendi.android.com.suricatepodcast.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,17 +64,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
         holder.getNameView().setText(item.getTitle());
         holder.getDurationView().setText(item.getDuration());
         holder.getSelectedView().setChecked(item.getSelected());
-
-        holder.view.setOnClickListener(new View.OnClickListener() {
+        holder.getSelectedView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                item.toggleSelected();
                 if (null != mListener) {
                     mListener.updateSelectedList(item);
                 }
-
             }
         });
+
     }
 
     @Override
@@ -94,7 +94,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
     }
 
     // View Holder
-    public class SearchListViewHolder extends RecyclerView.ViewHolder {
+    class SearchListViewHolder extends RecyclerView.ViewHolder {
 
         private final View view;
         public SearchItem item;
@@ -129,8 +129,5 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
             return view;
         }
 
-        public SearchItem getItem() {
-            return item;
-        }
     }
 }

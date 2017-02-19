@@ -35,6 +35,7 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.ArraySet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,9 +45,12 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.util.ArrayList;
+
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
+import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
@@ -68,12 +72,16 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     private static final String TAG_THEMES = ThemesFragment.class.getSimpleName();
     public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
 
+
     private FragmentManager fragmentManager;
 
     private boolean mTwoPane;
 
     //List of available Audio files
     private Playlist playlist;
+
+    //List of selected items on SearchView
+    private SearchList selectedItems;
 
     // MEDIA PLAYER
     private MediaPlayerService player;
@@ -309,12 +317,14 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     //    SEARCH BUTTON
     public void doSearch(View v) {
         Log.d(TAG, "doSearch: ");
+        selectedItems = new SearchList();
         showSearchFragment();
     }
 
     //    SEARCH BUTTON
     public void addSelectedItemsToPlaylist(View v) {
         Log.d(TAG, "addSelectedItemsToPlaylist: ");
+
 //        Uri uri = getContentResolver().insert(
 //                DataProvider.CONTENT_URI, aValue);
 //
@@ -388,6 +398,19 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     @Override
     public void updateSelectedList(SearchItem item) {
         Log.d(TAG, "updateSelectedList: " + item.getTitle());
+        if (item.getSelected()) {
+            if (!selectedItems.contains(item)) {
+                Log.d(TAG, "updateSelectedList: ADDED");
+                selectedItems.add(item);
+            }
+        } else {
+            Log.d(TAG, "updateSelectedList: REMOVED");
+            selectedItems.remove(item);
+        }
+
+
+        Log.d(TAG, "updateSelectedList: LIST " + selectedItems.size());
+
     }
 
 }
