@@ -34,6 +34,7 @@
         android:layout_margin="@dimen/search_input_margin"
         android:background="@color/color_search_background"
         android:divider="@color/colorAccent"
+        android:queryHint="@string/search_hint"
         android:showDividers="end" />
 
 

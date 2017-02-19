@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -44,11 +45,14 @@ import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 
 public class SearchFragment extends Fragment {
 
+    private final String TAG = getClass().getSimpleName();
+
     private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private SearchView searchView;
     private AdView mAdView;
 
     public SearchFragment() {
@@ -69,6 +73,20 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
+
+        searchView = (SearchView) view.findViewById(R.id.search_input);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, "onQueryTextSubmit: ");
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
