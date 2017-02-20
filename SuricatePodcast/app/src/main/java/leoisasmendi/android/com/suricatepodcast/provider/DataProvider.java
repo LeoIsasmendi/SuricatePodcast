@@ -23,6 +23,7 @@
 
 package leoisasmendi.android.com.suricatepodcast.provider;
 
+import android.app.LauncherActivity;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -37,19 +38,23 @@ import android.text.TextUtils;
 
 import java.util.HashMap;
 
+import javax.sql.DataSource;
+
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastsHelper;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 
 public class DataProvider extends ContentProvider {
 
-    static final String PROVIDER_NAME = "suricatepodcast";
-    static final String URL = "content://" + PROVIDER_NAME + "/data";
+    static final String PROVIDER_NAME = "leoisasmendi.android.com.suricatepodcast.provider.DataProvider";
+    static final String URL = "content://" + PROVIDER_NAME;
     public static final Uri CONTENT_URI = Uri.parse(URL);
 
     private static HashMap<String, String> PODCASTS_PROJECTION_MAP;
 
-    static final String _ID = "_id";
+    public static final String _ID = "_id";
+
     static final int PODCASTS = 1;
     static final int PODCAST_ID = 2;
 
@@ -62,12 +67,20 @@ public class DataProvider extends ContentProvider {
     }
 
 
+    /**
+     * Database specific constant declarations
+     */
+
+    private SQLiteDatabase db;
     private PodcastsHelper podcastsHelper;
+
 
     @Override
     public boolean onCreate() {
         podcastsHelper = new PodcastsHelper(getContext());
-        return (podcastsHelper.getWritableDatabase() != null);
+        db = podcastsHelper.getWritableDatabase();
+
+        return (db != null);
     }
 
     @Nullable
@@ -116,7 +129,8 @@ public class DataProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
-        long rowID = insertToPodcasts(null); //TODO, FIX
+
+        long rowID = db.insert(PodcastsDataSource.PODCASTS_TABLE_NAME, "", contentValues);
 
         /**
          * If record is added successfully
@@ -180,32 +194,6 @@ public class DataProvider extends ContentProvider {
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
     }
-
-    /*
-     * OLD DATABASE MANAGMENT
-     */
-
-    public long insertToPodcasts(EpisodeParcelable episode) {
-        // Gets the data repository in write mode
-        SQLiteDatabase db = podcastsHelper.getWritableDatabase();
-
-        // Create a new map of values, where column names are the keys
-        ContentValues values = new ContentValues();
-        values.put(PodcastsDataSource.ColumnPodcasts.ID_PODCAST, episode.getId());
-        values.put(PodcastsDataSource.ColumnPodcasts.TITLE, episode.getTitle());
-
-
-        // Insert the new row, returning the primary key value of the new row
-        return db.insert(
-                PodcastsDataSource.PODCASTS_TABLE_NAME,
-                null,
-                values);
-    }
-
-//    public int removeFromPodcasts(long podcastId) {
-//        SQLiteDatabase db = podcastsHelper.getWritableDatabase();
-//        return db.delete(PodcastsDataSource.PODCASTS_TABLE_NAME, PodcastsDataSource.ColumnPodcasts.ID_PODCAST + "=" + podcastId, null);
-//    }
 
     public Boolean isExistPodcast(long playlistId) {
         SQLiteDatabase db = podcastsHelper.getReadableDatabase();
