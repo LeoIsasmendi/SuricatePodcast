@@ -40,6 +40,8 @@ public class PodcastsDataSource {
         public static final String ID_PODCAST = "podcast";
         public static final String TITLE = "title";
         public static final String POSTER = "poster";
+        public static final String DURATION = "duration";
+        public static final String AUDIO = "audio";
     }
 
     //Script of creation
@@ -48,7 +50,10 @@ public class PodcastsDataSource {
                     ColumnPodcasts.ID_PODCASTS + " " + INT_TYPE + " primary key autoincrement," +
                     ColumnPodcasts.ID_PODCAST + " " + LONG_TYPE + " not null," +
                     ColumnPodcasts.TITLE + " " + STRING_TYPE + " not null," +
-                    ColumnPodcasts.POSTER + " " + STRING_TYPE + " not null)";
+                    ColumnPodcasts.DURATION + " " + STRING_TYPE + " not null," +
+                    ColumnPodcasts.AUDIO + " " + STRING_TYPE + " not null," +
+                    ColumnPodcasts.POSTER + " " + STRING_TYPE + ")";
+
 
     //Scripts default insertion
 /*    public static final String INSERT_SCRIPT =
