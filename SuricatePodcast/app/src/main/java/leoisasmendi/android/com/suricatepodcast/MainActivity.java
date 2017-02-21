@@ -33,6 +33,9 @@ import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.IBinder;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.ArraySet;
@@ -44,11 +47,13 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.fitness.data.DataSource;
 
 import java.util.ArrayList;
 
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
@@ -61,7 +66,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnMainListInteractionListener, SearchFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnMainListInteractionListener, SearchFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor> {
 
     final String TAG = getClass().getSimpleName();
 
@@ -106,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
         //Binding this Client to the AudioPlayer Service
         serviceConnection = getServiceConnection();
+
+        // Iniciar loader
+        getSupportLoaderManager().restartLoader(1, null, this);
     }
 
     private ServiceConnection getServiceConnection() {
@@ -413,4 +421,23 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     }
 
+    // Cursor loader
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader: ");
+        return new CursorLoader(this, DataProvider.CONTENT_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d(TAG, "onLoadFinished: " + data.getCount());
+        for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
+            Log.d(TAG, "iteration: " + data.getString(2));
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
 }
