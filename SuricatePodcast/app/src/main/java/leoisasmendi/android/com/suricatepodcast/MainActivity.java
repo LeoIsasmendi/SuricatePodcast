@@ -224,33 +224,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         } else {
             mTwoPane = false;
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
             MainFragment mainFragment = new MainFragment();
-            Bundle mBundle = new Bundle();
-            mBundle.putParcelable("EXTRA_LIST", playlist);
-            mainFragment.setArguments(mBundle);
-
             fragmentTransaction.replace(R.id.activity_main, mainFragment, TAG_MAIN);
             fragmentTransaction.commit();
         }
-    }
-
-    private void loadPlaylistData() {
-        //LOAD THIS ASYNC WAY
-        String URL = "content://suricatepodcast";
-
-        Uri data = Uri.parse(URL);
-        Cursor c = getApplicationContext().getContentResolver().query(data, null, null, null, "name");
-
-//        if (c.moveToFirst()) {
-//            do {
-//                Toast.makeText(this,
-//                        c.getString(c.getColumnIndex(StudentsProvider._ID)) +
-//                                ", " + c.getString(c.getColumnIndex(StudentsProvider.NAME)) +
-//                                ", " + c.getString(c.getColumnIndex(StudentsProvider.GRADE)),
-//                        Toast.LENGTH_SHORT).show();
-//            } while (c.moveToNext());
-//        }
     }
 
     private void showSearchFragment() {

@@ -50,8 +50,6 @@ public class MainFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private Playlist mParcelable;
-
     public MainFragment() {
         // Required empty public constructor
     }
@@ -64,9 +62,6 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParcelable = getArguments().getParcelable("EXTRA_LIST");
-        }
     }
 
     @Override
@@ -124,9 +119,7 @@ public class MainFragment extends Fragment {
      * activity.
      */
     public interface OnMainListInteractionListener {
-        // TODO: Update argument type and name
         void onClickFragmentInteraction(int position);
-
         void onLongClickFragmentInteraction(Cursor item);
     }
 }
