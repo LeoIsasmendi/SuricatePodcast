@@ -26,7 +26,6 @@ package leoisasmendi.android.com.suricatepodcast;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -38,7 +37,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.ArraySet;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,14 +46,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.gms.fitness.data.DataSource;
 
-import java.util.ArrayList;
-
+import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
-import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
-import leoisasmendi.android.com.suricatepodcast.data.PodcastsHelper;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
@@ -364,13 +359,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     // INTERFACES
     @Override
-    public void onLongClickFragmentInteraction(PlaylistItem item) {
-        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment" + item.getTitle());
+    public void onLongClickFragmentInteraction(Cursor item) {
+        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment" + item.getString(ItemLoader.Query.TITLE));
         EpisodeParcelable parcelable = new EpisodeParcelable();
-        parcelable.setId(item.getId());
-        parcelable.setTitle(item.getTitle());
-        parcelable.setDuration(item.getDuration());
-        parcelable.setPoster(item.getPoster());
+        parcelable.setId(item.getInt(ItemLoader.Query.ID_PODCAST));
+        parcelable.setTitle(item.getString(ItemLoader.Query.TITLE));
+        parcelable.setDuration(item.getString(ItemLoader.Query.DURATION));
+        parcelable.setPoster(item.getString(ItemLoader.Query.POSTER));
         showDetailFragment(parcelable);
     }
 
@@ -407,37 +402,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        //TODO: CHANGE THIS CODE, IS UGLY ASF!!
-        int id = data.getColumnIndex(PodcastsDataSource.ColumnPodcasts.ID_PODCAST);
-        int title = data.getColumnIndex(PodcastsDataSource.ColumnPodcasts.TITLE);
-        int poster = data.getColumnIndex(PodcastsDataSource.ColumnPodcasts.POSTER);
-        int duration = data.getColumnIndex(PodcastsDataSource.ColumnPodcasts.DURATION);
-        int audio = data.getColumnIndex(PodcastsDataSource.ColumnPodcasts.AUDIO);
-
-        Log.d(TAG, "onLoadFinished: " + data.getCount());
-        playlist = new Playlist();
-
-        for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
-            Log.d(TAG, "iteration: " + data.getString(title));
-            playlist.add(new PlaylistItem(data.getInt(id),
-                    data.getString(title),
-                    data.getString(poster),
-                    data.getString(duration),
-                    data.getString(audio)));
-        }
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        MainFragment mainFragment = new MainFragment();
-        Bundle mBundle = new Bundle();
-        mBundle.putParcelable("EXTRA_LIST", playlist);
-        mainFragment.setArguments(mBundle);
-
-        fragmentTransaction.replace(R.id.activity_main, mainFragment, TAG_MAIN);
-        fragmentTransaction.commit();
+        MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag(TAG_MAIN);
+        mainFragment.updateAdaptor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
     }
 }

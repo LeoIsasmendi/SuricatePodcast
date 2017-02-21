@@ -24,6 +24,7 @@
 package leoisasmendi.android.com.suricatepodcast.data;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,36 +41,37 @@ import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
-    private Playlist mList;
+    private Cursor mCursor;
     private MainFragment.OnMainListInteractionListener mListener;
     private Context mContext;
 
-    public PlaylistAdapter(Context context, Playlist aPlaylist, MainFragment.OnMainListInteractionListener listener) {
-        mList = aPlaylist;
+    public PlaylistAdapter(Context context, Cursor aCursor, MainFragment.OnMainListInteractionListener listener) {
+        mCursor = aCursor;
         mListener = listener;
         mContext = context;
     }
 
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
-        holder.item = mList.get(position);
-        final int index = position;
+        mCursor.moveToPosition(position);
 
+        Picasso.with(mContext).setLoggingEnabled(true);
         Picasso.with(mContext)
-                .load(holder.item.getPoster())
+                .load(mCursor.getString(ItemLoader.Query.POSTER))
                 .placeholder(R.drawable.picture)
                 .error(R.drawable.picture)
                 .into(holder.posterView);
 
-        holder.getNameView().setText(mList.get(position).getTitle());
-        holder.getDurationView().setText(mList.get(position).getDuration());
+
+        holder.getNameView().setText(mCursor.getString(ItemLoader.Query.TITLE));
+        holder.getDurationView().setText(mCursor.getString(ItemLoader.Query.DURATION));
 
         holder.view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (null != mListener) {
-                    mListener.onClickFragmentInteraction(index);
+                    mListener.onClickFragmentInteraction(mCursor.getPosition());
                 }
 
             }
@@ -78,9 +80,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         holder.view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-
                 if (null != mListener) {
-                    mListener.onLongClickFragmentInteraction(holder.item);
+                    mListener.onLongClickFragmentInteraction(mCursor);
                     return true;
                 }
 
@@ -93,7 +94,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     @Override
     public PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_playlist_item, parent, false);
-        PlaylistViewHolder mViewHolder = new PlaylistViewHolder(view);
+        final PlaylistViewHolder mViewHolder = new PlaylistViewHolder(view);
         return mViewHolder;
     }
 
@@ -104,14 +105,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     @Override
     public int getItemCount() {
-        return mList == null ? 0 : mList.size();
+        return mCursor.getCount();
     }
 
     // View Holder
     public class PlaylistViewHolder extends RecyclerView.ViewHolder {
 
         public final View view;
-        public PlaylistItem item;
 
         private TextView nameView;
         private TextView durationView;

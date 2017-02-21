@@ -24,6 +24,7 @@
 package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -77,12 +78,15 @@ public class MainFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mRecyclerView.setAdapter(mAdapter == null ? null : mAdapter);
         checkListenerImplementation(view.getContext());
-
-        mAdapter = new PlaylistAdapter(getActivity(), mParcelable, mListener);
-        mRecyclerView.setAdapter(mAdapter);
-
         return view;
+    }
+
+    //TODO: CHANGE THIS METHOD
+    public void updateAdaptor(Cursor aCursor) {
+        mAdapter = new PlaylistAdapter(getActivity(), aCursor, mListener);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -123,6 +127,6 @@ public class MainFragment extends Fragment {
         // TODO: Update argument type and name
         void onClickFragmentInteraction(int position);
 
-        void onLongClickFragmentInteraction(PlaylistItem item);
+        void onLongClickFragmentInteraction(Cursor item);
     }
 }
