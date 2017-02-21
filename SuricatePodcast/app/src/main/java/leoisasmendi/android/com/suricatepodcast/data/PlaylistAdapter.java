@@ -54,6 +54,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
         mCursor.moveToPosition(position);
+        final int index = position;
 
         Picasso.with(mContext).setLoggingEnabled(true);
         Picasso.with(mContext)
@@ -71,7 +72,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             public void onClick(View view) {
 
                 if (null != mListener) {
-                    mListener.onClickFragmentInteraction(mCursor.getPosition());
+                    mListener.onClickFragmentInteraction(index);
                 }
 
             }
