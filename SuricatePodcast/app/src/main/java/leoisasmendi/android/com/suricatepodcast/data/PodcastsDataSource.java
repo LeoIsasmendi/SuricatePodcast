@@ -56,16 +56,31 @@ public class PodcastsDataSource {
 
 
     //Scripts default insertion
-/*    public static final String INSERT_SCRIPT =
-            "insert into "+PODCASTS_TABLE_NAME+" values" +
-                    "(null,"+
-                    "293660," +
-                    "\"TITLE\"," +
-                    "\"http://image.tmdb.org/t/p/w185/inVq3FRqcYIRl2la8iZikYYxFNR.jpg\","+
-                    "\"OVERVIEW\"," +
+    public static final String INSERT_FAKE_DATA_SCRIPT =
+            "insert into " + PODCASTS_TABLE_NAME + " values" +
+                    "(null," +
+                    "0303456," +
+                    "\"Joe Rogan\"," +
+                    "\"00:25:00\"," +
+                    "\"http://image.tmdb.org/t/p/w185/inVq3FRqcYIRl2la8iZikYYxFNR.jpg\"," +
+                    "\"https://upload.wikimedia.org/wikipedia/commons/6/6c/Grieg_Lyric_Pieces_Kobold.ogg\"," +
+                    "),"+
+                    "(null," +
+                    "2," +
+                    "\"Cafontia Rogan\"," +
+                    "\"00:22:00\"," +
+                    "\"http://static.libsyn.com/p/assets/2/3/6/c/236cb6c10b89befa/Keep-Hammering.jpg\"," +
+                    "\"https://www.audiosear.ch/media/80de28fbeb78605e66fa8df7d223b584/0/public/audio_file/154656/113974051-startalk-the-joe-rogan-experience.mp3\"," +
+                    "),"+
+                    "(null," +
+                    "0303456," +
+                    "\"Jimmi Rogan\"," +
+                    "\"01:15:00\"," +
+                    "\"http://is4.mzstatic.com/image/thumb/Music62/v4/8e/0a/70/8e0a7014-9ccc-b532-5eb7-2b803d1a571a/source/600x600bb.jpg\"," +
+                    "\"https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3\"," +
                     ")";
 //                    "(null, 246655," + "\"http://image.tmdb.org/t/p/w185/zSouWWrySXshPCT4t3UKCQGayyo.jpg\")";
-*/
+
     private PodcastsHelper openHelper;
 
     public PodcastsDataSource(Context context) {
