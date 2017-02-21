@@ -36,13 +36,13 @@ public class PlaylistItem implements Parcelable {
 
     public PlaylistItem() {
         // default constructor
-        id = 0;
-        title = "";
-        duration = "";
+        this.id = 0;
+        this.title = "";
+        this.duration = "";
         this.poster = "";
     }
 
-    public PlaylistItem(int id, String title, String duration, String poster, String audio) {
+    public PlaylistItem(int id, String title, String duration, String audio, String poster) {
         this.title = title;
         this.duration = duration;
         this.id = id;
