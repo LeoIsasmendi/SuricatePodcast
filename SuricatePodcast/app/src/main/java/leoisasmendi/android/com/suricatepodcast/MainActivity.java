@@ -48,6 +48,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
+import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
@@ -379,7 +380,23 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+
+        //TODO: REACTOR THIS NONSENSE
+        if (playlist == null) {
+            playlist = new Playlist();
+        }
+
+        for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
+            playlist.add(new PlaylistItem(data.getInt(ItemLoader.Query.ID_PODCAST),
+                    data.getString(ItemLoader.Query.TITLE),
+                    data.getString(ItemLoader.Query.DURATION),
+                    data.getString(ItemLoader.Query.AUDIO),
+                    data.getString(ItemLoader.Query.POSTER)));
+        }
+
+
         MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag(TAG_MAIN);
+        data.moveToFirst();
         mainFragment.updateAdaptor(data);
     }
 
