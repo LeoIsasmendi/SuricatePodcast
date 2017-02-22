@@ -25,7 +25,9 @@ package leoisasmendi.android.com.suricatepodcast;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.LauncherActivity;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -47,10 +49,13 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.util.Iterator;
+
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
@@ -283,11 +288,29 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     public void addSelectedItemsToPlaylist(View v) {
         Log.d(TAG, "addSelectedItemsToPlaylist: ");
 
-//        Uri uri = getContentResolver().insert(
-//                DataProvider.CONTENT_URI, aValue);
-//
-//        Toast.makeText(getBaseContext(),
-//                uri.toString(), Toast.LENGTH_LONG).show();
+        if (selectedItems.size() > 0) {
+
+            ContentValues aValue;
+            for (PlaylistItem item : selectedItems) {
+
+                Cursor c = getContentResolver().query(DataProvider.CONTENT_URI,
+                        null,
+                        ItemsContract.Items.ID_PODCAST + " = " + item.getId(),
+                        null,
+                        null);
+                if (c.getCount() == 0) {
+                    // not found in database
+                    aValue = new ContentValues();
+                    aValue.put(ItemsContract.Items.ID_PODCAST, item.getId());
+                    aValue.put(ItemsContract.Items.TITLE, item.getTitle());
+                    aValue.put(ItemsContract.Items.DURATION, item.getDuration());
+                    aValue.put(ItemsContract.Items.AUDIO, item.getAudio());
+                    aValue.put(ItemsContract.Items.POSTER, item.getPoster());
+                    getContentResolver().insert(DataProvider.CONTENT_URI, aValue);
+                }
+
+            }
+        }
     }
 
     @Override
