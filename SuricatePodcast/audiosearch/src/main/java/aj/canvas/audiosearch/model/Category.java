@@ -1,16 +1,19 @@
 
 package aj.canvas.audiosearch.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "parent_id",
-    "name",
-    "name_lc"
+        "id",
+        "parent_id",
+        "name",
+        "parent_name",
+        "name_lc"
 })
 public class Category {
 
@@ -20,13 +23,13 @@ public class Category {
     private Object parentId;
     @JsonProperty("name")
     private String name;
+    @JsonProperty("parent_name")
+    private String parent_name;
     @JsonProperty("name_lc")
     private String nameLc;
 
     /**
-     * 
-     * @return
-     *     The id
+     * @return The id
      */
     @JsonProperty("id")
     public Integer getId() {
@@ -34,9 +37,7 @@ public class Category {
     }
 
     /**
-     * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     @JsonProperty("id")
     public void setId(Integer id) {
@@ -44,9 +45,7 @@ public class Category {
     }
 
     /**
-     * 
-     * @return
-     *     The parentId
+     * @return The parentId
      */
     @JsonProperty("parent_id")
     public Object getParentId() {
@@ -54,9 +53,7 @@ public class Category {
     }
 
     /**
-     * 
-     * @param parentId
-     *     The parent_id
+     * @param parentId The parent_id
      */
     @JsonProperty("parent_id")
     public void setParentId(Object parentId) {
@@ -64,9 +61,7 @@ public class Category {
     }
 
     /**
-     * 
-     * @return
-     *     The name
+     * @return The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -74,9 +69,7 @@ public class Category {
     }
 
     /**
-     * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -84,9 +77,7 @@ public class Category {
     }
 
     /**
-     * 
-     * @return
-     *     The nameLc
+     * @return The nameLc
      */
     @JsonProperty("name_lc")
     public String getNameLc() {
@@ -94,9 +85,7 @@ public class Category {
     }
 
     /**
-     * 
-     * @param nameLc
-     *     The name_lc
+     * @param nameLc The name_lc
      */
     @JsonProperty("name_lc")
     public void setNameLc(String nameLc) {

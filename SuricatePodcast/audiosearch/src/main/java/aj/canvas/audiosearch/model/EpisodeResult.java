@@ -11,33 +11,36 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "id",
-    "title",
-    "description",
-    "date_created",
-    "identifier",
-    "digital_location",
-    "physical_location",
-    "duration",
-    "tags",
-    "updated_at",
-    "itunes_episode",
-    "date_added",
-    "show_id",
-    "show_title",
-    "audio_files",
-    "image_files",
-    "entities",
-    "extra",
-    "urls",
-    "categories",
-    "highlights",
-    "network",
-    "locations",
-    "image_urls",
-    "contributors",
-    "excerpts",
-    "topics"
+        "id",
+        "title",
+        "description",
+        "date_created",
+        "identifier",
+        "rss_urls",
+        "digital_location",
+        "physical_location",
+        "duration",
+        "tags",
+        "updated_at",
+        "itunes_episode",
+        "date_added",
+        "show_id",
+        "show_title",
+        "audio_files",
+        "image_files",
+        "entities",
+        "extra",
+        "urls",
+        "categories",
+        "highlights",
+        "network",
+        "locations",
+        "image_url",
+        "tasties",
+        "buzz_score",
+        "contributors",
+        "excerpts",
+        "topics"
 })
 public class EpisodeResult {
 
@@ -51,6 +54,8 @@ public class EpisodeResult {
     private String dateCreated;
     @JsonProperty("identifier")
     private String identifier;
+    @JsonProperty("rss_url")
+    private String rss_url;
     @JsonProperty("digital_location")
     private String digitalLocation;
     @JsonProperty("physical_location")
@@ -89,6 +94,10 @@ public class EpisodeResult {
     private Object locations;
     @JsonProperty("image_urls")
     private ImageUrls imageUrls;
+    @JsonProperty("tasties")
+    private List<Integer> tasties;
+    @JsonProperty("buzz_score")
+    private String buzz_score;
     @JsonProperty("contributors")
     private Object contributors;
     @JsonProperty("excerpts")
@@ -98,9 +107,7 @@ public class EpisodeResult {
 
 
     /**
-     * 
-     * @return
-     *     The id
+     * @return The id
      */
     @JsonProperty("id")
     public Integer getId() {
@@ -108,9 +115,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     @JsonProperty("id")
     public void setId(Integer id) {
@@ -118,9 +123,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The title
+     * @return The title
      */
     @JsonProperty("title")
     public String getTitle() {
@@ -128,9 +131,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param title
-     *     The title
+     * @param title The title
      */
     @JsonProperty("title")
     public void setTitle(String title) {
@@ -138,9 +139,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The description
+     * @return The description
      */
     @JsonProperty("description")
     public String getDescription() {
@@ -148,9 +147,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param description
-     *     The description
+     * @param description The description
      */
     @JsonProperty("description")
     public void setDescription(String description) {
@@ -158,9 +155,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The dateCreated
+     * @return The dateCreated
      */
     @JsonProperty("date_created")
     public String getDateCreated() {
@@ -168,9 +163,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param dateCreated
-     *     The date_created
+     * @param dateCreated The date_created
      */
     @JsonProperty("date_created")
     public void setDateCreated(String dateCreated) {
@@ -178,9 +171,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The identifier
+     * @return The identifier
      */
     @JsonProperty("identifier")
     public String getIdentifier() {
@@ -188,9 +179,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param identifier
-     *     The identifier
+     * @param identifier The identifier
      */
     @JsonProperty("identifier")
     public void setIdentifier(String identifier) {
@@ -198,9 +187,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The digitalLocation
+     * @return The digitalLocation
      */
     @JsonProperty("digital_location")
     public String getDigitalLocation() {
@@ -208,9 +195,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param digitalLocation
-     *     The digital_location
+     * @param digitalLocation The digital_location
      */
     @JsonProperty("digital_location")
     public void setDigitalLocation(String digitalLocation) {
@@ -218,9 +203,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The physicalLocation
+     * @return The physicalLocation
      */
     @JsonProperty("physical_location")
     public String getPhysicalLocation() {
@@ -228,9 +211,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param physicalLocation
-     *     The physical_location
+     * @param physicalLocation The physical_location
      */
     @JsonProperty("physical_location")
     public void setPhysicalLocation(String physicalLocation) {
@@ -238,9 +219,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The duration
+     * @return The duration
      */
     @JsonProperty("duration")
     public Integer getDuration() {
@@ -248,9 +227,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param duration
-     *     The duration
+     * @param duration The duration
      */
     @JsonProperty("duration")
     public void setDuration(Integer duration) {
@@ -258,9 +235,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The tags
+     * @return The tags
      */
     @JsonProperty("tags")
     public List<String> getTags() {
@@ -268,9 +243,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param tags
-     *     The tags
+     * @param tags The tags
      */
     @JsonProperty("tags")
     public void setTags(List<String> tags) {
@@ -278,9 +251,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The updatedAt
+     * @return The updatedAt
      */
     @JsonProperty("updated_at")
     public String getUpdatedAt() {
@@ -288,9 +259,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param updatedAt
-     *     The updated_at
+     * @param updatedAt The updated_at
      */
     @JsonProperty("updated_at")
     public void setUpdatedAt(String updatedAt) {
@@ -298,9 +267,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The itunesEpisode
+     * @return The itunesEpisode
      */
     @JsonProperty("itunes_episode")
     public Object getItunesEpisode() {
@@ -308,9 +275,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param itunesEpisode
-     *     The itunes_episode
+     * @param itunesEpisode The itunes_episode
      */
     @JsonProperty("itunes_episode")
     public void setItunesEpisode(String itunesEpisode) {
@@ -318,9 +283,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The dateAdded
+     * @return The dateAdded
      */
     @JsonProperty("date_added")
     public String getDateAdded() {
@@ -328,9 +291,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param dateAdded
-     *     The date_added
+     * @param dateAdded The date_added
      */
     @JsonProperty("date_added")
     public void setDateAdded(String dateAdded) {
@@ -338,9 +299,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The showId
+     * @return The showId
      */
     @JsonProperty("show_id")
     public Integer getShowId() {
@@ -348,9 +307,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param showId
-     *     The show_id
+     * @param showId The show_id
      */
     @JsonProperty("show_id")
     public void setShowId(Integer showId) {
@@ -358,9 +315,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The showTitle
+     * @return The showTitle
      */
     @JsonProperty("show_title")
     public String getShowTitle() {
@@ -368,9 +323,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param showTitle
-     *     The show_title
+     * @param showTitle The show_title
      */
     @JsonProperty("show_title")
     public void setShowTitle(String showTitle) {
@@ -378,9 +331,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The audioFiles
+     * @return The audioFiles
      */
     @JsonProperty("audio_files")
     public List<AudioFile> getAudioFiles() {
@@ -388,9 +339,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param audioFiles
-     *     The audio_files
+     * @param audioFiles The audio_files
      */
     @JsonProperty("audio_files")
     public void setAudioFiles(List<AudioFile> audioFiles) {
@@ -398,9 +347,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The imageFiles
+     * @return The imageFiles
      */
     @JsonProperty("image_files")
     public List<ImageFile> getImageFiles() {
@@ -408,9 +355,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param imageFiles
-     *     The image_files
+     * @param imageFiles The image_files
      */
     @JsonProperty("image_files")
     public void setImageFiles(List<ImageFile> imageFiles) {
@@ -418,9 +363,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The entities
+     * @return The entities
      */
     @JsonProperty("entities")
     public List<Entity> getEntities() {
@@ -428,9 +371,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param entities
-     *     The entities
+     * @param entities The entities
      */
     @JsonProperty("entities")
     public void setEntities(List<Entity> entities) {
@@ -438,9 +379,7 @@ public class EpisodeResult {
     }
 
     /**
-     *
-     * @param image_urls
-     *     The image_urls
+     * @param image_urls The image_urls
      */
     @JsonProperty("image_urls")
     public ImageUrls getImageUrls() {
@@ -448,9 +387,7 @@ public class EpisodeResult {
     }
 
     /**
-     *
-     * @param image_urls
-     *     The image_urls
+     * @param image_urls The image_urls
      */
     @JsonProperty("image_urls")
     public void setImageUrls(ImageUrls imageUrls) {
@@ -458,9 +395,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The urls
+     * @return The urls
      */
     @JsonProperty("urls")
     public Urls getUrls() {
@@ -468,9 +403,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param urls
-     *     The urls
+     * @param urls The urls
      */
     @JsonProperty("urls")
     public void setUrls(Urls urls) {
@@ -478,9 +411,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @return
-     *     The categories
+     * @return The categories
      */
     @JsonProperty("categories")
     public List<Category> getCategories() {
@@ -488,9 +419,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param categories
-     *     The categories
+     * @param categories The categories
      */
     @JsonProperty("categories")
     public void setCategories(List<Category> categories) {
@@ -498,9 +427,7 @@ public class EpisodeResult {
     }
 
     /**
-     * 
-     * @param highlights
-     *     The highlights
+     * @param highlights The highlights
      */
     @JsonProperty("highlights")
     public void setHighlights(Object highlights) {
