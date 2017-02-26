@@ -41,6 +41,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+    }
 }
 
 dependencies {
@@ -56,5 +63,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:10.0.1'
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7', changing: true
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile project(':audiosearch')
     testCompile 'junit:junit:4.12'
 }
