@@ -24,6 +24,7 @@
 package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,10 +34,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.util.List;
+
+import aj.canvas.audiosearch.Audiosearch;
+
+
+import aj.canvas.audiosearch.model.EpisodeQueryResult;
+import aj.canvas.audiosearch.model.EpisodeResult;
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
@@ -55,6 +64,12 @@ public class SearchFragment extends Fragment {
     private SearchView searchView;
     private AdView mAdView;
 
+    private int currentPage;
+
+    private static final String secret_id = "";
+    private static final String app_id = "";
+
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -67,6 +82,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        currentPage = 1;
     }
 
     @Override
@@ -75,10 +91,29 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
 
         searchView = (SearchView) view.findViewById(R.id.search_input);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(getQueryListener());
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        checkListenerImplementation(view.getContext());
+
+        mAdapter = new SearchAdapter(getActivity(), new SearchList(), mListener);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdView = (AdView) view.findViewById(R.id.adBannerView);
+        AdRequest adRequest = getAdRequestObject();
+        mAdView.loadAd(adRequest);
+        return view;
+    }
+
+    private SearchView.OnQueryTextListener getQueryListener() {
+        return new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit: ");
+                new AudioSearchClient().execute(query);
                 return false;
             }
 
@@ -86,20 +121,7 @@ public class SearchFragment extends Fragment {
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
-        });
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        checkListenerImplementation(view.getContext());
-        loadFakeData();
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdView = (AdView) view.findViewById(R.id.adBannerView);
-        AdRequest adRequest = getAdRequestObject();
-        mAdView.loadAd(adRequest);
-        return view;
+        };
     }
 
     private AdRequest getAdRequestObject() {
@@ -117,14 +139,14 @@ public class SearchFragment extends Fragment {
         playlist.add(new SearchItem(1,
                 "Joe Rogan",
                 "00:25:00",
-                "http://static.libsyn.com/p/assets/2/3/6/c/236cb6c10b89befa/Keep-Hammering.jpg",
-                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3",
+                "http://static.libsyn.com/p/assets/2/3/6/c/236cb6c10b89befa/Keep-Hammering.jpg"));
 
         playlist.add(new SearchItem(2,
                 "Joe Rogan",
                 "00:25:00",
-                "http://is4.mzstatic.com/image/thumb/Music62/v4/8e/0a/70/8e0a7014-9ccc-b532-5eb7-2b803d1a571a/source/600x600bb.jpg",
-                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3"));
+                "https://www.audiosear.ch/media/842dac5e89fcfcc8eaa98c1eeb725286/0/public/audio_file/325944/keephammering008.mp3",
+                "http://is4.mzstatic.com/image/thumb/Music62/v4/8e/0a/70/8e0a7014-9ccc-b532-5eb7-2b803d1a571a/source/600x600bb.jpg"));
 
         mAdapter = new SearchAdapter(getActivity(), playlist, mListener);
         Log.i("MainFragment", "onCreateView: " + mAdapter.getItemCount());
@@ -183,5 +205,50 @@ public class SearchFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void updateSelectedList(SearchItem item);
+    }
+
+    public class AudioSearchClient extends AsyncTask<String, Void, EpisodeQueryResult> {
+        @Override
+        protected EpisodeQueryResult doInBackground(String... strings) {
+            try {
+                Audiosearch client = new Audiosearch()
+                        .setSecret(secret_id)
+                        .setApplicationId(app_id)
+                        .build();
+
+                return client.searchEpisodes(strings[0]).execute().body();
+
+            } catch (Exception e) {
+                Log.i(TAG, "doInBackground: Exception" + e.toString());
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(EpisodeQueryResult queryResult) {
+            super.onPostExecute(queryResult);
+
+            if (queryResult != null) {
+                currentPage = 1;
+                List<EpisodeResult> episodes = queryResult.getResults();
+                SearchList list = new SearchList();
+
+                for (EpisodeResult episode : episodes) {
+                    Log.d(TAG, "onPostExecute: episode ->" + episode.getTitle());
+                    list.add(new SearchItem(episode.getId(),
+                            episode.getTitle(),
+                            episode.getAudioFiles().get(0).getDuration(),
+                            episode.getAudioFiles().get(0).getMp3(),
+                            episode.getImageUrls().getThumb()));
+                }
+
+                mAdapter = new SearchAdapter(getActivity(), list, mListener);
+                mRecyclerView.setAdapter(mAdapter);
+            } else {
+                Toast.makeText(getActivity().getBaseContext(), "No result for query", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+
     }
 }
