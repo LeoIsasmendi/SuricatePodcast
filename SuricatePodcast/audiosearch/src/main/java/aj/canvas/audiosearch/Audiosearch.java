@@ -14,6 +14,7 @@ import aj.canvas.audiosearch.service.AudiosearchService;
 import aj.canvas.audiosearch.service.AuthorizationService;
 import aj.canvas.audiosearch.util.HttpUtil;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -87,23 +88,30 @@ public class Audiosearch {
             }
         }
 
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
         // Initialize AuthorizationClient with Authorization interceptor
-        OkHttpClient authClient = new OkHttpClient();
+        OkHttpClient.Builder authClient = new OkHttpClient.Builder().addInterceptor(logging);
+
 
         // Initialize RestClient with Rest interceptor
-        OkHttpClient asClient = new OkHttpClient();
+        OkHttpClient.Builder asClient = new OkHttpClient.Builder().addInterceptor(logging);
+
+
 
         // Initialize Retrofit for Authentication
         authInstance = new Retrofit.Builder()
                             .baseUrl(AUDIOSEARCH_BASE_AUTH_URL)
-                            .client(authClient)
+                            .client(authClient.build())
                             .addConverterFactory(JacksonConverterFactory.create())
                             .build();
 
         // Initiliaze Retrofit with Jackson as a default converter, and Rest Interceptor
         asInstance = new Retrofit.Builder()
                 .baseUrl(AUDIOSEARCH_BASE_API_URL)
-                .client(asClient)
+                .client(asClient.build())
                 .addConverterFactory(JacksonConverterFactory.create())
                 .build();
 
