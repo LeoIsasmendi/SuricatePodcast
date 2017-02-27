@@ -34,8 +34,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 

@@ -25,21 +25,18 @@ package leoisasmendi.android.com.suricatepodcast;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.LauncherActivity;
 import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.database.Cursor;
-import android.net.Uri;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,13 +46,10 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
-import java.util.Iterator;
-
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
-import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;

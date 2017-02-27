@@ -23,7 +23,6 @@
 
 package leoisasmendi.android.com.suricatepodcast.provider;
 
-import android.app.LauncherActivity;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -38,12 +37,8 @@ import android.text.TextUtils;
 
 import java.util.HashMap;
 
-import javax.sql.DataSource;
-
-import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
-import leoisasmendi.android.com.suricatepodcast.data.PodcastsHelper;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
-import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastsHelper;
 
 public class DataProvider extends ContentProvider {
 

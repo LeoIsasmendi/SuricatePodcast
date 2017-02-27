@@ -23,10 +23,10 @@
 
 package leoisasmendi.android.com.suricatepodcast.ui;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,8 +42,6 @@ import com.google.android.gms.ads.AdView;
 import java.util.List;
 
 import aj.canvas.audiosearch.Audiosearch;
-
-
 import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
 import leoisasmendi.android.com.suricatepodcast.MainActivity;

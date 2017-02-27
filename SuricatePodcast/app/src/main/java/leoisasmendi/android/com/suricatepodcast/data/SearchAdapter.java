@@ -25,7 +25,6 @@ package leoisasmendi.android.com.suricatepodcast.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
