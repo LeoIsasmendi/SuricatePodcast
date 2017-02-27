@@ -140,4 +140,24 @@ public class AudioFile {
         this.url = url;
     }
 
+    /**
+     *
+     * @return
+     *     The url
+     */
+    @JsonProperty("url")
+    public String getMp3() {
+        return mp3;
+    }
+
+    /**
+     *
+     * @param mp3
+     *     The mp3
+     */
+    @JsonProperty("mp3")
+    public void setMp3(String mp3) {
+        this.mp3 = mp3;
+    }
+
 }
