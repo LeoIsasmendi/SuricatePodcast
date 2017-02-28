@@ -26,7 +26,9 @@ package leoisasmendi.android.com.suricatepodcast.services;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -45,6 +47,7 @@ import android.support.v7.app.NotificationCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import java.io.IOException;
 
@@ -54,6 +57,7 @@ import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.utils.PlaybackStatus;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
+import leoisasmendi.android.com.suricatepodcast.widget.PodcastWidgetProvider;
 
 public class MediaPlayerService extends Service implements MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnSeekCompleteListener,
@@ -207,19 +211,24 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     }
 
     private void updateMetaData() {
-        //TODO: replace with you own image
-        Bitmap albumArt = BitmapFactory.decodeResource(getResources(),
-                R.drawable.ic_default_poster); //replace with medias albumArt
-        // Update the current metadata
-        mediaSession.setMetadata(new MediaMetadataCompat.Builder()
-                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
-                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, activeAudio.getTitle())
-//                .putString(MediaMetadataCompat.METADATA_KEY_ALBUM, activeAudio.getAlbum())
-                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, activeAudio.getTitle())
-                .build());
+
+        if (activeAudio != null) {
+            Bitmap albumArt = BitmapFactory.decodeResource(getResources(),
+                    R.drawable.ic_default_poster); //replace with medias albumArt
+            // Update the current metadata
+            mediaSession.setMetadata(new MediaMetadataCompat.Builder()
+                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
+                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, activeAudio.getTitle())
+                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, activeAudio.getTitle())
+                    .build());
+        }
+
     }
 
     private void buildNotification(PlaybackStatus playbackStatus) {
+
+        //TODO: REFACTOR updateWidget method
+        updateWidgets(playbackStatus);
 
         int notificationAction = R.drawable.ic_media_control_pause;//needs to be initialized
         PendingIntent play_pauseAction = null;
@@ -263,6 +272,28 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 .addAction(R.drawable.ic_media_control_next, "next", playbackAction(2));
 
         ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).notify(NOTIFICATION_ID, notificationBuilder.build());
+    }
+
+    private void updateWidgets(PlaybackStatus playbackStatus) {
+
+        RemoteViews view = new RemoteViews(getPackageName(), R.layout.podcast_widget_player);
+
+        int widgetAction = R.drawable.media_player_pause_24x24;//needs to be initialized
+
+        //Build a new notification according to the current state of the MediaPlayer
+        if (playbackStatus == PlaybackStatus.PLAYING) {
+            widgetAction = R.drawable.media_player_pause_24x24;
+        } else if (playbackStatus == PlaybackStatus.PAUSED) {
+            widgetAction = R.drawable.media_player_play_24x24;
+        }
+
+        view.setTextViewText(R.id.widget_title, activeAudio.getTitle());
+        view.setImageViewResource(R.id.widget_play, widgetAction);
+
+        // Push update for this widget to the home screen
+        ComponentName thisWidget = new ComponentName(this, PodcastWidgetProvider.class);
+        AppWidgetManager manager = AppWidgetManager.getInstance(this);
+        manager.updateAppWidget(thisWidget, view);
     }
 
     private void removeNotification() {
