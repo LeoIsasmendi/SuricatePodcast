@@ -32,9 +32,13 @@ import android.widget.RemoteViews;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.services.WidgetIntentService;
+import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
+
 
 public class PodcastWidgetProvider extends AppWidgetProvider {
+
+
+    private final static String TAG = "PodcastWidgetProvider";
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -48,6 +52,21 @@ public class PodcastWidgetProvider extends AppWidgetProvider {
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
+
+            Intent actionIntent = new Intent(context, PodcastWidgetProvider.class);
+
+            actionIntent.setAction(MediaPlayerService.ACTION_PLAY);
+            views.setOnClickPendingIntent(R.id.widget_play, PendingIntent.getBroadcast(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
+            actionIntent.setAction(MediaPlayerService.ACTION_PAUSE);
+            views.setOnClickPendingIntent(R.id.widget_pause, PendingIntent.getBroadcast(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
+            actionIntent.setAction(MediaPlayerService.ACTION_NEXT);
+            views.setOnClickPendingIntent(R.id.widget_next, PendingIntent.getBroadcast(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
+            actionIntent.setAction(MediaPlayerService.ACTION_PREVIOUS);
+            views.setOnClickPendingIntent(R.id.widget_prev, PendingIntent.getBroadcast(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+
             appWidgetManager.updateAppWidget(appWidgetId, views);
 
         }
@@ -55,9 +74,31 @@ public class PodcastWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        super.onReceive(context, intent);
-        if (MainActivity.ACTION_DATA_UPDATED.equals(intent.getAction())) {
-            context.startService(new Intent(context, WidgetIntentService.class));
+        String action = intent.getAction();
+
+        switch (action) {
+            case MediaPlayerService.ACTION_PLAY:
+                sendActionToService(context, MediaPlayerService.ACTION_PLAY);
+                break;
+            case MediaPlayerService.ACTION_PAUSE:
+                sendActionToService(context, MediaPlayerService.ACTION_PAUSE);
+                break;
+            case MediaPlayerService.ACTION_NEXT:
+                sendActionToService(context, MediaPlayerService.ACTION_NEXT);
+                break;
+            case MediaPlayerService.ACTION_PREVIOUS:
+                sendActionToService(context, MediaPlayerService.ACTION_PREVIOUS);
+                break;
+            default:
+                break;
         }
+
+        super.onReceive(context, intent);
+    }
+
+    private void sendActionToService(Context context, String action) {
+        Intent playerIntent = new Intent(context, MediaPlayerService.class);
+        playerIntent.setAction(action);
+        context.startService(playerIntent);
     }
 }
