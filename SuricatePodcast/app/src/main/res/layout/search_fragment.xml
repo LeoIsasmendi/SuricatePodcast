@@ -33,7 +33,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/search_input_margin"
         android:background="@color/color_search_background"
+        android:contentDescription="@string/cd_search_input"
         android:divider="@color/colorAccent"
+        android:focusable="true"
         android:queryHint="@string/search_hint"
         android:showDividers="end" />
 
@@ -53,6 +55,8 @@
         android:layout_height="@dimen/fab_size"
         android:layout_gravity="end"
         android:layout_margin="@dimen/search_add_button_margin"
+        android:contentDescription="@string/cd_add_to_main_list_fab"
+        android:focusable="true"
         android:onClick="addSelectedItemsToPlaylist"
         android:src="@drawable/plus" />
 

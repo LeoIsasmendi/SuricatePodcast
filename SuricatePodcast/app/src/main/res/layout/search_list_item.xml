@@ -25,6 +25,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
+    android:contentDescription="@string/cd_search_item_list"
+    android:focusable="true"
     android:gravity="center"
     android:orientation="horizontal">
 
@@ -32,8 +34,8 @@
         android:id="@+id/search_item_poster"
         android:layout_width="@dimen/item_list_thumb_size"
         android:layout_height="@dimen/item_list_thumb_size"
-        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/picture" />
 
     <TextView
