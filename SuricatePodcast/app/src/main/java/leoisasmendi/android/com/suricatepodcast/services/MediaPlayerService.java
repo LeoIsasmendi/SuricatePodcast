@@ -34,6 +34,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.MediaSessionManager;
@@ -49,10 +50,14 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.io.IOException;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.utils.PlaybackStatus;
@@ -276,7 +281,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     private void updateWidgets(PlaybackStatus playbackStatus) {
 
-        RemoteViews view = new RemoteViews(getPackageName(), R.layout.podcast_widget_player);
+        final RemoteViews view = new RemoteViews(getPackageName(), R.layout.podcast_widget_player);
 
         if (playbackStatus == PlaybackStatus.PLAYING) {
             view.setImageViewResource(R.id.widget_play, R.drawable.media_player_pause_24x24);
@@ -286,6 +291,30 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         view.setTextViewText(R.id.widget_title, activeAudio.getTitle());
         view.setTextViewText(R.id.widget_length, activeAudio.getDuration());
+
+        Picasso.with(getBaseContext()).setLoggingEnabled(true);
+
+        Target target = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                view.setImageViewBitmap(R.id.widget_thumbail, bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                view.setImageViewResource(R.id.widget_thumbail, R.drawable.picture);
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                view.setImageViewResource(R.id.widget_thumbail, R.drawable.picture);
+            }
+        };
+
+        Picasso.with(getBaseContext())
+                .load(activeAudio.getPoster())
+                .into(target);
+
 
         // Push update for this widget to the home screen
         ComponentName thisWidget = new ComponentName(this, PodcastWidgetProvider.class);
