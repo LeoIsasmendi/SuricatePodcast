@@ -37,7 +37,6 @@ import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 
 public class PodcastWidgetProvider extends AppWidgetProvider {
 
-
     private final static String TAG = "PodcastWidgetProvider";
 
     @Override
@@ -47,8 +46,8 @@ public class PodcastWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
 
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.podcast_widget_player);
-            Intent intent = new Intent(context, MainActivity.class);
 
+            Intent intent = new Intent(context, MainActivity.class);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             views.setOnClickPendingIntent(R.id.widget, pendingIntent);
 
@@ -57,9 +56,6 @@ public class PodcastWidgetProvider extends AppWidgetProvider {
 
             actionIntent.setAction(MediaPlayerService.ACTION_PLAY);
             views.setOnClickPendingIntent(R.id.widget_play, PendingIntent.getBroadcast(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT));
-
-            actionIntent.setAction(MediaPlayerService.ACTION_PAUSE);
-            views.setOnClickPendingIntent(R.id.widget_pause, PendingIntent.getBroadcast(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT));
 
             actionIntent.setAction(MediaPlayerService.ACTION_NEXT);
             views.setOnClickPendingIntent(R.id.widget_next, PendingIntent.getBroadcast(context, 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT));
@@ -74,9 +70,8 @@ public class PodcastWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
 
-        switch (action) {
+        switch (intent.getAction()) {
             case MediaPlayerService.ACTION_PLAY:
                 sendActionToService(context, MediaPlayerService.ACTION_PLAY);
                 break;
