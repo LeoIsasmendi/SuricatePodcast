@@ -52,8 +52,7 @@ public class PodcastsHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL(PodcastsDataSource.CREATE_SCRIPT);
-        sqLiteDatabase.execSQL(PodcastsDataSource.INSERT_FAKE_DATA_SCRIPT); // TODO: REMOVE
-
+//        sqLiteDatabase.execSQL(PodcastsDataSource.INSERT_FAKE_DATA_SCRIPT); // TODO: REMOVE
     }
 
     @Override
