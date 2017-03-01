@@ -2,6 +2,12 @@
 
 This repository include the source code of Suricate Podcast android application free version.
 
+
+### Prerequisites
+
+Get your Api key (secretId and appId) here: https://www.audiosear.ch/developer
+
+
 ## Contributing
 
 1. Fork it!
