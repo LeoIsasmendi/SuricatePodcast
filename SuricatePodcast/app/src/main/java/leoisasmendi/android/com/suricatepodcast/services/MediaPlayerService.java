@@ -278,17 +278,14 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         RemoteViews view = new RemoteViews(getPackageName(), R.layout.podcast_widget_player);
 
-        int widgetAction = R.drawable.media_player_pause_24x24;//needs to be initialized
-
-        //Build a new notification according to the current state of the MediaPlayer
         if (playbackStatus == PlaybackStatus.PLAYING) {
-            widgetAction = R.drawable.media_player_pause_24x24;
+            view.setImageViewResource(R.id.widget_play, R.drawable.media_player_pause_24x24);
         } else if (playbackStatus == PlaybackStatus.PAUSED) {
-            widgetAction = R.drawable.media_player_play_24x24;
+            view.setImageViewResource(R.id.widget_play, R.drawable.media_player_play_24x24);
         }
 
         view.setTextViewText(R.id.widget_title, activeAudio.getTitle());
-        view.setImageViewResource(R.id.widget_play, widgetAction);
+        view.setTextViewText(R.id.widget_length, activeAudio.getDuration());
 
         // Push update for this widget to the home screen
         ComponentName thisWidget = new ComponentName(this, PodcastWidgetProvider.class);
