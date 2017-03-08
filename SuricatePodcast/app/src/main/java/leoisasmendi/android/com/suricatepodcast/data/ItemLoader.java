@@ -32,14 +32,6 @@ import android.net.Uri;
  */
 public class ItemLoader extends CursorLoader {
 
-//    public static ItemLoader newAllArticlesInstance(Context context) {
-//        return new ItemLoader(context, ItemsContract.Items.buildDirUri());
-//    }
-//
-//    public static ItemLoader newInstanceForItemId(Context context, long itemId) {
-//        return new ItemLoader(context, ItemsContract.Items.buildItemUri(itemId));
-//    }
-
     public ItemLoader(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         super(context, uri, projection, selection, selectionArgs, sortOrder);
     }
