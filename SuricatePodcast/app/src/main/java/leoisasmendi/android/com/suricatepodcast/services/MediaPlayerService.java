@@ -269,7 +269,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 .setSmallIcon(R.drawable.ic_headphones)
                 // Set Notification content information
                 .setContentText(activeAudio.getTitle())
-//                .setContentTitle(activeAudio.getAlbum())
                 .setContentInfo(activeAudio.getTitle())
                 // Add playback actions
                 .addAction(R.drawable.ic_media_control_prev, "previous", playbackAction(3))
