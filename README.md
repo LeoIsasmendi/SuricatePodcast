@@ -9,6 +9,12 @@ Get your Api key (secretId and appId) here: https://www.audiosear.ch/developer
 
 Android Version: API Level 21 (LOLLIPOP)
 
+## Dependencies
+
+1. Picasso
+2. Retrofit2
+3. Okhttp3
+
 ## Contributing
 
 1. Fork it!
