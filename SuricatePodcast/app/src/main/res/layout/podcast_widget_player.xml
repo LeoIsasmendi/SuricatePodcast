@@ -35,7 +35,7 @@
         android:layout_height="@dimen/widget_thumbail_size"
         android:backgroundTint="@color/colorPrimaryText"
         android:scaleType="fitXY"
-        android:src="@drawable/cast_album_art_placeholder" />
+        android:src="@drawable/default_poster" />
 
     <LinearLayout
         android:layout_width="match_parent"
