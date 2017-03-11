@@ -55,6 +55,7 @@
     <string name="theme_op_2">Blue</string>
     <string name="theme_op_3">Orange</string>
     <string name="theme_op_4">Default</string>
+    <string name="toast_no_query">No result for query</string>
 
     <!-- Widget -->
     <string name="podcast_widget_provider">Suricate Podcast Widget</string>

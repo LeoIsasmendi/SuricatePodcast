@@ -223,7 +223,7 @@ public class SearchFragment extends Fragment {
                 mAdapter = new SearchAdapter(getActivity(), list, mListener);
                 mRecyclerView.setAdapter(mAdapter);
             } else {
-                Toast.makeText(getActivity().getBaseContext(), "No result for query", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getBaseContext(), getString(R.string.toast_no_query), Toast.LENGTH_SHORT).show();
             }
         }
 
