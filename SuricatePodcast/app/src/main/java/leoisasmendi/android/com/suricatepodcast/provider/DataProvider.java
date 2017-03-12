@@ -100,25 +100,6 @@ public class DataProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
         return 0;
-//        String selection, String[] selectionArgs) {
-//            int count = 0;
-//            switch (uriMatcher.match(uri)) {
-//                case PODCASTS:
-//                    count = db.update(STUDENTS_TABLE_NAME, values, selection, selectionArgs);
-//                    break;
-//
-//                case PODCAST_ID:
-//                    count = db.update(STUDENTS_TABLE_NAME, values,
-//                            _ID + " = " + uri.getPathSegments().get(1) +
-//                                    (!TextUtils.isEmpty(selection) ? "
-//                            AND (" +selection + ')' : ""), selectionArgs);
-//                    break;
-//                default:
-//                    throw new IllegalArgumentException("Unknown URI " + uri );
-//            }
-//
-//            getContext().getContentResolver().notifyChange(uri, null);
-//            return count;
     }
 
     @Nullable
