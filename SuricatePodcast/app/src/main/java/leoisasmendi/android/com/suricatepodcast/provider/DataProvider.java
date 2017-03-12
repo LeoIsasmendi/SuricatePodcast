@@ -123,14 +123,14 @@ public class DataProvider extends ContentProvider {
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
         int count = 0;
+        SQLiteDatabase db = podcastsHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
-//            case PODCASTS:
-//                count = db.delete(STUDENTS_TABLE_NAME, selection, selectionArgs);
-//                break;
+            case PODCASTS:
+                count = db.delete(PodcastsDataSource.PODCASTS_TABLE_NAME, selection, selectionArgs);
+                break;
 
             case PODCAST_ID:
                 String id = uri.getPathSegments().get(1);
-                SQLiteDatabase db = podcastsHelper.getWritableDatabase();
                 count = db.delete(PodcastsDataSource.PODCASTS_TABLE_NAME, _ID + " = " + id +
                         (!TextUtils.isEmpty(selection) ? " AND(" + selection + ')' : ""), selectionArgs);
                 break;
