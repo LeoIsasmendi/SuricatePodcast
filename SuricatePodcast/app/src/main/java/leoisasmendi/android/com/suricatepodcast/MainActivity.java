@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
                 player = binder.getService();
                 serviceBound = true;
 
-                Toast.makeText(MainActivity.this, "Service Bound", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onServiceConnected: Service bound");
             }
 
             @Override
