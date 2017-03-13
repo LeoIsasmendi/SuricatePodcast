@@ -178,6 +178,7 @@ public class DataProvider extends ContentProvider {
                 " WHERE " + PodcastsDataSource.ColumnPodcasts.ID_PODCAST + " = ?";
 
         Cursor mCursor = db.rawQuery(mQuery, new String[]{Long.toString(playlistId)});
+        mCursor.close();
         return mCursor.getCount() != 0;
     }
 }

@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
                     aValue.put(ItemsContract.Items.POSTER, item.getPoster());
                     getContentResolver().insert(DataProvider.CONTENT_URI, aValue);
                 }
-
+                c.close();
             }
         }
     }
