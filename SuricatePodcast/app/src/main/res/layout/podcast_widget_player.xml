@@ -36,7 +36,7 @@
         android:backgroundTint="@color/colorPrimaryText"
         android:contentDescription="@string/cd_detail_thumbail"
         android:scaleType="fitXY"
-        android:src="@drawable/default_poster" />
+        android:src="@drawable/default_poster_24dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
