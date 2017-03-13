@@ -25,50 +25,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/detail_fragment_padding"
     tools:context="leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/detail_fragment_padding">
+        android:layout_height="match_parent"
+        android:text="@string/themes_selection_title" />
 
-        <TextView
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/themes_selection_title" />
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_theme_selection_op1"
+            android:focusable="true"
+            android:text="@string/theme_op_1" />
 
-        <RadioGroup
+        <CheckBox
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_theme_selection_op2"
+            android:focusable="true"
+            android:text="@string/theme_op_2" />
 
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_theme_selection_op1"
-                android:focusable="true"
-                android:text="@string/theme_op_1" />
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_theme_selection_op3"
+            android:focusable="true"
+            android:text="@string/theme_op_3" />
 
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_theme_selection_op2"
-                android:focusable="true"
-                android:text="@string/theme_op_2" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_theme_selection_op3"
-                android:focusable="true"
-                android:text="@string/theme_op_3" />
-
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/cd_theme_selection_default"
-                android:focusable="true"
-                android:text="@string/theme_op_4" />
-        </RadioGroup>
-    </LinearLayout>
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_theme_selection_default"
+            android:focusable="true"
+            android:text="@string/theme_op_4" />
+    </RadioGroup>
 </FrameLayout>
