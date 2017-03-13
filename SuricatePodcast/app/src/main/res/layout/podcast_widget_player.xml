@@ -68,7 +68,7 @@
                 android:id="@+id/widget_length"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="left"
+                android:gravity="start"
                 android:text="@string/widget_default_length"
                 android:textColor="@color/colorSecondatyText"
                 android:textSize="@dimen/widget_text_size_length"
