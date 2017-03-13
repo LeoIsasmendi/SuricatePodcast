@@ -35,6 +35,7 @@
         android:layout_width="@dimen/item_list_thumb_size"
         android:layout_height="@dimen/item_list_thumb_size"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/cd_main_list_poster"
         android:scaleType="fitXY"
         android:src="@drawable/picture" />
 

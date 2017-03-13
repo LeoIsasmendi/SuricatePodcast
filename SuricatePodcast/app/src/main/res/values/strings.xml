@@ -82,5 +82,7 @@
     <string name="cd_add_to_main_list_fab">Add to main list button</string>
     <string name="cd_search_input">Search input</string>
     <string name="cd_search_item_list">Search item list</string>
+    <string name="cd_detail_thumbail">Thumbail</string>
+    <string name="cd_main_list_poster">Poster</string>
 
 </resources>

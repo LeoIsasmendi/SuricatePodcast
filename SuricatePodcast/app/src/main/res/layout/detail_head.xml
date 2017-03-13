@@ -27,8 +27,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:focusable="true"
     android:contentDescription="@string/cd_detail_head"
+    android:focusable="true"
     android:orientation="horizontal"
     tools:showIn="@layout/detail_fragment">
 
@@ -36,6 +36,7 @@
         android:id="@+id/detail_poster"
         android:layout_width="@dimen/detail_podcast_poster"
         android:layout_height="@dimen/detail_podcast_poster"
+        android:contentDescription="@string/cd_detail_thumbail"
         android:src="@drawable/default_poster" />
 
     <LinearLayout

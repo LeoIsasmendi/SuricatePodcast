@@ -34,6 +34,7 @@
         android:layout_width="@dimen/widget_thumbail_size"
         android:layout_height="@dimen/widget_thumbail_size"
         android:backgroundTint="@color/colorPrimaryText"
+        android:contentDescription="@string/cd_detail_thumbail"
         android:scaleType="fitXY"
         android:src="@drawable/default_poster" />
 
@@ -104,6 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/colorWidgetBackground"
+                android:contentDescription="@string/cd_widget_play_paused_btn"
                 android:src="@drawable/media_player_pause_24x24"
                 android:visibility="gone" />
 
