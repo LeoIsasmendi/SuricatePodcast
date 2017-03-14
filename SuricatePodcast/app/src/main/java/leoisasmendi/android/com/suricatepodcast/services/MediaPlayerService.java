@@ -41,6 +41,7 @@ import android.media.session.MediaSessionManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
@@ -262,7 +263,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                         // Show our playback controls in the compact notification view.
                         .setShowActionsInCompactView(0, 1, 2))
                 // Set the Notification color
-                .setColor(getResources().getColor(R.color.colorPrimaryDark))
+                .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryDark))
                 // Set the large and small icons
                 .setLargeIcon(largeIcon)
                 .setSmallIcon(R.drawable.ic_headphones)
