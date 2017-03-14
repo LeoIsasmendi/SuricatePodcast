@@ -201,11 +201,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         fragmentTransaction.commit();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void loadFragment(Bundle savedInstanceState) {
         if (findViewById(R.id.podcast_second_container) != null) {
             // The detail container view will be present only in the large-screen layouts

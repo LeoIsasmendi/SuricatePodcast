@@ -208,10 +208,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 stopSelf();
             }
 
-            @Override
-            public void onSeekTo(long position) {
-                super.onSeekTo(position);
-            }
         });
     }
 

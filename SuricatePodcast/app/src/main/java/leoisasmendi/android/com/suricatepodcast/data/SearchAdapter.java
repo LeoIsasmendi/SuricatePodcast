@@ -82,11 +82,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    @Override
     public int getItemCount() {
         return mList.size();
     }
