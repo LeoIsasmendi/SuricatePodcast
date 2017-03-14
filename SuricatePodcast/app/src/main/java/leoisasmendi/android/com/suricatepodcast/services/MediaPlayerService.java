@@ -395,7 +395,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         }
 
         //Request audio focus
-        if (requestAudioFocus() == false) {
+        if (!requestAudioFocus()) {
             //Could not gain focus
             stopSelf();
         }
