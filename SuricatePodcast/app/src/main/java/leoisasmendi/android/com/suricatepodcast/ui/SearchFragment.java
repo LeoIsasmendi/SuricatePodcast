@@ -74,8 +74,7 @@ public class SearchFragment extends Fragment {
     }
 
     public static SearchFragment newInstance() {
-        SearchFragment fragment = new SearchFragment();
-        return fragment;
+        return new SearchFragment();
     }
 
     @Override

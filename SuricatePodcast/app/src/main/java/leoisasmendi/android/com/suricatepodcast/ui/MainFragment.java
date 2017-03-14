@@ -53,8 +53,7 @@ public class MainFragment extends Fragment {
     }
 
     public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
-        return fragment;
+        return new MainFragment();
     }
 
     @Override
@@ -118,6 +117,7 @@ public class MainFragment extends Fragment {
      */
     public interface OnMainListInteractionListener {
         void onClickFragmentInteraction(int position);
+
         void onLongClickFragmentInteraction(Cursor item);
     }
 }

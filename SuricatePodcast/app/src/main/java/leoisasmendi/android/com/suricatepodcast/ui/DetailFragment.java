@@ -47,8 +47,7 @@ public class DetailFragment extends Fragment {
     }
 
     public static DetailFragment newInstance() {
-        DetailFragment fragment = new DetailFragment();
-        return fragment;
+        return new DetailFragment();
     }
 
     @Override
@@ -63,8 +62,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.detail_fragment, container, false);
-        return view;
+        return inflater.inflate(R.layout.detail_fragment, container, false);
     }
 
     @Override
