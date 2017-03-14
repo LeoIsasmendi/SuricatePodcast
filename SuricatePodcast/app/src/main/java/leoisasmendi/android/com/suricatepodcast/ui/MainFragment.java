@@ -44,7 +44,9 @@ public class MainFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+
+    /*local*/
+    RecyclerView.LayoutManager mLayoutManager;
 
     public MainFragment() {
         // Required empty public constructor

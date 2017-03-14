@@ -81,7 +81,8 @@ public class PodcastsDataSource {
                     ")";
 //                    "(null, 246655," + "\"http://image.tmdb.org/t/p/w185/zSouWWrySXshPCT4t3UKCQGayyo.jpg\")";
 
-    private PodcastsHelper openHelper;
+    /*local*/
+    PodcastsHelper openHelper;
 
     public PodcastsDataSource(Context context) {
         //New database instance

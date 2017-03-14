@@ -58,14 +58,15 @@ public class SearchFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private SearchView searchView;
     private AdView mAdView;
-
     private int currentPage;
 
     private static final String secret_id = "";
     private static final String app_id = "";
+
+    /*local*/
+    RecyclerView.LayoutManager mLayoutManager;
+    SearchView searchView;
 
 
     public SearchFragment() {
