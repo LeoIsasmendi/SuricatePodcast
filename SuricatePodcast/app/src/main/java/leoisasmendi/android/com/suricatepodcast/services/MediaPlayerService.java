@@ -72,8 +72,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     // Binder given to clients
     private final IBinder iBinder = new LocalBinder();
     private MediaPlayer mediaPlayer;
-    //path to the audio file
-    private String mediaFile;
     //Used to pause/resume MediaPlayer
     private int resumePosition;
     private AudioManager audioManager;

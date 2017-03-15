@@ -46,10 +46,6 @@ public class DetailFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static DetailFragment newInstance() {
-        return new DetailFragment();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

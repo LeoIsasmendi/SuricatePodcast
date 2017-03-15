@@ -73,10 +73,6 @@ public class SearchFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

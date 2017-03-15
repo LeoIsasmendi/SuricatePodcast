@@ -42,13 +42,10 @@ public class Playlist extends ArrayList<PlaylistItem> implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
     }
 
-    protected Playlist(Parcel in) {
-    }
-
     public static final Parcelable.Creator<Playlist> CREATOR = new Parcelable.Creator<Playlist>() {
         @Override
         public Playlist createFromParcel(Parcel source) {
-            return new Playlist(source);
+            return new Playlist();
         }
 
         @Override
