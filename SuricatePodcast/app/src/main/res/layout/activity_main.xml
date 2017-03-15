@@ -32,4 +32,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
 
     tools:context="leoisasmendi.android.com.suricatepodcast.MainActivity">
+
+    <FrameLayout
+        android:id="@+id/main_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </RelativeLayout>

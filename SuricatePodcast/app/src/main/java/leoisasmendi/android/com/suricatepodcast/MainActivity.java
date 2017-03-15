@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity_main, themes);
+        fragmentTransaction.replace(R.id.main_container, themes);
         fragmentTransaction.addToBackStack(TAG_THEMES);
         fragmentTransaction.commit();
     }
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity_main, about);
+        fragmentTransaction.replace(R.id.main_container, about);
         fragmentTransaction.addToBackStack(TAG_ABOUT);
         fragmentTransaction.commit();
     }
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
             mTwoPane = false;
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             MainFragment mainFragment = new MainFragment();
-            fragmentTransaction.replace(R.id.activity_main, mainFragment, TAG_MAIN);
+            fragmentTransaction.replace(R.id.main_container, mainFragment, TAG_MAIN);
             fragmentTransaction.commit();
         }
     }
@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         if (mTwoPane) {
             fragmentTransaction.replace(R.id.podcast_second_container, searchFragment, TAG_SEARCH);
         } else {
-            fragmentTransaction.replace(R.id.activity_main, searchFragment);
+            fragmentTransaction.replace(R.id.main_container, searchFragment);
         }
 
         fragmentTransaction.addToBackStack(TAG_SEARCH);
@@ -254,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.activity_main, detailFragment);
+        fragmentTransaction.replace(R.id.main_container, detailFragment);
         fragmentTransaction.addToBackStack(TAG_DETAIL);
         fragmentTransaction.commit();
     }
