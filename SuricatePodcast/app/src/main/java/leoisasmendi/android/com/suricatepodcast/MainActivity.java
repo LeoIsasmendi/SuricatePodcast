@@ -174,41 +174,36 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     private void showThemes() {
         showAds();
-        ThemesFragment themes = new ThemesFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.master_container, themes)
+                .replace(R.id.master_container, new ThemesFragment())
                 .addToBackStack(TAG_THEMES)
                 .commit();
     }
 
     private void showAbout() {
         showAds();
-        AboutFragment about = new AboutFragment();
         fragmentManager.beginTransaction()
-                .replace(R.id.master_container, about)
+                .replace(R.id.master_container, new AboutFragment())
                 .addToBackStack(TAG_ABOUT)
                 .commit();
     }
 
     private void loadFragment(Bundle savedInstanceState) {
-
         Log.d(TAG, "onCreate: twoPaneMode " + getResources().getBoolean(R.bool.twoPaneMode));
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
 
-            if (savedInstanceState == null) {
-                fragmentTransaction
-                        .replace(R.id.detail_container, new DetailFragment(), TAG_DETAIL)
-                        .commit();
-            }
+            fragmentTransaction
+                    .add(R.id.master_container, new MainFragment(), TAG_MAIN)
+                    .add(R.id.detail_container, new DetailFragment(), TAG_DETAIL);
 
         } else { //Single panel view
-            MainFragment mainFragment = new MainFragment();
             fragmentTransaction
-                    .replace(R.id.master_container, mainFragment, TAG_MAIN)
-                    .commit();
+                    .add(R.id.master_container, new MainFragment(), TAG_MAIN);
         }
+
+        fragmentTransaction.commit();
     }
 
     private void showSearchFragment() {
