@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     private FragmentManager fragmentManager;
 
-    private boolean mTwoPane;
 
     //List of available Audio files
     private Playlist playlist;
@@ -175,88 +174,67 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     private void showThemes() {
         showAds();
-        ThemesFragment themes = (ThemesFragment) fragmentManager.findFragmentByTag(TAG_THEMES);
-
-        if (themes == null) {
-            themes = new ThemesFragment();
-        }
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, themes);
-        fragmentTransaction.addToBackStack(TAG_THEMES);
-        fragmentTransaction.commit();
+        ThemesFragment themes = new ThemesFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.master_container, themes)
+                .addToBackStack(TAG_THEMES)
+                .commit();
     }
 
     private void showAbout() {
         showAds();
-        AboutFragment about = (AboutFragment) fragmentManager.findFragmentByTag(TAG_ABOUT);
-
-        if (about == null) {
-            about = new AboutFragment();
-        }
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, about);
-        fragmentTransaction.addToBackStack(TAG_ABOUT);
-        fragmentTransaction.commit();
+        AboutFragment about = new AboutFragment();
+        fragmentManager.beginTransaction()
+                .replace(R.id.master_container, about)
+                .addToBackStack(TAG_ABOUT)
+                .commit();
     }
 
     private void loadFragment(Bundle savedInstanceState) {
-        if (findViewById(R.id.podcast_second_container) != null) {
-            // The detail container view will be present only in the large-screen layouts
-            // (res/layout-sw600dp). If this view is present, then the activity should be
-            // in two-pane mode.
-            mTwoPane = true;
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
+
+        Log.d(TAG, "onCreate: twoPaneMode " + getResources().getBoolean(R.bool.twoPaneMode));
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (getResources().getBoolean(R.bool.twoPaneMode)) {
+
             if (savedInstanceState == null) {
-                fragmentManager.beginTransaction()
+                fragmentTransaction
                         .replace(R.id.podcast_second_container, new DetailFragment(), TAG_DETAIL)
                         .commit();
             }
-        } else {
-            mTwoPane = false;
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        } else { //Single panel view
             MainFragment mainFragment = new MainFragment();
-            fragmentTransaction.replace(R.id.main_container, mainFragment, TAG_MAIN);
-            fragmentTransaction.commit();
+            fragmentTransaction
+                    .replace(R.id.master_container, mainFragment, TAG_MAIN)
+                    .commit();
         }
     }
 
     private void showSearchFragment() {
-        SearchFragment searchFragment = (SearchFragment) fragmentManager.findFragmentByTag(TAG_SEARCH);
-
-        if (searchFragment == null) {
-            searchFragment = new SearchFragment();
-        }
-
+        SearchFragment searchFragment = new SearchFragment();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (mTwoPane) {
+        if (getResources().getBoolean(R.bool.twoPaneMode)) {
             fragmentTransaction.replace(R.id.podcast_second_container, searchFragment, TAG_SEARCH);
         } else {
-            fragmentTransaction.replace(R.id.main_container, searchFragment);
+            fragmentTransaction.replace(R.id.master_container, searchFragment);
         }
 
-        fragmentTransaction.addToBackStack(TAG_SEARCH);
-        fragmentTransaction.commit();
+        fragmentTransaction.addToBackStack(TAG_SEARCH).commit();
     }
 
     private void showDetailFragment(EpisodeParcelable parcelable) {
-        DetailFragment detailFragment = (DetailFragment) fragmentManager.findFragmentByTag(TAG_DETAIL);
+        DetailFragment detailFragment = new DetailFragment();
+        Bundle mBundle = new Bundle();
+        mBundle.putParcelable("EXTRA_EPISODE", parcelable);
+        detailFragment.setArguments(mBundle);
 
-        if (detailFragment == null) {
-            detailFragment = new DetailFragment();
-            Bundle mBundle = new Bundle();
-            mBundle.putParcelable("EXTRA_EPISODE", parcelable);
-            detailFragment.setArguments(mBundle);
-        }
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.main_container, detailFragment);
-        fragmentTransaction.addToBackStack(TAG_DETAIL);
-        fragmentTransaction.commit();
+        fragmentManager.beginTransaction()
+                .replace(R.id.master_container, detailFragment)
+                .addToBackStack(TAG_DETAIL)
+                .commit();
     }
 
     // SET ACTION BAR TITLE
