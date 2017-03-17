@@ -365,7 +365,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-//        throw new UnsupportedOperationException("Not yet implemented");
         return iBinder;
     }
 
