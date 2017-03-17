@@ -35,7 +35,7 @@ import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 
 public class StorageUtil {
 
-    private final String STORAGE = " com.valdioveliu.valdio.audioplayer.STORAGE";
+    private final String STORAGE = "leoisasmendi.android.com.suricatepodcast.audioplayer.STORAGE";
     private SharedPreferences preferences;
     private Context context;
 
