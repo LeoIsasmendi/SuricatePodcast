@@ -70,7 +70,7 @@
                 android:layout_height="match_parent"
                 android:gravity="start"
                 android:text="@string/widget_default_length"
-                android:textColor="@color/colorSecondatyText"
+                android:textColor="@color/colorSecondaryText"
                 android:textSize="@dimen/widget_text_size_length"
                 tools:text="00:00" />
         </LinearLayout>
