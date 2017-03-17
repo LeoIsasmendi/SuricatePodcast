@@ -122,7 +122,7 @@ public class DataProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        int count = 0;
+        int count;
         SQLiteDatabase db = podcastsHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
             case PODCASTS:
