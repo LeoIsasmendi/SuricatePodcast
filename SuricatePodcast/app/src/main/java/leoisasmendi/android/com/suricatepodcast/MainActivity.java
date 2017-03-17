@@ -193,14 +193,13 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
     private void loadFragment(Bundle savedInstanceState) {
 
         Log.d(TAG, "onCreate: twoPaneMode " + getResources().getBoolean(R.bool.twoPaneMode));
-
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
 
             if (savedInstanceState == null) {
                 fragmentTransaction
-                        .replace(R.id.podcast_second_container, new DetailFragment(), TAG_DETAIL)
+                        .replace(R.id.detail_container, new DetailFragment(), TAG_DETAIL)
                         .commit();
             }
 
@@ -217,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
-            fragmentTransaction.replace(R.id.podcast_second_container, searchFragment, TAG_SEARCH);
+            fragmentTransaction.replace(R.id.detail_container, searchFragment, TAG_SEARCH);
         } else {
             fragmentTransaction.replace(R.id.master_container, searchFragment);
         }
@@ -382,7 +381,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
                     data.getString(ItemLoader.Query.AUDIO),
                     data.getString(ItemLoader.Query.POSTER)));
         }
-
 
         MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag(TAG_MAIN);
         data.moveToFirst();

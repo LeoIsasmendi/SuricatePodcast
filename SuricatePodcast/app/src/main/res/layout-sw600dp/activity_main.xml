@@ -36,16 +36,14 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="leoisasmendi.android.com.suricatepodcast.MainActivity">
 
-    <fragment
-        android:id="@+id/fragment_main_list"
-        android:name="leoisasmendi.android.com.suricatepodcast.ui.MainFragment"
+    <FrameLayout
+        android:id="@+id/master_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        tools:layout="@android:layout/list_content" />
+        android:layout_weight="1" />
 
     <FrameLayout
-        android:id="@+id/podcast_second_container"
+        android:id="@+id/detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1" />
