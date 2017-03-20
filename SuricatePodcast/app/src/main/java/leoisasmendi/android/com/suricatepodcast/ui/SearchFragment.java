@@ -27,6 +27,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,6 +61,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private AdView mAdView;
     private int currentPage;
+    private AudioSearchClient mAudioSearchClient;
 
     private static final String secret_id = "";
     private static final String app_id = "";
@@ -107,7 +109,10 @@ public class SearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(TAG, "onQueryTextSubmit: ");
-                new AudioSearchClient().execute(query);
+                getView().findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                getView().findViewById(R.id.search_list).setVisibility(View.GONE);
+                mAudioSearchClient = new AudioSearchClient();
+                mAudioSearchClient.execute(query);
                 return false;
             }
 
@@ -174,6 +179,7 @@ public class SearchFragment extends Fragment {
         if (mAdView != null) {
             mAdView.destroy();
         }
+        mAudioSearchClient.cancel(true);
         super.onDestroy();
     }
 
@@ -221,6 +227,8 @@ public class SearchFragment extends Fragment {
             } else {
                 Toast.makeText(getActivity().getBaseContext(), getString(R.string.toast_no_query), Toast.LENGTH_SHORT).show();
             }
+            getView().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+            getView().findViewById(R.id.search_list).setVisibility(View.VISIBLE);
         }
 
 
