@@ -35,59 +35,42 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
-    private Cursor mCursor;
-    private MainFragment.OnMainListInteractionListener mListener;
-    private Context mContext;
+    private Cursor items;
+    private final Context mContext;
+    private OnItemClickListener mListener;
 
-    public PlaylistAdapter(Context context, Cursor aCursor, MainFragment.OnMainListInteractionListener listener) {
-        mCursor = aCursor;
-        mListener = listener;
-        mContext = context;
+    public interface OnItemClickListener {
+        void onClick(int position);
+
+        void onLongClick(Cursor item);
+    }
+
+    public PlaylistAdapter(Context context, OnItemClickListener aListener) {
+        this.mContext = context;
+        this.mListener = aListener;
+    }
+
+    public void swapCursor(Cursor aCursor) {
+        if (aCursor != null) {
+            items = aCursor;
+            notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
-        mCursor.moveToPosition(position);
-        final int index = position;
-
+        items.moveToPosition(position);
         Picasso.with(mContext).setLoggingEnabled(true);
         Picasso.with(mContext)
-                .load(mCursor.getString(ItemLoader.Query.POSTER))
+                .load(items.getString(ItemLoader.Query.POSTER))
                 .placeholder(R.drawable.picture)
                 .error(R.drawable.picture)
                 .into(holder.posterView);
-
-
-        holder.getNameView().setText(mCursor.getString(ItemLoader.Query.TITLE));
-        holder.getDurationView().setText(mCursor.getString(ItemLoader.Query.DURATION));
-
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (null != mListener) {
-                    mListener.onClickFragmentInteraction(index);
-                }
-
-            }
-        });
-
-        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (null != mListener) {
-                    mListener.onLongClickFragmentInteraction(mCursor);
-                    return true;
-                }
-
-                return false;
-            }
-        });
-
+        holder.getNameView().setText(items.getString(ItemLoader.Query.TITLE));
+        holder.getDurationView().setText(items.getString(ItemLoader.Query.DURATION));
     }
 
     @Override
@@ -98,11 +81,11 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
     @Override
     public int getItemCount() {
-        return mCursor.getCount();
+        return items.getCount();
     }
 
-    // View Holder
-    public class PlaylistViewHolder extends RecyclerView.ViewHolder {
+    // View Holder class
+    public class PlaylistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         public final View view;
 
@@ -116,6 +99,24 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             nameView = (TextView) itemView.findViewById(R.id.playlist_item_name);
             durationView = (TextView) itemView.findViewById(R.id.playlist_item_length);
             posterView = (ImageView) itemView.findViewById(R.id.playlist_item_poster);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            mListener.onClick(getAdapterPosition());
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            if (null != mListener) {
+                mListener.onLongClick(items);
+                return true;
+            }
+
+            return false;
         }
 
         public TextView getNameView() {

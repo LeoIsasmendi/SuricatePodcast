@@ -40,10 +40,7 @@ import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 
 public class MainFragment extends Fragment {
 
-    private OnMainListInteractionListener mListener;
-
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
 
     /*local*/
     RecyclerView.LayoutManager mLayoutManager;
@@ -61,38 +58,8 @@ public class MainFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mRecyclerView.setAdapter(mAdapter == null ? null : mAdapter);
-        checkListenerImplementation(view.getContext());
         return view;
     }
-
-    //TODO: CHANGE THIS METHOD
-    public void updateAdaptor(Cursor aCursor) {
-        mAdapter = new PlaylistAdapter(getActivity(), aCursor, mListener);
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        checkListenerImplementation(context);
-    }
-
-    private void checkListenerImplementation(Context context) {
-        if (context instanceof OnMainListInteractionListener) {
-            mListener = (OnMainListInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnMainListInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
 
     @Override
     public void onStart() {
@@ -100,15 +67,4 @@ public class MainFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle(R.string.main_fragment_title);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
-    public interface OnMainListInteractionListener {
-        void onClickFragmentInteraction(int position);
-
-        void onLongClickFragmentInteraction(Cursor item);
-    }
 }

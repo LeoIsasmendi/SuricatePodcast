@@ -37,6 +37,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +49,7 @@ import com.google.android.gms.ads.InterstitialAd;
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
@@ -61,7 +63,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnMainListInteractionListener, SearchFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor> {
+public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, PlaylistAdapter.OnItemClickListener {
 
     final String TAG = getClass().getSimpleName();
 
@@ -74,6 +76,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
 
     private FragmentManager fragmentManager;
+
+    private RecyclerView mRecyclerView;
+    private PlaylistAdapter mAdapter;
 
 
     //List of available Audio files
@@ -105,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
         //Binding this Client to the AudioPlayer Service
         serviceConnection = getServiceConnection();
+
 
         // Iniciar loader
         getSupportLoaderManager().restartLoader(1, null, this);
@@ -295,6 +301,17 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mRecyclerView == null) {
+            mRecyclerView = (RecyclerView) findViewById(R.id.main_playlist);
+//            mRecyclerView.setHasFixedSize(true);
+            mAdapter = new PlaylistAdapter(this, this);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
+
     private void playAudio(int audioIndex) {
         //Check is service is active
         if (!serviceBound) {
@@ -318,9 +335,17 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         }
     }
 
+
     // INTERFACES
+
     @Override
-    public void onLongClickFragmentInteraction(Cursor item) {
+    public void onClick(int position) {
+        Log.d(TAG, "onClickFragmentInteraction: playlist item pressed " + position);
+        this.playAudio(position);
+    }
+
+    @Override
+    public void onLongClick(Cursor item) {
         Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment" + item.getString(ItemLoader.Query.TITLE));
         EpisodeParcelable parcelable = new EpisodeParcelable();
         parcelable.setId(item.getInt(ItemLoader.Query.ID_PODCAST));
@@ -328,12 +353,6 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
         parcelable.setDuration(item.getString(ItemLoader.Query.DURATION));
         parcelable.setPoster(item.getString(ItemLoader.Query.POSTER));
         showDetailFragment(parcelable);
-    }
-
-    @Override
-    public void onClickFragmentInteraction(int position) {
-        Log.d(TAG, "onClickFragmentInteraction: playlist item pressed " + position);
-        this.playAudio(position);
     }
 
     @Override
@@ -363,23 +382,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnMa
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
-        //TODO: REACTOR THIS NONSENSE
-        if (playlist == null) {
-            playlist = new Playlist();
+        if (mAdapter != null) {
+            mAdapter.swapCursor(data);
         }
-
-        for (data.moveToFirst(); !data.isAfterLast(); data.moveToNext()) {
-            playlist.add(new PlaylistItem(data.getInt(ItemLoader.Query.ID_PODCAST),
-                    data.getString(ItemLoader.Query.TITLE),
-                    data.getString(ItemLoader.Query.DURATION),
-                    data.getString(ItemLoader.Query.AUDIO),
-                    data.getString(ItemLoader.Query.POSTER)));
-        }
-
-        MainFragment mainFragment = (MainFragment) fragmentManager.findFragmentByTag(TAG_MAIN);
-        data.moveToFirst();
-        mainFragment.updateAdaptor(data);
     }
 
     @Override
