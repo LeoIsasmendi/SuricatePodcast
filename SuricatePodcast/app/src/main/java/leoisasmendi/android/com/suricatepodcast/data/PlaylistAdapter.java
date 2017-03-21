@@ -26,7 +26,9 @@ package leoisasmendi.android.com.suricatepodcast.data;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -45,7 +47,9 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     public interface OnItemClickListener {
         void onClick(int position);
 
-        void onLongClick(Cursor item);
+        void onDeleteItem(int itemId);
+
+        void onShowDetail(Cursor item);
     }
 
     public PlaylistAdapter(Context context, OnItemClickListener aListener) {
@@ -85,7 +89,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     }
 
     // View Holder class
-    public class PlaylistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class PlaylistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
         public final View view;
 
@@ -100,7 +104,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             durationView = (TextView) itemView.findViewById(R.id.playlist_item_length);
             posterView = (ImageView) itemView.findViewById(R.id.playlist_item_poster);
             itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
+            view.setOnCreateContextMenuListener(this);
         }
 
 
@@ -110,14 +114,29 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         }
 
         @Override
-        public boolean onLongClick(View view) {
-            if (null != mListener) {
-                mListener.onLongClick(items);
-                return true;
-            }
-
-            return false;
+        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+            contextMenu.setHeaderTitle("Select The Action");
+            contextMenu.add(0, 1, 0, R.string.item_menu_delete).setOnMenuItemClickListener(mOnMyActionClickListener);
+            contextMenu.add(0, 2, 0, R.string.item_menu_details).setOnMenuItemClickListener(mOnMyActionClickListener);
         }
+
+
+        private final MenuItem.OnMenuItemClickListener mOnMyActionClickListener = new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                items.moveToPosition(getAdapterPosition());
+                switch (item.getItemId()) {
+                    case 1:
+                        mListener.onDeleteItem(items.getInt(ItemLoader.Query.ID_PODCAST));
+                        return true;
+                    case 2:
+                        mListener.onShowDetail(items);
+                        return true;
+                    default:
+                        return true;
+                }
+            }
+        };
 
         public TextView getNameView() {
             return nameView;

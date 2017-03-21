@@ -39,9 +39,11 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -156,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
             loadAds();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -345,8 +346,14 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     }
 
     @Override
-    public void onLongClick(Cursor item) {
-        Log.i(TAG, "onLongClickFragmentInteraction: show detail fragment" + item.getString(ItemLoader.Query.TITLE));
+    public void onDeleteItem(int itemId) {
+        //TODO: DELETE ITEM FROM DATABASE
+        Log.d(TAG, "onDeleteItem: "+ itemId);
+    }
+
+    @Override
+    public void onShowDetail(Cursor item) {
+        Log.d(TAG, "onShowDetail: " + item.getString(ItemLoader.Query.TITLE));
         EpisodeParcelable parcelable = new EpisodeParcelable();
         parcelable.setId(item.getInt(ItemLoader.Query.ID_PODCAST));
         parcelable.setTitle(item.getString(ItemLoader.Query.TITLE));
@@ -354,6 +361,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         parcelable.setPoster(item.getString(ItemLoader.Query.POSTER));
         showDetailFragment(parcelable);
     }
+
 
     @Override
     public void updateSelectedList(SearchItem item) {

@@ -82,5 +82,7 @@
     <string name="cd_detail_thumbail">Thumbail</string>
     <string name="cd_main_list_poster">Poster</string>
     <string name="edit_playlist">Edit playlist</string>
+    <string name="item_menu_delete">Delete</string>
+    <string name="item_menu_details">Show details</string>
 
 </resources>
