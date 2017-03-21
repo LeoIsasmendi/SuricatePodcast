@@ -26,6 +26,7 @@ package leoisasmendi.android.com.suricatepodcast.ui;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -49,6 +50,7 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParcelable = getArguments().getParcelable("EXTRA_EPISODE");
         }
@@ -66,6 +68,12 @@ public class DetailFragment extends Fragment {
         super.onStart();
         ((MainActivity) getActivity()).setActionBarTitle(R.string.detail_fragment_title);
         loadParcelableIntoView();
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.menu_item_share).setVisible(true);
+        super.onPrepareOptionsMenu(menu);
     }
 
     private void loadParcelableIntoView() {

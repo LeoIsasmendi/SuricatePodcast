@@ -44,6 +44,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ShareActionProvider;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     private RecyclerView mRecyclerView;
     private PlaylistAdapter mAdapter;
-
 
     //List of available Audio files
     private Playlist playlist;
@@ -173,6 +173,15 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                 return true;
             case R.id.menuOp2:
                 showAbout();
+                return true;
+            case R.id.menu_item_share:
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBodyText = getString(R.string.share_body_text);
+                // TODO: INSERT THE CORRECT URL
+//                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "www.audiosear.ch/audio.mp3");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+                startActivity(Intent.createChooser(sharingIntent, "Shearing Option"));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
