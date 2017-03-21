@@ -79,6 +79,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentPage = 1;
+        mAudioSearchClient = new AudioSearchClient();
     }
 
     @Override
@@ -111,7 +112,6 @@ public class SearchFragment extends Fragment {
                 Log.d(TAG, "onQueryTextSubmit: ");
                 getView().findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.search_list).setVisibility(View.GONE);
-                mAudioSearchClient = new AudioSearchClient();
                 mAudioSearchClient.execute(query);
                 return false;
             }
