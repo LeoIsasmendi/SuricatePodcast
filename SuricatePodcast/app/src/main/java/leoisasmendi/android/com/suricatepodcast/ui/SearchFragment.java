@@ -113,6 +113,7 @@ public class SearchFragment extends Fragment {
                 getView().findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.search_list).setVisibility(View.GONE);
                 mAudioSearchClient.execute(query);
+                searchView.clearFocus();
                 return false;
             }
 
