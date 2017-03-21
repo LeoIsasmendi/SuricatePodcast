@@ -81,5 +81,6 @@
     <string name="cd_search_item_list">Search item list</string>
     <string name="cd_detail_thumbail">Thumbail</string>
     <string name="cd_main_list_poster">Poster</string>
+    <string name="edit_playlist">Edit playlist</string>
 
 </resources>
