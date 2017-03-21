@@ -24,6 +24,7 @@
 package leoisasmendi.android.com.suricatepodcast.provider;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -44,21 +45,20 @@ public class DataProvider extends ContentProvider {
 
     static final String PROVIDER_NAME = "leoisasmendi.android.com.suricatepodcast.provider.DataProvider";
     static final String URL = "content://" + PROVIDER_NAME;
-    public static final Uri CONTENT_URI = Uri.parse(URL);
+    private static final String BASE_PATH = "/podcast";
 
-    private static HashMap<String, String> PODCASTS_PROJECTION_MAP;
+    public static final Uri CONTENT_URI = Uri.parse(URL);
+    public static final Uri CONTENT_ITEM = Uri.parse(URL + BASE_PATH);
 
     public static final String _ID = "_id";
 
-    static final int PODCASTS = 1;
     static final int PODCAST_ID = 2;
 
     static final UriMatcher uriMatcher;
 
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(PROVIDER_NAME, "podcasts", PODCASTS);
-        uriMatcher.addURI(PROVIDER_NAME, "podcasts/#", PODCAST_ID);
+        uriMatcher.addURI(PROVIDER_NAME, BASE_PATH, PODCAST_ID);
     }
 
 
@@ -82,16 +82,9 @@ public class DataProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
-            /**
-             * Get all podcasts
-             */
-            case PODCASTS:
-                return "vnd.android.cursor.dir/vnd.example.podcasts";
-            /**
-             * Get a particular podcast
-             */
+            // Get a particular podcast
             case PODCAST_ID:
-                return "vnd.android.cursor.item/vnd.example.podcasts";
+                return "leoisasmendi.android.com.suricatepodcast.provider.DataProvider/podcast";
             default:
                 throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
@@ -108,9 +101,7 @@ public class DataProvider extends ContentProvider {
 
         long rowID = db.insert(PodcastsDataSource.PODCASTS_TABLE_NAME, "", contentValues);
 
-        /**
-         * If record is added successfully
-         */
+        // If record is added successfully
         if (rowID > 0) {
             Uri _uri = ContentUris.withAppendedId(CONTENT_URI, rowID);
             getContext().getContentResolver().notifyChange(_uri, null);
@@ -125,14 +116,8 @@ public class DataProvider extends ContentProvider {
         int count;
         SQLiteDatabase db = podcastsHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
-            case PODCASTS:
-                count = db.delete(PodcastsDataSource.PODCASTS_TABLE_NAME, selection, selectionArgs);
-                break;
-
             case PODCAST_ID:
-                String id = uri.getPathSegments().get(1);
-                count = db.delete(PodcastsDataSource.PODCASTS_TABLE_NAME, _ID + " = " + id +
-                        (!TextUtils.isEmpty(selection) ? " AND(" + selection + ')' : ""), selectionArgs);
+                count = db.delete(PodcastsDataSource.PODCASTS_TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -150,10 +135,6 @@ public class DataProvider extends ContentProvider {
         qb.setTables(PodcastsDataSource.PODCASTS_TABLE_NAME);
 
         switch (uriMatcher.match(uri)) {
-            case PODCASTS:
-                qb.setProjectionMap(PODCASTS_PROJECTION_MAP);
-                break;
-
             case PODCAST_ID:
                 qb.appendWhere(_ID + "=" + uri.getPathSegments().get(1));
                 break;
@@ -164,7 +145,7 @@ public class DataProvider extends ContentProvider {
         SQLiteDatabase db = podcastsHelper.getReadableDatabase();
         Cursor c = qb.query(db, projection, selection,
                 selectionArgs, null, null, sortOrder);
-        /**
+        /*
          * register to watch a content URI for changes
          */
         c.setNotificationUri(getContext().getContentResolver(), uri);

@@ -347,8 +347,18 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     @Override
     public void onDeleteItem(int itemId) {
-        //TODO: DELETE ITEM FROM DATABASE
-        Log.d(TAG, "onDeleteItem: "+ itemId);
+        Log.d(TAG, "onDeleteItem: " + itemId);
+        Cursor c = getContentResolver().query(DataProvider.CONTENT_URI,
+                null,
+                ItemsContract.Items.ID_PODCAST + "=" + itemId,
+                null,
+                null);
+        if (c.getCount() != 0) {
+            String where = ItemsContract.Items.ID_PODCAST + "=?";
+            String[] args = new String[]{Integer.toString(itemId)};
+            getContentResolver().delete(DataProvider.CONTENT_ITEM, where, args);
+        }
+        c.close();
     }
 
     @Override
