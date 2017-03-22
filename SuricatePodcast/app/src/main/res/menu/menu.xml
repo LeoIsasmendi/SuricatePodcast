@@ -33,7 +33,4 @@
     <item
         android:id="@+id/menuOp1"
         android:title="@string/menu_op1" />
-    <item
-        android:id="@+id/menuOp2"
-        android:title="@string/menu_op2" />
 </menu>

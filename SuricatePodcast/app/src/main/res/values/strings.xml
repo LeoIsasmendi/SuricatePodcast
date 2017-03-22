@@ -33,8 +33,7 @@
     <string name="default_detail_duration">00:00:00</string>
     <string name="description_header_text">DETAILS</string>
     <string name="default_description_text">No description aviable</string>
-    <string name="menu_op1">Themes</string>
-    <string name="menu_op2">About</string>
+    <string name="menu_op1">About</string>
 
     <string name="about_text">
         <![CDATA[
@@ -47,11 +46,6 @@
         Licence: The MIT License (MIT)
         ]]>
     </string>
-    <string name="themes_selection_title">Select your theme</string>
-    <string name="theme_op_1">Red</string>
-    <string name="theme_op_2">Blue</string>
-    <string name="theme_op_3">Orange</string>
-    <string name="theme_op_4">Default</string>
     <string name="toast_no_query">No result for query</string>
 
     <!-- Widget -->
@@ -72,10 +66,6 @@
     <string name="cd_widget_next_btn">Previous button</string>
     <string name="cd_detail_head">Thumbail, name, posted day, duration and details of a podcast</string>
     <string name="cd_about">About SuricatePodcast</string>
-    <string name="cd_theme_selection_op1">Theme option Red</string>
-    <string name="cd_theme_selection_op2">Theme option Blue</string>
-    <string name="cd_theme_selection_op3">Theme option Orange</string>
-    <string name="cd_theme_selection_default">Theme selection default</string>
     <string name="cd_add_to_main_list_fab">Add to main list button</string>
     <string name="cd_search_input">Search input</string>
     <string name="cd_search_item_list">Search item list</string>

@@ -41,12 +41,9 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ShareActionProvider;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -56,7 +53,6 @@ import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
-import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
@@ -66,7 +62,6 @@ import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
-import leoisasmendi.android.com.suricatepodcast.ui.ThemesFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
 public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, PlaylistAdapter.OnItemClickListener {
@@ -77,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     private static final String TAG_DETAIL = DetailFragment.class.getSimpleName();
     private static final String TAG_SEARCH = SearchFragment.class.getSimpleName();
     private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
-    private static final String TAG_THEMES = ThemesFragment.class.getSimpleName();
     public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
 
 
@@ -178,9 +172,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menuOp1:
-                showThemes();
-                return true;
-            case R.id.menuOp2:
                 showAbout();
                 return true;
             case R.id.menu_item_share:
@@ -195,14 +186,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    private void showThemes() {
-        showAds();
-        fragmentManager.beginTransaction()
-                .replace(R.id.master_container, new ThemesFragment())
-                .addToBackStack(TAG_THEMES)
-                .commit();
     }
 
     private void showAbout() {
