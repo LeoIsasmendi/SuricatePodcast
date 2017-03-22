@@ -24,8 +24,6 @@
 package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +33,6 @@ import android.view.ViewGroup;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 
 
 public class MainFragment extends Fragment {

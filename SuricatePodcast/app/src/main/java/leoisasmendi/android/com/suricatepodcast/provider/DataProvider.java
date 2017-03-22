@@ -24,7 +24,6 @@
 package leoisasmendi.android.com.suricatepodcast.provider;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
@@ -34,9 +33,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
-
-import java.util.HashMap;
 
 import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastsHelper;
