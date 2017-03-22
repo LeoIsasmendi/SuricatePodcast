@@ -40,10 +40,9 @@ import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 
 public class MainFragment extends Fragment {
 
-    private RecyclerView mRecyclerView;
-
     /*local*/
     RecyclerView.LayoutManager mLayoutManager;
+    RecyclerView mRecyclerView;
 
     public MainFragment() {
         // Required empty public constructor
