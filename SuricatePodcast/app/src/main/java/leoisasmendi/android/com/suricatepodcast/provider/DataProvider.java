@@ -151,15 +151,4 @@ public class DataProvider extends ContentProvider {
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
     }
-
-    public Boolean isExistPodcast(long playlistId) {
-        SQLiteDatabase db = podcastsHelper.getReadableDatabase();
-        String mQuery = "SELECT * " +
-                " FROM " + PodcastsDataSource.PODCASTS_TABLE_NAME +
-                " WHERE " + PodcastsDataSource.ColumnPodcasts.ID_PODCAST + " = ?";
-
-        Cursor mCursor = db.rawQuery(mQuery, new String[]{Long.toString(playlistId)});
-        mCursor.close();
-        return mCursor.getCount() != 0;
-    }
 }
