@@ -1,4 +1,5 @@
 /*
+ *
  * The MIT License (MIT)
  * Copyright (c) 2016. Sergio Leonardo Isasmendi
  *
@@ -19,6 +20,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
  */
 
 package leoisasmendi.android.com.suricatepodcast;
@@ -116,8 +118,14 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
         // Iniciar loader
         getSupportLoaderManager().restartLoader(1, null, this);
+
+        // Google Analytics
+        startTracker();
     }
 
+    private void startTracker() {
+        ((MyApplication)getApplication()).startTracking();
+    }
     private ServiceConnection getServiceConnection() {
         return new ServiceConnection() {
             @Override
