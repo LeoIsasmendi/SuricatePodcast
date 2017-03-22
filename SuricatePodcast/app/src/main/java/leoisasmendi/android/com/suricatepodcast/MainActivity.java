@@ -56,6 +56,7 @@ import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
@@ -115,12 +116,12 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         //Binding this Client to the AudioPlayer Service
         serviceConnection = getServiceConnection();
 
-
         // Iniciar loader
         getSupportLoaderManager().restartLoader(1, null, this);
 
         // Google Analytics
         startTracker();
+
     }
 
     private void startTracker() {
@@ -324,7 +325,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         super.onResume();
         if (mRecyclerView == null) {
             mRecyclerView = (RecyclerView) findViewById(R.id.main_playlist);
-//            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setHasFixedSize(true);
             mAdapter = new PlaylistAdapter(this, this);
             mRecyclerView.setAdapter(mAdapter);
         }
@@ -419,6 +420,19 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (mAdapter != null) {
             mAdapter.swapCursor(data);
+        }
+
+        data.moveToFirst();
+        playlist = new Playlist();
+        while(!data.isAfterLast()) {
+            playlist.add( new PlaylistItem(
+                    data.getInt(ItemLoader.Query.ID_PODCAST),
+                    data.getString(ItemLoader.Query.TITLE),
+                    data.getString(ItemLoader.Query.DURATION),
+                    data.getString(ItemLoader.Query.AUDIO),
+                    data.getString(ItemLoader.Query.POSTER))
+            ); //add the item
+            data.moveToNext();
         }
     }
 
