@@ -27,7 +27,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -188,7 +187,7 @@ public class SearchFragment extends Fragment {
         void updateSelectedList(SearchItem item);
     }
 
-    public class AudioSearchClient extends AsyncTask<String, Void, EpisodeQueryResult> {
+    private class AudioSearchClient extends AsyncTask<String, Void, EpisodeQueryResult> {
         @Override
         protected EpisodeQueryResult doInBackground(String... strings) {
             try {
@@ -220,7 +219,8 @@ public class SearchFragment extends Fragment {
                             episode.getTitle(),
                             episode.getAudioFiles().get(0).getDuration(),
                             episode.getAudioFiles().get(0).getMp3(),
-                            episode.getImageUrls().getThumb()));
+                            episode.getImageUrls().getThumb(),
+                            episode.getDescription()));
                 }
 
                 mAdapter = new SearchAdapter(getActivity(), list, mListener);

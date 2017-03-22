@@ -82,6 +82,7 @@ public class DetailFragment extends Fragment {
             setDetail(mParcelable.getDetail());
             setDuration(mParcelable.getDuration());
             setPoster(mParcelable.getPoster());
+            setDescription(mParcelable.getDescription());
         }
     }
 
@@ -117,5 +118,9 @@ public class DetailFragment extends Fragment {
                 .into(imageView);
     }
 
+    private void setDescription(String aString) {
+        TextView textView = (TextView) getView().findViewById(R.id.detail_description);
+        setText(textView, aString, R.string.default_description_text);
+    }
 
 }

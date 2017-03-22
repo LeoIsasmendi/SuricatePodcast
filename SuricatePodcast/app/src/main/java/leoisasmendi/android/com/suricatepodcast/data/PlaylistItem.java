@@ -33,6 +33,7 @@ public class PlaylistItem implements Parcelable {
     private String duration;
     private String poster;
     private String audio;
+    private String description;
 
     public PlaylistItem() {
         // default constructor
@@ -40,14 +41,16 @@ public class PlaylistItem implements Parcelable {
         this.title = "";
         this.duration = "";
         this.poster = "";
+        this.description = "";
     }
 
-    public PlaylistItem(int id, String title, String duration, String audio, String poster) {
+    public PlaylistItem(int id, String title, String duration, String audio, String poster, String description) {
         this.title = title;
         this.duration = duration;
         this.id = id;
         this.poster = poster;
         this.audio = audio;
+        this.description = description;
     }
 
     public String getTitle() {
@@ -90,6 +93,13 @@ public class PlaylistItem implements Parcelable {
         this.audio = audio;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     @Override
     public int describeContents() {
@@ -103,6 +113,7 @@ public class PlaylistItem implements Parcelable {
         dest.writeString(this.duration);
         dest.writeString(this.poster);
         dest.writeString(this.audio);
+        dest.writeString(this.description);
     }
 
     protected PlaylistItem(Parcel in) {
@@ -111,6 +122,7 @@ public class PlaylistItem implements Parcelable {
         this.duration = in.readString();
         this.poster = in.readString();
         this.audio = in.readString();
+        this.description = in.readString();
     }
 
     public static final Parcelable.Creator<PlaylistItem> CREATOR = new Parcelable.Creator<PlaylistItem>() {

@@ -27,8 +27,8 @@ public class SearchItem extends PlaylistItem {
 
     private Boolean selected;
 
-    public SearchItem(int anId, String aName, String aLength, String audio, String poster) {
-        super(anId, aName, aLength, audio, poster);
+    public SearchItem(int anId, String aName, String aLength, String audio, String poster, String description) {
+        super(anId, aName, aLength, audio, poster, description);
         selected = false;
     }
 

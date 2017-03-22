@@ -42,6 +42,7 @@ public class PodcastsDataSource {
         public static final String DURATION = "duration";
         public static final String AUDIO = "audio";
         public static final String POSTER = "poster";
+        public static final String DESCRIPTION = "description";
     }
 
     //Script of creation
@@ -52,7 +53,8 @@ public class PodcastsDataSource {
                     ColumnPodcasts.TITLE + " " + STRING_TYPE + " not null," +
                     ColumnPodcasts.DURATION + " " + STRING_TYPE + " not null," +
                     ColumnPodcasts.AUDIO + " " + STRING_TYPE + " not null," +
-                    ColumnPodcasts.POSTER + " " + STRING_TYPE + ")";
+                    ColumnPodcasts.POSTER + " " + STRING_TYPE + " ," +
+                    ColumnPodcasts.DESCRIPTION + " " + STRING_TYPE + ")";
 
     /*local*/
     PodcastsHelper openHelper;

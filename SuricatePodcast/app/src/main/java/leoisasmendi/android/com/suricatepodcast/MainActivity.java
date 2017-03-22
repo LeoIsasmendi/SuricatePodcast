@@ -274,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                     aValue.put(ItemsContract.Items.DURATION, item.getDuration());
                     aValue.put(ItemsContract.Items.AUDIO, item.getAudio());
                     aValue.put(ItemsContract.Items.POSTER, item.getPoster());
+                    aValue.put(ItemsContract.Items.DESCRIPTION, item.getDescription());
                     getContentResolver().insert(DataProvider.CONTENT_URI, aValue);
                 }
                 c.close();
@@ -370,6 +371,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         parcelable.setTitle(item.getString(ItemLoader.Query.TITLE));
         parcelable.setDuration(item.getString(ItemLoader.Query.DURATION));
         parcelable.setPoster(item.getString(ItemLoader.Query.POSTER));
+        parcelable.setDescription(item.getString(ItemLoader.Query.DESCRIPTION));
         showDetailFragment(parcelable);
     }
 
@@ -413,7 +415,8 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                     data.getString(ItemLoader.Query.TITLE),
                     data.getString(ItemLoader.Query.DURATION),
                     data.getString(ItemLoader.Query.AUDIO),
-                    data.getString(ItemLoader.Query.POSTER))
+                    data.getString(ItemLoader.Query.POSTER),
+                    data.getString(ItemLoader.Query.DESCRIPTION))
             ); //add the item
             data.moveToNext();
         }

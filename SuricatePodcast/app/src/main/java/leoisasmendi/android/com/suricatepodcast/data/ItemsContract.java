@@ -54,6 +54,10 @@ public class ItemsContract {
          * Type: TEXT NOT NULL
          */
         String POSTER = "poster";
+        /**
+         * Type: TEXT NOT NULL
+         */
+        String DESCRIPTION = "description";
     }
 
     public static class Items implements ItemsColumns {

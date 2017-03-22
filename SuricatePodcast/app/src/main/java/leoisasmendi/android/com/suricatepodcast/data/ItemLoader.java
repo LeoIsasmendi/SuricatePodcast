@@ -43,7 +43,8 @@ public class ItemLoader extends CursorLoader {
                 ItemsContract.Items.TITLE,
                 ItemsContract.Items.DURATION,
                 ItemsContract.Items.AUDIO,
-                ItemsContract.Items.POSTER
+                ItemsContract.Items.POSTER,
+                ItemsContract.Items.DESCRIPTION
         };
 
         int _ID = 0;
@@ -52,6 +53,7 @@ public class ItemLoader extends CursorLoader {
         int DURATION = 3;
         int AUDIO = 4;
         int POSTER = 5;
+        int DESCRIPTION = 6;
     }
 
 }
