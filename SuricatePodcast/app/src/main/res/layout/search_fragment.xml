@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/search_input_margin"
-        android:background="@color/color_search_background"
+        android:background="@color/colorLightPrimary"
         android:contentDescription="@string/cd_search_input"
         android:divider="@color/colorAccent"
         android:focusable="true"
