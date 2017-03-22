@@ -27,25 +27,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/main_playlist"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:contentDescription="@string/cd_main_list"
         android:focusable="true"
         android:orientation="vertical"
         android:paddingBottom="@dimen/list_item_padding_top_bottom"
         android:paddingEnd="@dimen/list_item_padding_start_end"
         android:paddingStart="@dimen/list_item_padding_start_end"
-        android:paddingTop="@dimen/list_item_padding_top_bottom" />
-
-    <FrameLayout
-        android:id="@+id/media_player_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
+        android:paddingTop="@dimen/list_item_padding_top_bottom"
+        android:scrollbarStyle="outsideOverlay" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/search_fab"
