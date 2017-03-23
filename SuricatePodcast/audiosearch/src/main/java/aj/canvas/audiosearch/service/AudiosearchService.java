@@ -22,7 +22,7 @@ public interface AudiosearchService {
     @GET("episodes/{id}")
     Call<EpisodeResult> getEpisode(@Path("id") long id, @Header("Authorization") String bearer);
 
-    @GET("search/episodes/{query}")
+    @GET("search/episodes/{query}?size=100&from=100")
     Call<EpisodeQueryResult> searchEpisodes(@Path("query") String query, @Header("Authorization") String bearer);
 
     @GET("episodes/{id}/related")
