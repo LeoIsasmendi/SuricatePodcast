@@ -44,6 +44,7 @@ import java.util.List;
 import aj.canvas.audiosearch.Audiosearch;
 import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
+import leoisasmendi.android.com.suricatepodcast.BuildConfig;
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
@@ -61,9 +62,6 @@ public class SearchFragment extends Fragment {
     private AdView mAdView;
     private int currentPage;
     private AudioSearchClient mAudioSearchClient;
-
-    private static final String secret_id = "";
-    private static final String app_id = "";
 
     /*local*/
     RecyclerView.LayoutManager mLayoutManager;
@@ -192,8 +190,8 @@ public class SearchFragment extends Fragment {
         protected EpisodeQueryResult doInBackground(String... strings) {
             try {
                 Audiosearch client = new Audiosearch()
-                        .setSecret(secret_id)
-                        .setApplicationId(app_id)
+                        .setSecret(BuildConfig.CLIENT_SECRET_ID)
+                        .setApplicationId(BuildConfig.CLIENT_APPLICATION_ID)
                         .build();
 
                 return client.searchEpisodes(strings[0]).execute().body();

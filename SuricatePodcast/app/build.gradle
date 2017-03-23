@@ -55,6 +55,10 @@ android {
         signingConfig signingConfigs.config
     }
     buildTypes {
+        all {
+            buildConfigField "String", "CLIENT_SECRET_ID", ""
+            buildConfigField "String", "CLIENT_APPLICATION_ID", ""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
