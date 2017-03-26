@@ -31,17 +31,15 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import java.util.Locale;
 
 import leoisasmendi.android.com.suricatepodcast.R;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
     private Cursor items;
-    private final Context mContext;
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -53,7 +51,6 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     }
 
     public PlaylistAdapter(Context context, OnItemClickListener aListener) {
-        this.mContext = context;
         this.mListener = aListener;
     }
 
@@ -67,12 +64,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
     @Override
     public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
         items.moveToPosition(position);
-        Picasso.with(mContext).setLoggingEnabled(true);
-        Picasso.with(mContext)
-                .load(items.getString(ItemLoader.Query.POSTER))
-                .placeholder(R.drawable.picture)
-                .error(R.drawable.picture)
-                .into(holder.posterView);
+        holder.getCounterView().setText(String.format(Locale.US, "%d.", position));
         holder.getNameView().setText(items.getString(ItemLoader.Query.TITLE));
         holder.getDurationView().setText(items.getString(ItemLoader.Query.DURATION));
     }
@@ -93,16 +85,16 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
         public final View view;
 
+        private TextView counterView;
         private TextView nameView;
         private TextView durationView;
-        private ImageView posterView;
 
         PlaylistViewHolder(View itemView) {
             super(itemView);
             view = itemView;
+            counterView = (TextView) itemView.findViewById(R.id.list_item_counter);
             nameView = (TextView) itemView.findViewById(R.id.playlist_item_name);
             durationView = (TextView) itemView.findViewById(R.id.playlist_item_length);
-            posterView = (ImageView) itemView.findViewById(R.id.playlist_item_poster);
             itemView.setOnClickListener(this);
             view.setOnCreateContextMenuListener(this);
         }
@@ -138,13 +130,16 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
             }
         };
 
-        public TextView getNameView() {
+        private TextView getNameView() {
             return nameView;
         }
 
-        public TextView getDurationView() {
+        private TextView getDurationView() {
             return durationView;
         }
 
+        private TextView getCounterView() {
+            return counterView;
+        }
     }
 }
