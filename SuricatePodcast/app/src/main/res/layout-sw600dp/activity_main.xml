@@ -40,7 +40,18 @@
         android:id="@+id/master_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/contextual_fab"
+            android:layout_width="@dimen/fab_size"
+            android:layout_height="@dimen/fab_size"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/search_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/magnifier" />
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/detail_container"

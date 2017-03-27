@@ -64,7 +64,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
-public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, PlaylistAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, PlaylistAdapter.OnItemClickListener {
 
     final String TAG = getClass().getSimpleName();
 
@@ -119,8 +119,9 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     }
 
     private void startTracker() {
-        ((MyApplication)getApplication()).startTracking();
+        ((MyApplication) getApplication()).startTracking();
     }
+
     private ServiceConnection getServiceConnection() {
         return new ServiceConnection() {
             @Override
@@ -245,43 +246,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     }
 
 
-    //    SEARCH BUTTON
-    public void doSearch(View v) {
-        Log.d(TAG, "doSearch: ");
-        selectedItems = new SearchList();
-        showSearchFragment();
-    }
-
-    //    SEARCH BUTTON
-    public void addSelectedItemsToPlaylist(View v) {
-        Log.d(TAG, "addSelectedItemsToPlaylist: ");
-
-        if (selectedItems.size() > 0) {
-
-            ContentValues aValue;
-            for (PlaylistItem item : selectedItems) {
-
-                Cursor c = getContentResolver().query(DataProvider.CONTENT_URI,
-                        null,
-                        ItemsContract.Items.ID_PODCAST + " = " + item.getId(),
-                        null,
-                        null);
-                if (c.getCount() == 0) {
-                    // not found in database
-                    aValue = new ContentValues();
-                    aValue.put(ItemsContract.Items.ID_PODCAST, item.getId());
-                    aValue.put(ItemsContract.Items.TITLE, item.getTitle());
-                    aValue.put(ItemsContract.Items.DURATION, item.getDuration());
-                    aValue.put(ItemsContract.Items.AUDIO, item.getAudio());
-                    aValue.put(ItemsContract.Items.POSTER, item.getPoster());
-                    aValue.put(ItemsContract.Items.DESCRIPTION, item.getDescription());
-                    getContentResolver().insert(DataProvider.CONTENT_URI, aValue);
-                }
-                c.close();
-            }
-        }
-    }
-
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean("ServiceState", serviceBound);
@@ -308,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     protected void onResume() {
         super.onResume();
         if (mRecyclerView == null) {
-            mRecyclerView = (RecyclerView) findViewById(R.id.main_playlist);
+            mRecyclerView = (RecyclerView) findViewById(R.id.master_fragment);
             mRecyclerView.setHasFixedSize(true);
             mAdapter = new PlaylistAdapter(this, this);
             mRecyclerView.setAdapter(mAdapter);
@@ -394,6 +358,44 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     }
 
+    // SearchFragment implements
+    @Override
+    public void searchPodcast() {
+        Log.d(TAG, "searchPodcast: ");
+        selectedItems = new SearchList();
+        showSearchFragment();
+    }
+
+    @Override
+    public void addSelectedItemsToPlaylist() {
+        Log.d(TAG, "addSelectedItemsToPlaylist: ");
+
+        if (selectedItems.size() > 0) {
+
+            ContentValues aValue;
+            for (PlaylistItem item : selectedItems) {
+
+                Cursor c = getContentResolver().query(DataProvider.CONTENT_URI,
+                        null,
+                        ItemsContract.Items.ID_PODCAST + " = " + item.getId(),
+                        null,
+                        null);
+                if (c.getCount() == 0) {
+                    // not found in database
+                    aValue = new ContentValues();
+                    aValue.put(ItemsContract.Items.ID_PODCAST, item.getId());
+                    aValue.put(ItemsContract.Items.TITLE, item.getTitle());
+                    aValue.put(ItemsContract.Items.DURATION, item.getDuration());
+                    aValue.put(ItemsContract.Items.AUDIO, item.getAudio());
+                    aValue.put(ItemsContract.Items.POSTER, item.getPoster());
+                    aValue.put(ItemsContract.Items.DESCRIPTION, item.getDescription());
+                    getContentResolver().insert(DataProvider.CONTENT_URI, aValue);
+                }
+                c.close();
+            }
+        }
+    }
+
     // Cursor loader
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -409,8 +411,8 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
         data.moveToFirst();
         playlist = new Playlist();
-        while(!data.isAfterLast()) {
-            playlist.add( new PlaylistItem(
+        while (!data.isAfterLast()) {
+            playlist.add(new PlaylistItem(
                     data.getInt(ItemLoader.Query.ID_PODCAST),
                     data.getString(ItemLoader.Query.TITLE),
                     data.getString(ItemLoader.Query.DURATION),

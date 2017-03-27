@@ -24,12 +24,16 @@
 package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
@@ -38,6 +42,7 @@ import leoisasmendi.android.com.suricatepodcast.R;
 public class MainFragment extends Fragment {
 
     /*local*/
+    OnFragmentInteractionListener mListener;
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView mRecyclerView;
 
@@ -49,12 +54,35 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_fragment, container, false);
+        checkListenerImplementation(view.getContext());
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.main_playlist);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.master_fragment);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        setupFAB();
         return view;
+    }
+
+    private void setupFAB() {
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.contextual_fab);
+        fab.setImageResource(R.drawable.magnifier);
+        fab.setOnClickListener(new View.OnClickListener() {
+                                   @Override
+                                   public void onClick(View view) {
+                                       mListener.searchPodcast();
+                                   }
+                               }
+        );
+        fab.setContentDescription(getString(R.string.cd_search_fab));
+    }
+
+    private void checkListenerImplementation(Context context) {
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnMainListInteractionListener");
+        }
     }
 
     @Override
@@ -63,4 +91,13 @@ public class MainFragment extends Fragment {
         ((MainActivity) getActivity()).setActionBarTitle(R.string.main_fragment_title);
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        checkListenerImplementation(context);
+    }
+
+    public interface OnFragmentInteractionListener {
+        void searchPodcast();
+    }
 }

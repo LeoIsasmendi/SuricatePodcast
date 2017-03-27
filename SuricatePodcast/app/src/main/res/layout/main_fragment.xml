@@ -21,37 +21,17 @@
   ~ THE SOFTWARE.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/master_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:clipToPadding="false"
+    android:contentDescription="@string/cd_main_list"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/list_item_padding_top_bottom"
+    android:paddingEnd="@dimen/list_item_padding_start_end"
+    android:paddingStart="@dimen/list_item_padding_start_end"
+    android:paddingTop="@dimen/list_item_padding_top_bottom"
+    android:scrollbarStyle="outsideOverlay" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_playlist"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:contentDescription="@string/cd_main_list"
-        android:focusable="true"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/list_item_padding_top_bottom"
-        android:paddingEnd="@dimen/list_item_padding_start_end"
-        android:paddingStart="@dimen/list_item_padding_start_end"
-        android:paddingTop="@dimen/list_item_padding_top_bottom"
-        android:scrollbarStyle="outsideOverlay" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/search_fab"
-        android:layout_width="@dimen/fab_size"
-        android:layout_height="@dimen/fab_size"
-        android:layout_gravity="end"
-        android:layout_margin="@dimen/search_button"
-        android:clickable="true"
-        android:contentDescription="@string/cd_search_fab"
-        android:focusable="true"
-        android:onClick="doSearch"
-        android:src="@drawable/magnifier" />
-
-</LinearLayout>

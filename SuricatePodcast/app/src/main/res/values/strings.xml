@@ -58,7 +58,7 @@
     <string name="widget_default_title">Podcast Name</string>
     <string name="widget_default_length">00:00</string>
     <string name="search_hint">Search podcast</string>
-    <string name="cd_search_fab">goto search view button</string>
+    <string name="cd_search_fab">Open search view</string>
     <string name="cd_main_list">Main playlist</string>
     <string name="cd_item_list">Item list in main list</string>
     <string name="cd_widget_prev_btn">Previos button</string>
@@ -66,7 +66,7 @@
     <string name="cd_widget_next_btn">Previous button</string>
     <string name="cd_detail_head">Thumbail, name, posted day, duration and details of a podcast</string>
     <string name="cd_about">About SuricatePodcast</string>
-    <string name="cd_add_to_main_list_fab">Add to main list button</string>
+    <string name="cd_add_to_main_list_fab">Add items selected to main list</string>
     <string name="cd_search_input">Search input</string>
     <string name="cd_search_item_list">Search item list</string>
     <string name="cd_detail_thumbail">Thumbail</string>

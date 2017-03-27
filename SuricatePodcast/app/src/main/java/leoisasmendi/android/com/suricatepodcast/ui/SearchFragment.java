@@ -27,6 +27,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -77,6 +78,7 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         currentPage = 1;
         mAudioSearchClient = new AudioSearchClient();
+        ((FloatingActionButton)getActivity().findViewById(R.id.contextual_fab)).setImageResource(R.drawable.plus);
     }
 
     @Override
@@ -96,10 +98,24 @@ public class SearchFragment extends Fragment {
         mAdapter = new SearchAdapter(getActivity(), new SearchList(), mListener);
         mRecyclerView.setAdapter(mAdapter);
 
+        setupFAB();
+
         mAdView = (AdView) view.findViewById(R.id.adBannerView);
         AdRequest adRequest = getAdRequestObject();
         mAdView.loadAd(adRequest);
         return view;
+    }
+
+    private void setupFAB() {
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.contextual_fab);
+        fab.setImageResource(R.drawable.plus);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.addSelectedItemsToPlaylist();
+            }
+        });
+        fab.setContentDescription(getString(R.string.cd_add_to_main_list_fab));
     }
 
     private SearchView.OnQueryTextListener getQueryListener() {
@@ -183,6 +199,7 @@ public class SearchFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void updateSelectedList(SearchItem item);
+        void addSelectedItemsToPlaylist();
     }
 
     private class AudioSearchClient extends AsyncTask<String, Void, EpisodeQueryResult> {
