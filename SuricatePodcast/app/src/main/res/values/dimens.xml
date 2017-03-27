@@ -33,7 +33,6 @@
     <dimen name="detail_secondary_text">16sp</dimen>
 
     <dimen name="search_input_margin">4dp</dimen>
-    <dimen name="search_add_button_margin">4dp</dimen>
     <dimen name="search_button">4dp</dimen>
 
 
