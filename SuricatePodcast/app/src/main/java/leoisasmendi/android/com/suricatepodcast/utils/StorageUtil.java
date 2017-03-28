@@ -26,13 +26,6 @@ package leoisasmendi.android.com.suricatepodcast.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-
-import leoisasmendi.android.com.suricatepodcast.data.Playlist;
-
 public class StorageUtil {
 
     private final String STORAGE = "leoisasmendi.android.com.suricatepodcast.audioplayer.STORAGE";
@@ -41,25 +34,6 @@ public class StorageUtil {
 
     public StorageUtil(Context context) {
         this.context = context;
-    }
-
-    public void storeAudio(Playlist arrayList) {
-        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = preferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(arrayList);
-        editor.putString("audioArrayList", json);
-        editor.apply();
-    }
-
-    public Playlist loadAudio() {
-        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = preferences.getString("audioArrayList", null);
-        Type type = new TypeToken<Playlist>() {
-        }.getType();
-        return gson.fromJson(json, type);
     }
 
     public void storeAudioIndex(int index) {

@@ -49,7 +49,6 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
-import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
@@ -78,9 +77,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     private RecyclerView mRecyclerView;
     private PlaylistAdapter mAdapter;
-
-    //List of available Audio files
-    private Playlist playlist;
 
     //List of selected items on SearchView
     private SearchList selectedItems;
@@ -283,7 +279,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         if (!serviceBound) {
             //Store Serializable audioList to SharedPreferences
             StorageUtil storage = new StorageUtil(getApplicationContext());
-            storage.storeAudio(playlist);
             storage.storeAudioIndex(audioIndex);
 
             Intent playerIntent = new Intent(this, MediaPlayerService.class);
@@ -406,20 +401,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (mAdapter != null) {
             mAdapter.swapCursor(data);
-        }
-
-        data.moveToFirst();
-        playlist = new Playlist();
-        while (!data.isAfterLast()) {
-            playlist.add(new PlaylistItem(
-                    data.getInt(ItemLoader.Query.ID_PODCAST),
-                    data.getString(ItemLoader.Query.TITLE),
-                    data.getString(ItemLoader.Query.DURATION),
-                    data.getString(ItemLoader.Query.AUDIO),
-                    data.getString(ItemLoader.Query.POSTER),
-                    data.getString(ItemLoader.Query.DESCRIPTION))
-            ); //add the item
-            data.moveToNext();
         }
     }
 
