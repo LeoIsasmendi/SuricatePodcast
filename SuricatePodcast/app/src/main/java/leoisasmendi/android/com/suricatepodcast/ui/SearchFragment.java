@@ -25,6 +25,7 @@ package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -78,6 +79,7 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
         currentPage = 1;
         mAudioSearchClient = new AudioSearchClient();
+
         ((FloatingActionButton)getActivity().findViewById(R.id.contextual_fab)).setImageResource(R.drawable.plus);
     }
 
@@ -164,12 +166,6 @@ public class SearchFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((MainActivity) getActivity()).setActionBarTitle(R.string.search_fragment_title);
     }
 
     @Override

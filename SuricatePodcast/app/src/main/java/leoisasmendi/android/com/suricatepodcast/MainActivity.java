@@ -40,9 +40,11 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
 
 
+    private Toolbar mToolbar;
     private FragmentManager fragmentManager;
 
     private RecyclerView mRecyclerView;
@@ -95,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.inflateMenu(R.menu.menu);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
@@ -235,12 +242,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                 .commit();
     }
 
-    // SET ACTION BAR TITLE
-    public void setActionBarTitle(int resourceId) {
-        getSupportActionBar().setTitle(resourceId);
-    }
-
-
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean("ServiceState", serviceBound);
@@ -298,7 +299,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
 
     // INTERFACES
-
     @Override
     public void onClick(int position) {
         Log.d(TAG, "onClickFragmentInteraction: playlist item pressed " + position);

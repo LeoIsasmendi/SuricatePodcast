@@ -57,5 +57,10 @@
     <dimen name="widget_text_size_length">16sp</dimen>
     <dimen name="item_list_thumb_size">32dp</dimen>
     <dimen name="item_list_counter_margin">8dp</dimen>
+    <dimen name="app_bar_elevation">4dp</dimen>
+    <dimen name="toolbar_height">106dp</dimen>
+    <dimen name="toolbar_min_height">60dp</dimen>
+    <dimen name="list_toolbar_side_margin">0dp</dimen>
+    <dimen name="toolbar_logo_margin_bottom">8dp</dimen>
 
 </resources>

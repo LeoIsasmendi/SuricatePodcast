@@ -56,13 +56,13 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_list"
         android:layout_width="match_parent"
-        android:visibility="invisible"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:paddingBottom="@dimen/list_item_padding_top_bottom"
         android:paddingEnd="@dimen/list_item_padding_start_end"
         android:paddingStart="@dimen/list_item_padding_start_end"
-        android:paddingTop="@dimen/list_item_padding_top_bottom" />
+        android:paddingTop="@dimen/list_item_padding_top_bottom"
+        android:visibility="invisible" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adBannerView"

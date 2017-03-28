@@ -66,7 +66,6 @@ public class DetailFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((MainActivity) getActivity()).setActionBarTitle(R.string.detail_fragment_title);
         loadParcelableIntoView();
     }
 

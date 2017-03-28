@@ -84,12 +84,6 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        ((MainActivity) getActivity()).setActionBarTitle(R.string.main_fragment_title);
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         checkListenerImplementation(context);
