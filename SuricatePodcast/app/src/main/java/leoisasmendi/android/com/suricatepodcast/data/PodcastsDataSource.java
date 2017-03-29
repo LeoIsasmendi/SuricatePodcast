@@ -50,9 +50,9 @@ public class PodcastsDataSource {
             "create table " + PODCASTS_TABLE_NAME + "(" +
                     ColumnPodcasts.ID_PODCASTS + " " + INT_TYPE + " primary key autoincrement," +
                     ColumnPodcasts.ID_PODCAST + " " + LONG_TYPE + " not null," +
-                    ColumnPodcasts.TITLE + " " + STRING_TYPE + " not null," +
-                    ColumnPodcasts.DURATION + " " + STRING_TYPE + " not null," +
-                    ColumnPodcasts.AUDIO + " " + STRING_TYPE + " not null," +
+                    ColumnPodcasts.TITLE + " " + STRING_TYPE + "," +
+                    ColumnPodcasts.DURATION + " " + STRING_TYPE + "," +
+                    ColumnPodcasts.AUDIO + " " + STRING_TYPE + "," +
                     ColumnPodcasts.POSTER + " " + STRING_TYPE + " ," +
                     ColumnPodcasts.DESCRIPTION + " " + STRING_TYPE + ")";
 

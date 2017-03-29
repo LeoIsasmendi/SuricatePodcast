@@ -228,7 +228,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             // Update the current metadata
             mediaSession.setMetadata(new MediaMetadataCompat.Builder()
                     .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, albumArt)
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, activeAudio.getTitle())
                     .putString(MediaMetadataCompat.METADATA_KEY_TITLE, activeAudio.getTitle())
                     .build());
         }
@@ -274,7 +273,6 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
                 .setSmallIcon(R.drawable.ic_headphones)
                 // Set Notification content information
                 .setContentText(activeAudio.getTitle())
-                .setContentInfo(activeAudio.getTitle())
                 // Add playback actions
                 .addAction(R.drawable.ic_media_control_prev, "previous", playbackAction(3))
                 .addAction(notificationAction, "pause", play_pauseAction)
