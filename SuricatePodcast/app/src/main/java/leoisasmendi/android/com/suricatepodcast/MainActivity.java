@@ -62,6 +62,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
+import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
 public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, PlaylistAdapter.OnItemClickListener {
@@ -324,19 +325,13 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     @Override
     public void onShowDetail(Cursor item) {
         Log.d(TAG, "onShowDetail: " + item.getString(ItemLoader.Query.TITLE));
-        EpisodeParcelable parcelable = new EpisodeParcelable();
-        parcelable.setId(item.getInt(ItemLoader.Query.ID_PODCAST));
-        parcelable.setTitle(item.getString(ItemLoader.Query.TITLE));
-        parcelable.setDuration(item.getString(ItemLoader.Query.DURATION));
-        parcelable.setPoster(item.getString(ItemLoader.Query.POSTER));
-        parcelable.setDescription(item.getString(ItemLoader.Query.DESCRIPTION));
-        showDetailFragment(parcelable);
+        showDetailFragment(ParserUtils.buildParcelable(item));
     }
 
 
     @Override
     public void updateSelectedList(SearchItem item) {
-        Log.d(TAG, "updateSelectedList: " + item.getTitle());
+
         if (item.getSelected()) {
             if (!selectedItems.contains(item)) {
                 Log.d(TAG, "updateSelectedList: ADDED");
@@ -346,9 +341,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
             Log.d(TAG, "updateSelectedList: REMOVED");
             selectedItems.remove(item);
         }
-
-
-        Log.d(TAG, "updateSelectedList: LIST " + selectedItems.size());
 
     }
 
@@ -365,10 +357,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         Log.d(TAG, "addSelectedItemsToPlaylist: ");
 
         if (selectedItems.size() > 0) {
-
-            ContentValues aValue;
             for (PlaylistItem item : selectedItems) {
-
                 Cursor c = getContentResolver().query(DataProvider.CONTENT_URI,
                         null,
                         ItemsContract.Items.ID_PODCAST + " = " + item.getId(),
@@ -376,18 +365,12 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                         null);
                 if (c.getCount() == 0) {
                     // not found in database
-                    aValue = new ContentValues();
-                    aValue.put(ItemsContract.Items.ID_PODCAST, item.getId());
-                    aValue.put(ItemsContract.Items.TITLE, item.getTitle());
-                    aValue.put(ItemsContract.Items.DURATION, item.getDuration());
-                    aValue.put(ItemsContract.Items.AUDIO, item.getAudio());
-                    aValue.put(ItemsContract.Items.POSTER, item.getPoster());
-                    aValue.put(ItemsContract.Items.DESCRIPTION, item.getDescription());
-                    getContentResolver().insert(DataProvider.CONTENT_URI, aValue);
+                    getContentResolver().insert(DataProvider.CONTENT_URI, ParserUtils.buildContentValue(item));
                 }
                 c.close();
             }
         }
+
     }
 
     // Cursor loader
