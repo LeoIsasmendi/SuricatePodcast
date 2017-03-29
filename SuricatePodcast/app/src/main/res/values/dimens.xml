@@ -60,7 +60,5 @@
     <dimen name="app_bar_elevation">4dp</dimen>
     <dimen name="toolbar_height">106dp</dimen>
     <dimen name="toolbar_min_height">60dp</dimen>
-    <dimen name="list_toolbar_side_margin">0dp</dimen>
-    <dimen name="toolbar_logo_margin_bottom">8dp</dimen>
 
 </resources>
