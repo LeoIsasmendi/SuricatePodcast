@@ -38,7 +38,7 @@ android {
         config {
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
-            storeFile file("$rootDir/"+keystoreProperties['storeFile'])
+            storeFile file("$rootDir/" + keystoreProperties['storeFile'])
             storePassword keystoreProperties['storePassword']
         }
     }
@@ -58,6 +58,9 @@ android {
         all {
             buildConfigField "String", "CLIENT_SECRET_ID", "\"\""
             buildConfigField "String", "CLIENT_APPLICATION_ID", "\"\""
+            buildConfigField "String", "BANNER_HOME_FOOTER", "\"ca-app-pub-0664570763252260/3326522424\""
+            buildConfigField "String", "INTERSTITIAL_FULL_SCREEN", "\"ca-app-pub-0664570763252260/3326522424\""
+            buildConfigField "String", "TEST_DEVICE_ADS_ID", "\"853DED8B285280057103C32F0E698153\""
         }
         release {
             minifyEnabled false
@@ -80,6 +83,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile project(':audiosearch')
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'com.android.support:recyclerview-v7:25.3.0'
     compile 'com.android.support:design:25.3.0'
@@ -88,6 +92,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-ads:10.2.1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile project(':audiosearch')
     testCompile 'junit:junit:4.12'
 }
