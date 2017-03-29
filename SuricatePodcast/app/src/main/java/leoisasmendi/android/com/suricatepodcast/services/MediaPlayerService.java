@@ -51,6 +51,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -396,9 +397,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             //Load data from SharedPreferences
             StorageUtil storage = new StorageUtil(getApplicationContext());
             audioIndex = storage.loadAudioIndex();
+            Toast.makeText(this, R.string.media_player_connecting, Toast.LENGTH_SHORT).show();
             loadActiveAudio();
 
         } catch (NullPointerException e) {
+            Toast.makeText(this, R.string.media_player_error_1, Toast.LENGTH_SHORT).show();
             stopSelf();
         }
 
@@ -466,6 +469,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         //Invoked when there has been an error during an asynchronous operation
+        Toast.makeText(this, R.string.media_player_error_2, Toast.LENGTH_SHORT).show();
         switch (what) {
             case MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK:
                 Log.d("MediaPlayer Error", "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK " + extra);
@@ -489,6 +493,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onPrepared(MediaPlayer mp) {
         //Invoked when the media source is ready for playback.
+        Toast.makeText(this, "Connection complete", Toast.LENGTH_SHORT).show();
         playMedia();
     }
 
@@ -630,6 +635,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     private void playMedia() {
         if (!mediaPlayer.isPlaying()) {
+            Toast.makeText(this, R.string.media_player_playing, Toast.LENGTH_SHORT).show();
             mediaPlayer.start();
         }
     }

@@ -72,4 +72,12 @@
     <string name="share_body_text">\"Check it out this podcast :)\"</string>
     <string name="item_list_counter_default">999</string>
 
+    <!--media player service-->
+    <string name="media_player_connecting">Connecting to server...</string>
+    <string name="media_player_error_1">Unable to reproduce podcast</string>
+    <string name="media_player_error_2">Unable to load podcast</string>
+    <string name="media_player_playing">Playing podcast</string>
+
+
+
 </resources>
