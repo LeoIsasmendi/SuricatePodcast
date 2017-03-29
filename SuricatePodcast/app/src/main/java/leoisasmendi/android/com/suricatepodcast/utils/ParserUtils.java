@@ -33,7 +33,7 @@ import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 
-public class ParserUtils {
+public final class ParserUtils {
 
     public static EpisodeParcelable buildParcelable(Cursor item) {
         EpisodeParcelable parcelable = new EpisodeParcelable();
@@ -54,5 +54,17 @@ public class ParserUtils {
         aValue.put(ItemsContract.Items.POSTER, item.getPoster());
         aValue.put(ItemsContract.Items.DESCRIPTION, item.getDescription());
         return aValue;
+    }
+
+    public static PlaylistItem buildPlaylistItem(Cursor mCursor) {
+        PlaylistItem anItem = new PlaylistItem(
+                mCursor.getInt(ItemLoader.Query.ID_PODCAST),
+                mCursor.getString(ItemLoader.Query.TITLE),
+                mCursor.getString(ItemLoader.Query.DURATION),
+                mCursor.getString(ItemLoader.Query.AUDIO),
+                mCursor.getString(ItemLoader.Query.POSTER),
+                mCursor.getString(ItemLoader.Query.DESCRIPTION)
+        );
+        return anItem;
     }
 }

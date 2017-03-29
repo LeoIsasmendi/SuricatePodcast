@@ -64,6 +64,7 @@ import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
+import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
 import leoisasmendi.android.com.suricatepodcast.utils.PlaybackStatus;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 import leoisasmendi.android.com.suricatepodcast.widget.PodcastWidgetProvider;
@@ -376,12 +377,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         if (audioIndex != -1 && audioIndex < mCursor.getCount()) {
             //index is in a valid range
             mCursor.moveToPosition(audioIndex);
-            activeAudio = new PlaylistItem(mCursor.getInt(ItemLoader.Query.ID_PODCAST),
-                    mCursor.getString(ItemLoader.Query.TITLE),
-                    mCursor.getString(ItemLoader.Query.DURATION),
-                    mCursor.getString(ItemLoader.Query.AUDIO),
-                    mCursor.getString(ItemLoader.Query.POSTER),
-                    mCursor.getString(ItemLoader.Query.DESCRIPTION));
+            activeAudio = ParserUtils.buildPlaylistItem(mCursor);
         } else {
             stopSelf();
         }
