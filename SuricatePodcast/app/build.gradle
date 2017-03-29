@@ -58,9 +58,9 @@ android {
         all {
             buildConfigField "String", "CLIENT_SECRET_ID", "\"\""
             buildConfigField "String", "CLIENT_APPLICATION_ID", "\"\""
-            buildConfigField "String", "BANNER_AD_UNIT_ID", "\"ca-app-pub-0664570763252260/3326522424\""
             buildConfigField "String", "INTERSTITIAL_FULL_SCREEN", "\"ca-app-pub-0664570763252260/3326522424\""
             buildConfigField "String", "TEST_DEVICE_ADS_ID", "\"853DED8B285280057103C32F0E698153\""
+            resValue "string", "banner_ad_unit_id", "\"ca-app-pub-0664570763252260/3326522424\""
         }
         release {
             minifyEnabled false
