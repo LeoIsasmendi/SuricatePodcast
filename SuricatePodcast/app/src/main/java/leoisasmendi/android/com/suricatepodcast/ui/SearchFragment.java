@@ -104,7 +104,7 @@ public class SearchFragment extends Fragment {
         setupFAB();
 
         mAdView = (AdView) view.findViewById(R.id.adBannerView);
-        mAdView.setAdUnitId(BuildConfig.BANNER_HOME_FOOTER);
+        mAdView.setAdUnitId(BuildConfig.BANNER_AD_UNIT_ID);
         mAdView.setAdSize(AdSize.BANNER);
         AdRequest adRequest = getAdRequestObject();
         mAdView.loadAd(adRequest);
