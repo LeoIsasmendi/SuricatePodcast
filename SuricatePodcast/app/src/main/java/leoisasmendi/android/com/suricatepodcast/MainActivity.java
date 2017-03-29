@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
+        mInterstitialAd.setAdUnitId(BuildConfig.INTERSTITIAL_FULL_SCREEN);
 
         fragmentManager = getFragmentManager();
         loadFragment(savedInstanceState);
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         return new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 // Check the LogCat to get your test device ID
-                .addTestDevice(getString(R.string.testDeviceAdsId))
+                .addTestDevice(BuildConfig.TEST_DEVICE_ADS_ID)
                 .build();
     }
 

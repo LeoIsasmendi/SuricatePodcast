@@ -39,6 +39,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import java.util.List;
@@ -103,6 +104,8 @@ public class SearchFragment extends Fragment {
         setupFAB();
 
         mAdView = (AdView) view.findViewById(R.id.adBannerView);
+        mAdView.setAdUnitId(BuildConfig.BANNER_HOME_FOOTER);
+        mAdView.setAdSize(AdSize.BANNER);
         AdRequest adRequest = getAdRequestObject();
         mAdView.loadAd(adRequest);
         return view;
@@ -143,7 +146,7 @@ public class SearchFragment extends Fragment {
         return new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 // Check the LogCat to get your test device ID
-                .addTestDevice(getString(R.string.testDeviceAdsId))
+                .addTestDevice(BuildConfig.TEST_DEVICE_ADS_ID)
                 .build();
     }
 

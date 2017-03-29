@@ -67,8 +67,6 @@
     <com.google.android.gms.ads.AdView
         android:id="@+id/adBannerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_home_footer" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
