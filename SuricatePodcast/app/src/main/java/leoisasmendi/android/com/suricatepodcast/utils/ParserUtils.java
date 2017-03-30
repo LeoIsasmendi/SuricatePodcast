@@ -57,7 +57,7 @@ public final class ParserUtils {
     }
 
     public static PlaylistItem buildPlaylistItem(Cursor mCursor) {
-        PlaylistItem anItem = new PlaylistItem(
+        return new PlaylistItem(
                 mCursor.getInt(ItemLoader.Query.ID_PODCAST),
                 mCursor.getString(ItemLoader.Query.TITLE),
                 mCursor.getString(ItemLoader.Query.DURATION),
@@ -65,6 +65,5 @@ public final class ParserUtils {
                 mCursor.getString(ItemLoader.Query.POSTER),
                 mCursor.getString(ItemLoader.Query.DESCRIPTION)
         );
-        return anItem;
     }
 }
