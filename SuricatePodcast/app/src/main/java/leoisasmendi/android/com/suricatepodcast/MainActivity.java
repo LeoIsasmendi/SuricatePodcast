@@ -45,6 +45,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -368,6 +369,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                     getContentResolver().insert(DataProvider.CONTENT_URI, ParserUtils.buildContentValue(item));
                 }
                 c.close();
+                Toast.makeText(this, R.string.items_added, Toast.LENGTH_SHORT).show();
             }
         }
 
