@@ -28,7 +28,6 @@ package leoisasmendi.android.com.suricatepodcast;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -44,7 +43,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -260,9 +258,15 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     protected void onDestroy() {
         super.onDestroy();
         if (serviceBound) {
-            unbindService(serviceConnection);
-            //service is active
-            player.stopSelf();
+            // TODO: a better solution, this is a temporal fix
+            try {
+                unbindService(serviceConnection);
+                //service is active
+                player.stopSelf();
+            } catch (Exception e) {
+                Log.d(TAG, "onDestroy: ", e);
+            }
+
         }
     }
 
