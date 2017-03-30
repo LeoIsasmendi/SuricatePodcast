@@ -152,11 +152,12 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         try {
             // Set the data source to the mediaFile location
             mediaPlayer.setDataSource(activeAudio.getAudio());
+            mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
             stopSelf();
+            Toast.makeText(this, R.string.media_player_error_1, Toast.LENGTH_SHORT).show();
         }
-        mediaPlayer.prepareAsync();
     }
 
     private void initMediaSession() throws RemoteException {
