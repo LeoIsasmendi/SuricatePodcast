@@ -259,11 +259,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void playAudio(int audioIndex) {
         //Check is service is active
         if (!serviceBound) {
