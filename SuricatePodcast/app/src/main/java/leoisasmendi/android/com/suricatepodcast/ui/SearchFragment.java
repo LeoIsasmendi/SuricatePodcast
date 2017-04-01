@@ -79,9 +79,7 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         currentPage = 1;
-        mAudioSearchClient = new AudioSearchClient();
-
-        ((FloatingActionButton)getActivity().findViewById(R.id.contextual_fab)).setImageResource(R.drawable.plus);
+        ((FloatingActionButton) getActivity().findViewById(R.id.contextual_fab)).setImageResource(R.drawable.plus);
     }
 
     @Override
@@ -128,6 +126,7 @@ public class SearchFragment extends Fragment {
                 Log.d(TAG, "onQueryTextSubmit: ");
                 getView().findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 getView().findViewById(R.id.search_list).setVisibility(View.GONE);
+                mAudioSearchClient = new AudioSearchClient();
                 mAudioSearchClient.execute(query);
                 searchView.clearFocus();
                 return false;
@@ -187,15 +186,18 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (mAdView != null) {
             mAdView.destroy();
         }
-        mAudioSearchClient.cancel(true);
-        super.onDestroy();
+        if (mAudioSearchClient != null) {
+            mAudioSearchClient.cancel(true);
+        }
     }
 
     public interface OnFragmentInteractionListener {
         void updateSelectedList(SearchItem item);
+
         void addSelectedItemsToPlaylist();
     }
 
