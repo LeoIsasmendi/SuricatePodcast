@@ -25,7 +25,6 @@ package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -39,7 +38,6 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 
 import java.util.List;
@@ -48,7 +46,6 @@ import aj.canvas.audiosearch.Audiosearch;
 import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
 import leoisasmendi.android.com.suricatepodcast.BuildConfig;
-import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
@@ -63,7 +60,6 @@ public class SearchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private AdView mAdView;
-    private int currentPage;
     private AudioSearchClient mAudioSearchClient;
 
     /*local*/
@@ -78,7 +74,6 @@ public class SearchFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentPage = 1;
         ((FloatingActionButton) getActivity().findViewById(R.id.contextual_fab)).setImageResource(R.drawable.plus);
     }
 
@@ -223,7 +218,6 @@ public class SearchFragment extends Fragment {
             super.onPostExecute(queryResult);
 
             if (queryResult != null) {
-                currentPage = 1;
                 List<EpisodeResult> episodes = queryResult.getResults();
                 SearchList list = new SearchList();
 
