@@ -60,9 +60,6 @@ import java.io.IOException;
 
 import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
-import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
-import leoisasmendi.android.com.suricatepodcast.data.Playlist;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;

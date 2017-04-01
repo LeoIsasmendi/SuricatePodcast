@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import leoisasmendi.android.com.suricatepodcast.MainActivity;
+
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 
