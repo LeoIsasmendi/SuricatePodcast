@@ -90,31 +90,17 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.inflateMenu(R.menu.menu);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(BuildConfig.INTERSTITIAL_FULL_SCREEN);
-
-        fragmentManager = getFragmentManager();
-        loadFragment();
-
-        //Binding this Client to the AudioPlayer Service
-        serviceConnection = getServiceConnection();
-
+        initToolbar();
+        initAds();
+        initFragments();
+        initServiceConnection();
         // Google Analytics
-        startTracker();
-
+        initTracker();
     }
 
-    private void startTracker() {
-        ((MyApplication) getApplication()).startTracking();
-    }
-
-    private ServiceConnection getServiceConnection() {
-        return new ServiceConnection() {
+    private void initServiceConnection() {
+        //Binding this Client to the AudioPlayer Service
+        serviceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 // We've bound to LocalService, cast the IBinder and get LocalService instance
@@ -132,18 +118,49 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         };
     }
 
-    private void loadAds() {
-        AdRequest adRequest = getAdRequestObject();
-        // Load ads into Interstitial Ads
-        mInterstitialAd.loadAd(adRequest);
+    private void initAds() {
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(BuildConfig.INTERSTITIAL_FULL_SCREEN);
     }
 
-    private AdRequest getAdRequestObject() {
-        return new AdRequest.Builder()
+    private void initToolbar() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.inflateMenu(R.menu.menu);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void initFragments() {
+        fragmentManager = getFragmentManager();
+        Log.d(TAG, "onCreate: twoPaneMode " + getResources().getBoolean(R.bool.twoPaneMode));
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (getResources().getBoolean(R.bool.twoPaneMode)) {
+
+            fragmentTransaction
+                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN)
+                    .replace(R.id.detail_container, new DetailFragment(), TAG_DETAIL);
+
+        } else { //Single panel view
+            fragmentTransaction
+                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN);
+        }
+
+        fragmentTransaction.commit();
+    }
+
+    private void initTracker() {
+        ((MyApplication) getApplication()).startTracking();
+    }
+
+    private void loadAds() {
+        AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 // Check the LogCat to get your test device ID
                 .addTestDevice(BuildConfig.TEST_DEVICE_ADS_ID)
                 .build();
+        // Load ads into Interstitial Ads
+        mInterstitialAd.loadAd(adRequest);
     }
 
     private void showAds() {
@@ -188,23 +205,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                 .commit();
     }
 
-    private void loadFragment() {
-        Log.d(TAG, "onCreate: twoPaneMode " + getResources().getBoolean(R.bool.twoPaneMode));
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
-        if (getResources().getBoolean(R.bool.twoPaneMode)) {
-
-            fragmentTransaction
-                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN)
-                    .replace(R.id.detail_container, new DetailFragment(), TAG_DETAIL);
-
-        } else { //Single panel view
-            fragmentTransaction
-                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN);
-        }
-
-        fragmentTransaction.commit();
-    }
 
     private void showSearchFragment() {
         SearchFragment searchFragment = new SearchFragment();
