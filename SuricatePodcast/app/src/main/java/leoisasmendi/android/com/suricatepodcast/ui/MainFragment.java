@@ -24,28 +24,45 @@
 package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.app.Fragment;
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import leoisasmendi.android.com.suricatepodcast.MainActivity;
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
+import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /*local*/
+
     OnFragmentInteractionListener mListener;
+    final String TAG = getClass().getSimpleName();
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView mRecyclerView;
+    PlaylistAdapter mAdapter;
 
     public MainFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Start loader
+        getLoaderManager().restartLoader(1, null, this);
     }
 
     @Override
@@ -56,7 +73,10 @@ public class MainFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.master_fragment);
         mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new PlaylistAdapter(mListener);
+        mRecyclerView.setAdapter(mAdapter);
         setupFAB();
         return view;
     }
@@ -89,7 +109,32 @@ public class MainFragment extends Fragment {
         checkListenerImplementation(context);
     }
 
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        Log.d(TAG, "onCreateLoader: ");
+        return new CursorLoader(getActivity().getBaseContext(), DataProvider.CONTENT_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.d(TAG, "onLoadFinished: ");
+        if (mAdapter != null) {
+            mAdapter.swapCursor(cursor);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
+    }
+
     public interface OnFragmentInteractionListener {
         void searchPodcast();
+
+        void onClick(int position);
+
+        void onDeleteItem(int itemId);
+
+        void onShowDetail(Cursor item);
     }
 }

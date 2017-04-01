@@ -34,11 +34,7 @@ import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -50,7 +46,6 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
-import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
@@ -64,7 +59,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
-public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener, LoaderManager.LoaderCallbacks<Cursor>, PlaylistAdapter.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener {
 
     final String TAG = getClass().getSimpleName();
 
@@ -77,9 +72,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     private Toolbar mToolbar;
     private FragmentManager fragmentManager;
-
-    private RecyclerView mRecyclerView;
-    private PlaylistAdapter mAdapter;
 
     //List of selected items on SearchView
     private SearchList selectedItems;
@@ -107,13 +99,10 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         mInterstitialAd.setAdUnitId(BuildConfig.INTERSTITIAL_FULL_SCREEN);
 
         fragmentManager = getFragmentManager();
-        loadFragment(savedInstanceState);
+        loadFragment();
 
         //Binding this Client to the AudioPlayer Service
         serviceConnection = getServiceConnection();
-
-        // Iniciar loader
-        getSupportLoaderManager().restartLoader(1, null, this);
 
         // Google Analytics
         startTracker();
@@ -199,19 +188,19 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                 .commit();
     }
 
-    private void loadFragment(Bundle savedInstanceState) {
+    private void loadFragment() {
         Log.d(TAG, "onCreate: twoPaneMode " + getResources().getBoolean(R.bool.twoPaneMode));
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
 
             fragmentTransaction
-                    .add(R.id.master_container, new MainFragment(), TAG_MAIN)
-                    .add(R.id.detail_container, new DetailFragment(), TAG_DETAIL);
+                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN)
+                    .replace(R.id.detail_container, new DetailFragment(), TAG_DETAIL);
 
         } else { //Single panel view
             fragmentTransaction
-                    .add(R.id.master_container, new MainFragment(), TAG_MAIN);
+                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN);
         }
 
         fragmentTransaction.commit();
@@ -273,12 +262,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     @Override
     protected void onResume() {
         super.onResume();
-        if (mRecyclerView == null) {
-            mRecyclerView = (RecyclerView) findViewById(R.id.master_fragment);
-            mRecyclerView.setHasFixedSize(true);
-            mAdapter = new PlaylistAdapter(this, this);
-            mRecyclerView.setAdapter(mAdapter);
-        }
     }
 
     private void playAudio(int audioIndex) {
@@ -379,21 +362,4 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     }
 
-    // Cursor loader
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "onCreateLoader: ");
-        return new CursorLoader(this, DataProvider.CONTENT_URI, null, null, null, null);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (mAdapter != null) {
-            mAdapter.swapCursor(data);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-    }
 }
