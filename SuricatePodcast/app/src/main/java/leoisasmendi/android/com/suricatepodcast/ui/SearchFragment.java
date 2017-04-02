@@ -81,25 +81,35 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
+        checkListenerImplementation(view.getContext());
+        initSearchView(view);
+        initListView(view);
+        initAds(view);
+        setupFAB();
+        return view;
+    }
 
-        searchView = (SearchView) view.findViewById(R.id.search_input);
-        searchView.setOnQueryTextListener(getQueryListener());
+    private void initAds(View view) {
+        mAdView = (AdView) view.findViewById(R.id.adBannerView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                // Check the LogCat to get your test device ID
+                .addTestDevice(BuildConfig.TEST_DEVICE_ADS_ID)
+                .build();
+        mAdView.loadAd(adRequest);
+    }
 
+    private void initListView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        checkListenerImplementation(view.getContext());
-
         mAdapter = new SearchAdapter(getActivity(), new SearchList(), mListener);
         mRecyclerView.setAdapter(mAdapter);
+    }
 
-        setupFAB();
-
-        mAdView = (AdView) view.findViewById(R.id.adBannerView);
-        AdRequest adRequest = getAdRequestObject();
-        mAdView.loadAd(adRequest);
-        return view;
+    private void initSearchView(View view) {
+        searchView = (SearchView) view.findViewById(R.id.search_input);
+        searchView.setOnQueryTextListener(getQueryListener());
     }
 
     private void setupFAB() {
@@ -134,27 +144,10 @@ public class SearchFragment extends Fragment {
         };
     }
 
-    private AdRequest getAdRequestObject() {
-        return new AdRequest.Builder()
-                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-                // Check the LogCat to get your test device ID
-                .addTestDevice(BuildConfig.TEST_DEVICE_ADS_ID)
-                .build();
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         checkListenerImplementation(context);
-    }
-
-    private void checkListenerImplementation(Context context) {
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnMainListInteractionListener");
-        }
     }
 
     @Override
@@ -187,6 +180,15 @@ public class SearchFragment extends Fragment {
         }
         if (mAudioSearchClient != null) {
             mAudioSearchClient.cancel(true);
+        }
+    }
+
+    private void checkListenerImplementation(Context context) {
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnMainListInteractionListener");
         }
     }
 
@@ -239,7 +241,6 @@ public class SearchFragment extends Fragment {
             getView().findViewById(R.id.loadingPanel).setVisibility(View.GONE);
             getView().findViewById(R.id.search_list).setVisibility(View.VISIBLE);
         }
-
 
     }
 }
