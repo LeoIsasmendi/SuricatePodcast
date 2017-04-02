@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menuOp1:
+            case R.id.menu_about:
                 showAbout();
                 return true;
             case R.id.menu_item_share:

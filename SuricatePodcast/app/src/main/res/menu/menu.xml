@@ -31,7 +31,7 @@
         android:visible="false"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/menuOp1"
+        android:id="@+id/menu_about"
         android:icon="@drawable/ic_menu_info"
         app:showAsAction="ifRoom"
         android:title="@string/menu_op1" />
