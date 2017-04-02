@@ -23,6 +23,7 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
+import android.content.BroadcastReceiver;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -35,12 +36,16 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
 
     private Cursor items;
     private MainFragment.OnFragmentInteractionListener mListener;
+
+    private static final String ACTION = MediaPlayerService.ACTION_STOP;
+    private BroadcastReceiver yourReceiver;
 
     public PlaylistAdapter(MainFragment.OnFragmentInteractionListener aListener) {
         this.mListener = aListener;
@@ -94,7 +99,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
 
         @Override
         public void onClick(View view) {
-            mListener.onClick(getAdapterPosition());
+            items.moveToPosition(getAdapterPosition());
+            mListener.onClick(getAdapterPosition(), items);
         }
 
         @Override

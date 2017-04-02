@@ -131,7 +131,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     public interface OnFragmentInteractionListener {
         void searchPodcast();
 
-        void onClick(int position);
+        void onClick(int position, Cursor item);
 
         void onDeleteItem(int itemId);
 

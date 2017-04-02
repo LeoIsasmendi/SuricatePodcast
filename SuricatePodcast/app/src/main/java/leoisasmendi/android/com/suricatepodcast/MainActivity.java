@@ -39,6 +39,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
@@ -55,6 +56,7 @@ import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 import leoisasmendi.android.com.suricatepodcast.ui.AboutFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.DetailFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
+import leoisasmendi.android.com.suricatepodcast.ui.MediaPlayerFragment;
 import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     private static final String TAG_MAIN = MainFragment.class.getSimpleName();
     private static final String TAG_DETAIL = DetailFragment.class.getSimpleName();
+    private static final String TAG_PLAYER = MediaPlayerFragment.class.getSimpleName();
     private static final String TAG_SEARCH = SearchFragment.class.getSimpleName();
     private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
     public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
@@ -231,6 +234,19 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
                 .commit();
     }
 
+    private void showPlayerFragment(EpisodeParcelable parcelable) {
+        MediaPlayerFragment playerFragment = new MediaPlayerFragment();
+        Bundle mBundle = new Bundle();
+        mBundle.putParcelable("EXTRA_MEDIA_INFO", parcelable);
+        playerFragment.setArguments(mBundle);
+
+        fragmentManager.beginTransaction()
+                .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
+                .replace(R.id.master_container, playerFragment)
+                .addToBackStack(TAG_PLAYER)
+                .commit();
+    }
+
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         savedInstanceState.putBoolean("ServiceState", serviceBound);
@@ -284,8 +300,9 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
     // INTERFACES
     @Override
-    public void onClick(int position) {
+    public void onClick(int position, Cursor item) {
         Log.d(TAG, "onClickFragmentInteraction: playlist item pressed " + position);
+        showPlayerFragment(ParserUtils.buildParcelable(item));
         this.playAudio(position);
     }
 
