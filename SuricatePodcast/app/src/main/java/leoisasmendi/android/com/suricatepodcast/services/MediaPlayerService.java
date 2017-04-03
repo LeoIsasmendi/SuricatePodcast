@@ -237,7 +237,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     private void publishStatus(String status) {
         Intent intent = new Intent(NOTIFICATION);
-        if (status == MEDIA_UPDATED) {
+        if (status.equals(MEDIA_UPDATED)) {
             intent.putExtra("EXTRA_TITLE", activeAudio.getTitle());
             intent.putExtra("EXTRA_DURATION", activeAudio.getDuration());
         }
@@ -660,8 +660,9 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private void playMedia() {
         if (!mediaPlayer.isPlaying()) {
             Toast.makeText(this, R.string.media_player_playing, Toast.LENGTH_SHORT).show();
-            publishStatus(MEDIA_UPDATED);
             mediaPlayer.start();
+            publishStatus(MEDIA_UPDATED);
+            publishStatus(STATUS_PLAYING);
         }
     }
 
@@ -669,6 +670,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         if (mediaPlayer == null) return;
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
+            publishStatus(STATUS_STOPED);
         }
     }
 
@@ -676,6 +678,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             resumePosition = mediaPlayer.getCurrentPosition();
+            publishStatus(STATUS_PAUSED);
         }
     }
 
@@ -683,6 +686,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         if (!mediaPlayer.isPlaying()) {
             mediaPlayer.seekTo(resumePosition);
             mediaPlayer.start();
+            publishStatus(STATUS_PLAYING);
         }
     }
 
