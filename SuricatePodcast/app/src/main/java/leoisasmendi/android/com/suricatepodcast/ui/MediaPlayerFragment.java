@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,19 +68,45 @@ public class MediaPlayerFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 Bundle bundle = intent.getExtras();
                 if (bundle != null) {
-                    String string = bundle.getString(MediaPlayerService.ACTION_PLAY);
-                    if (string == MediaPlayerService.ACTION_PLAY) {
-                        Toast.makeText(getActivity(),
-                                "Download complete. Download URI: " + string,
-                                Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getActivity(), "Download failed",
-                                Toast.LENGTH_LONG).show();
+                    String string = bundle.getString(MediaPlayerService.STATUS);
+                    Log.d(getClass().getSimpleName(), "onReceive: " + string);
+                    switch (string) {
+                        case MediaPlayerService.STATUS_DONE:
+                            stopProgressBar();
+                            break;
+                        case MediaPlayerService.STATUS_PAUSED:
+                            toggleToPause();
+                            break;
+                        case MediaPlayerService.STATUS_PLAYING:
+                            toggleToPlaying();
+                            break;
+                        case MediaPlayerService.STATUS_FETCHING:
+                            startProgressBar();
+                            break;
                     }
                 }
             }
         };
     }
+
+    private void toggleToPause() {
+        getView().findViewById(R.id.player_play).setVisibility(View.VISIBLE);
+        getView().findViewById(R.id.player_pause).setVisibility(View.GONE);
+    }
+
+    private void toggleToPlaying() {
+        getView().findViewById(R.id.player_play).setVisibility(View.GONE);
+        getView().findViewById(R.id.player_pause).setVisibility(View.VISIBLE);
+    }
+
+    private void stopProgressBar() {
+        getView().findViewById(R.id.loadingAnimation).setVisibility(View.INVISIBLE);
+    }
+
+    private void startProgressBar() {
+        getView().findViewById(R.id.loadingAnimation).setVisibility(View.VISIBLE);
+    }
+
 
     private Intent getServiceIntent(String action) {
         return new Intent(getActivity(), MediaPlayerService.class)
@@ -108,18 +135,16 @@ public class MediaPlayerFragment extends Fragment {
         view.findViewById(R.id.player_play).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_STOP));
+                getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_PLAY));
             }
         });
 
         view.findViewById(R.id.player_pause).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_PLAY));
+                getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_PAUSE));
             }
         });
-
-
         return view;
     }
 
@@ -133,7 +158,7 @@ public class MediaPlayerFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().registerReceiver(receiver, new IntentFilter(
-                MediaPlayerService.ACTION_PLAY));
+                MediaPlayerService.NOTIFICATION));
     }
 
     @Override

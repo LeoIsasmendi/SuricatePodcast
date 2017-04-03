@@ -25,8 +25,10 @@ package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -38,10 +40,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
+import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 
 
 public class MainFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -53,6 +57,8 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView mRecyclerView;
     PlaylistAdapter mAdapter;
+
+
 
     public MainFragment() {
         // Required empty public constructor
