@@ -40,6 +40,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.MediaSessionManager;
 import android.os.Binder;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.content.ContextCompat;
@@ -100,6 +101,17 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static final String ACTION_NEXT = "leoisasmendi.android.com.suricatepodcast.ACTION_NEXT";
     public static final String ACTION_STOP = "leoisasmendi.android.com.suricatepodcast.ACTION_STOP";
 
+    public static final String STATUS_ERROR = "leoisasmendi.android.com.suricatepodcast.STATUS_ERROR";
+    public static final String STATUS_DONE = "leoisasmendi.android.com.suricatepodcast.STATUS_DONE";
+    public static final String STATUS_FETCHING = "leoisasmendi.android.com.suricatepodcast.STATUS_FETCHING";
+
+    public static final String STATUS_PLAYING = "leoisasmendi.android.com.suricatepodcast.STATUS_PLAYING";
+    public static final String STATUS_STOPED = "leoisasmendi.android.com.suricatepodcast.STATUS_STOPED";
+    public static final String STATUS_PAUSED = "leoisasmendi.android.com.suricatepodcast.STATUS_PAUSED";
+    public static final String NOTIFICATION = "leoisasmendi.android.com.suricatepodcast";
+    public static final String STATUS = "status";
+
+
     //MediaSession
     private MediaSessionManager mediaSessionManager;
     private MediaSessionCompat mediaSession;
@@ -147,11 +159,13 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
+            publishStatus(STATUS_FETCHING);
             // Set the data source to the mediaFile location
             mediaPlayer.setDataSource(activeAudio.getAudio());
             mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
+            publishStatus(STATUS_ERROR);
             stopSelf();
             Toast.makeText(this, R.string.media_player_error_1, Toast.LENGTH_SHORT).show();
         }
@@ -181,6 +195,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             public void onPlay() {
                 super.onPlay();
                 resumeMedia();
+                publishStatus(STATUS_PLAYING);
                 buildNotification(PlaybackStatus.PLAYING);
             }
 
@@ -188,6 +203,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             public void onPause() {
                 super.onPause();
                 pauseMedia();
+                publishStatus(STATUS_PAUSED);
                 buildNotification(PlaybackStatus.PAUSED);
             }
 
@@ -210,12 +226,19 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             @Override
             public void onStop() {
                 super.onStop();
+                publishStatus(STATUS_STOPED);
                 removeNotification();
                 //Stop the service
                 stopSelf();
             }
 
         });
+    }
+
+    private void publishStatus(String status) {
+        Intent intent = new Intent(NOTIFICATION);
+        intent.putExtra(STATUS, status);
+        sendBroadcast(intent);
     }
 
     private void updateMetaData() {
@@ -490,6 +513,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public void onPrepared(MediaPlayer mp) {
         //Invoked when the media source is ready for playback.
         Toast.makeText(this, "Connection complete", Toast.LENGTH_SHORT).show();
+        publishStatus(STATUS_DONE);
         playMedia();
     }
 
