@@ -73,6 +73,7 @@
     <string name="media_player_error_2">Unable to load podcast</string>
     <string name="media_player_playing">Playing podcast</string>
     <string name="items_added">Items added successfully</string>
+    <string name="media_player_successful_fetch">Conection successful</string>
 
 
 </resources>

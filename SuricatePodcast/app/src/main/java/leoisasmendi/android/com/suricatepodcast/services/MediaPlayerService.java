@@ -51,7 +51,6 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -71,6 +70,8 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener, MediaPlayer.OnSeekCompleteListener,
         MediaPlayer.OnInfoListener, MediaPlayer.OnBufferingUpdateListener,
         AudioManager.OnAudioFocusChangeListener {
+
+    private final String TAG = getClass().getSimpleName();
 
     // Binder given to clients
     private final IBinder iBinder = new LocalBinder();
@@ -167,7 +168,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             e.printStackTrace();
             publishStatus(STATUS_ERROR);
             stopSelf();
-            Toast.makeText(this, R.string.media_player_error_1, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "initMediaPlayer: " + R.string.media_player_error_1);
         }
     }
 
@@ -420,11 +421,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             //Load data from SharedPreferences
             StorageUtil storage = new StorageUtil(getApplicationContext());
             audioIndex = storage.loadAudioIndex();
-            Toast.makeText(this, R.string.media_player_connecting, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onStartCommand: " + R.string.media_player_connecting);
             loadActiveAudio();
 
         } catch (NullPointerException e) {
-            Toast.makeText(this, R.string.media_player_error_1, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onStartCommand: " + R.string.media_player_error_1);
             stopSelf();
         }
 
@@ -492,7 +493,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public boolean onError(MediaPlayer mp, int what, int extra) {
         //Invoked when there has been an error during an asynchronous operation
-        Toast.makeText(this, R.string.media_player_error_2, Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onError: " + R.string.media_player_error_2);
         switch (what) {
             case MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK:
                 Log.d("MediaPlayer Error", "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK " + extra);
@@ -516,7 +517,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     @Override
     public void onPrepared(MediaPlayer mp) {
         //Invoked when the media source is ready for playback.
-        Toast.makeText(this, "Connection complete", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onPrepared: " + R.string.media_player_successful_fetch);
         publishStatus(STATUS_DONE);
         playMedia();
     }
@@ -659,7 +660,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     private void playMedia() {
         if (!mediaPlayer.isPlaying()) {
-            Toast.makeText(this, R.string.media_player_playing, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "playMedia: " + R.string.media_player_playing);
             mediaPlayer.start();
             publishStatus(MEDIA_UPDATED);
             publishStatus(STATUS_PLAYING);
