@@ -40,7 +40,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.MediaSessionManager;
 import android.os.Binder;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.content.ContextCompat;
@@ -108,6 +107,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     public static final String STATUS_PLAYING = "leoisasmendi.android.com.suricatepodcast.STATUS_PLAYING";
     public static final String STATUS_STOPED = "leoisasmendi.android.com.suricatepodcast.STATUS_STOPED";
     public static final String STATUS_PAUSED = "leoisasmendi.android.com.suricatepodcast.STATUS_PAUSED";
+    public static final String MEDIA_UPDATED = "leoisasmendi.android.com.suricatepodcast.MEDIA_UPDATED";
     public static final String NOTIFICATION = "leoisasmendi.android.com.suricatepodcast";
     public static final String STATUS = "status";
 
@@ -237,6 +237,10 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
 
     private void publishStatus(String status) {
         Intent intent = new Intent(NOTIFICATION);
+        if (status == MEDIA_UPDATED) {
+            intent.putExtra("EXTRA_TITLE", activeAudio.getTitle());
+            intent.putExtra("EXTRA_DURATION", activeAudio.getDuration());
+        }
         intent.putExtra(STATUS, status);
         sendBroadcast(intent);
     }
@@ -656,6 +660,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
     private void playMedia() {
         if (!mediaPlayer.isPlaying()) {
             Toast.makeText(this, R.string.media_player_playing, Toast.LENGTH_SHORT).show();
+            publishStatus(MEDIA_UPDATED);
             mediaPlayer.start();
         }
     }

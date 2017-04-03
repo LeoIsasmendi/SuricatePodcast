@@ -83,10 +83,18 @@ public class MediaPlayerFragment extends Fragment {
                         case MediaPlayerService.STATUS_FETCHING:
                             startProgressBar();
                             break;
+                        case MediaPlayerService.MEDIA_UPDATED:
+                            updateData(bundle);
+                            break;
                     }
                 }
             }
         };
+    }
+
+    private void updateData(Bundle bundle) {
+        setTitle(bundle.getString("EXTRA_TITLE"));
+        setDuration(bundle.getString("EXTRA_DURATION"));
     }
 
     private void toggleToPause() {
