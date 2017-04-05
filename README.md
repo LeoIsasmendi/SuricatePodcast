@@ -7,7 +7,7 @@ This repository include the source code of Suricate Podcast android application 
 
 Get your Api key (secretId and appId) here: https://www.audiosear.ch/developer
 
-Android Version: API Level 21 (LOLLIPOP)
+Minimum Version Required: API Level 21 (LOLLIPOP)
 
 ## Dependencies
 
