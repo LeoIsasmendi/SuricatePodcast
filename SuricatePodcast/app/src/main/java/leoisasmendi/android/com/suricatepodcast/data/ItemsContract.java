@@ -27,7 +27,7 @@ import android.net.Uri;
 
 public class ItemsContract {
     public static final String CONTENT_AUTHORITY = "leoisasmendi.android.com.suricatepodcast.provider.DataProvider";
-    public static final Uri BASE_URI = Uri.parse("content://leoisasmendi.android.com.suricatepodcast.provider.DataProvider");
+    public static final Uri BASE_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     interface ItemsColumns {
         /**
@@ -61,9 +61,6 @@ public class ItemsContract {
     }
 
     public static class Items implements ItemsColumns {
-        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/leoisasmendi.android.com.suricatepodcast.provider.DataProvider.items";
-        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/leoisasmendi.android.com.suricatepodcast.provider.DataProvider.items";
-
         /**
          * Matches: /items/
          */
