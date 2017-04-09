@@ -25,6 +25,8 @@
 
 package leoisasmendi.android.com.suricatepodcast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
@@ -44,6 +46,7 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+
 
 import io.fabric.sdk.android.Fabric;
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
@@ -88,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
     // ADS MOB
     InterstitialAd mInterstitialAd;
 
+    // FIREBASE ANALYTICS
+    private FirebaseAnalytics mFirebaseAnalytics;
+
     public static final String ACTION_DATA_UPDATED = "leoisasmendi.android.com.suricatepodcast.app.ACTION_DATA_UPDATED";
 
     @Override
@@ -99,8 +105,12 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         initAds();
         initFragments();
         initServiceConnection();
-        // Google Analytics
-        initTracker();
+        initAnalytics();
+    }
+
+    private void initAnalytics() {
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     private void initServiceConnection() {
@@ -152,10 +162,6 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         }
 
         fragmentTransaction.commit();
-    }
-
-    private void initTracker() {
-        ((MyApplication) getApplication()).startTracking();
     }
 
     private void loadAds() {
