@@ -70,11 +70,11 @@ android {
     }
     buildTypes {
         all {
-            buildConfigField "String", "CLIENT_SECRET_ID", "\"\""
-            buildConfigField "String", "CLIENT_APPLICATION_ID", "\"\""
-            buildConfigField "String", "INTERSTITIAL_FULL_SCREEN", "\"ca-app-pub-0664570763252260/3326522424\""
-            buildConfigField "String", "TEST_DEVICE_ADS_ID", "\"853DED8B285280057103C32F0E698153\""
-            resValue "string", "banner_ad_unit_id", "\"ca-app-pub-0664570763252260/3326522424\""
+            buildConfigField "String", "CLIENT_SECRET_ID", keystoreProperties['clientSecretId']
+            buildConfigField "String", "CLIENT_APPLICATION_ID", keystoreProperties['clientApplicationId']
+            buildConfigField "String", "INTERSTITIAL_FULL_SCREEN", keystoreProperties['adsInterstitialFullScreen']
+            buildConfigField "String", "TEST_DEVICE_ADS_ID", keystoreProperties['adsTestDeviceId']
+            resValue "string", "banner_ad_unit_id", keystoreProperties['adsBannerId']
         }
         release {
             minifyEnabled false
