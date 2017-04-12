@@ -65,23 +65,14 @@ import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
-public class MainActivity extends AppCompatActivity implements SearchFragment.OnFragmentInteractionListener, MainFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
 
     final String TAG = getClass().getSimpleName();
 
-    private static final String TAG_MAIN = MainFragment.class.getSimpleName();
-    private static final String TAG_DETAIL = DetailFragment.class.getSimpleName();
-    private static final String TAG_PLAYER = MediaPlayerFragment.class.getSimpleName();
-    private static final String TAG_SEARCH = SearchFragment.class.getSimpleName();
-    private static final String TAG_ABOUT = AboutFragment.class.getSimpleName();
     public static final String Broadcast_PLAY_NEW_AUDIO = "leoisasmendi.android.com.suricatepodcast.PlayNewAudio";
-
 
     private Toolbar mToolbar;
     private FragmentManager fragmentManager;
-
-    //List of selected items on SearchView
-    private SearchList selectedItems;
 
     // MEDIA PLAYER
     private MediaPlayerService player;
@@ -153,12 +144,12 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
 
             fragmentTransaction
-                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN)
-                    .replace(R.id.detail_container, new DetailFragment(), TAG_DETAIL);
+                    .replace(R.id.master_container, new MainFragment(), MainFragment.class.getSimpleName())
+                    .replace(R.id.detail_container, new DetailFragment(), MediaPlayerFragment.class.getSimpleName());
 
         } else { //Single panel view
             fragmentTransaction
-                    .replace(R.id.master_container, new MainFragment(), TAG_MAIN);
+                    .replace(R.id.master_container, new MainFragment(), MainFragment.class.getSimpleName());
         }
 
         fragmentTransaction.commit();
@@ -212,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         showAds();
         fragmentManager.beginTransaction()
                 .replace(R.id.master_container, new AboutFragment())
-                .addToBackStack(TAG_ABOUT)
+                .addToBackStack(AboutFragment.class.getSimpleName())
                 .commit();
     }
 
@@ -222,12 +213,12 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
-            fragmentTransaction.replace(R.id.detail_container, searchFragment, TAG_SEARCH);
+            fragmentTransaction.replace(R.id.detail_container, searchFragment, SearchFragment.class.getSimpleName());
         } else {
             fragmentTransaction.replace(R.id.master_container, searchFragment);
         }
 
-        fragmentTransaction.addToBackStack(TAG_SEARCH).commit();
+        fragmentTransaction.addToBackStack(SearchFragment.class.getSimpleName()).commit();
     }
 
     private void showDetailFragment(EpisodeParcelable parcelable) {
@@ -238,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
 
         fragmentManager.beginTransaction()
                 .replace(R.id.master_container, detailFragment)
-                .addToBackStack(TAG_DETAIL)
+                .addToBackStack(DetailFragment.class.getSimpleName())
                 .commit();
     }
 
@@ -251,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         fragmentManager.beginTransaction()
                 .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
                 .replace(R.id.master_container, playerFragment)
-                .addToBackStack(TAG_PLAYER)
+                .addToBackStack(MediaPlayerFragment.class.getSimpleName())
                 .commit();
     }
 
@@ -336,50 +327,11 @@ public class MainActivity extends AppCompatActivity implements SearchFragment.On
         showDetailFragment(ParserUtils.buildParcelable(item));
     }
 
-
-    @Override
-    public void updateSelectedList(SearchItem item) {
-
-        if (item.getSelected()) {
-            if (!selectedItems.contains(item)) {
-                Log.d(TAG, "updateSelectedList: ADDED");
-                selectedItems.add(item);
-            }
-        } else {
-            Log.d(TAG, "updateSelectedList: REMOVED");
-            selectedItems.remove(item);
-        }
-
-    }
-
     // SearchFragment implements
     @Override
     public void searchPodcast() {
         Log.d(TAG, "searchPodcast: ");
-        selectedItems = new SearchList();
         showSearchFragment();
-    }
-
-    @Override
-    public void addSelectedItemsToPlaylist() {
-        Log.d(TAG, "addSelectedItemsToPlaylist: ");
-
-        if (selectedItems.size() > 0) {
-            for (PlaylistItem item : selectedItems) {
-                Cursor c = getContentResolver().query(DataProvider.CONTENT_URI,
-                        null,
-                        ItemsContract.Items.ID_PODCAST + " = " + item.getId(),
-                        null,
-                        null);
-                if (c.getCount() == 0) {
-                    // not found in database
-                    getContentResolver().insert(DataProvider.CONTENT_URI, ParserUtils.buildContentValue(item));
-                }
-                c.close();
-                Toast.makeText(this, R.string.items_added, Toast.LENGTH_SHORT).show();
-            }
-        }
-
     }
 
 }

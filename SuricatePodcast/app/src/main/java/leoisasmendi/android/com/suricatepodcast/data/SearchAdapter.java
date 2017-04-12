@@ -25,6 +25,7 @@ package leoisasmendi.android.com.suricatepodcast.data;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,18 +36,18 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchListViewHolder> {
 
+    private final String TAG = getClass().getSimpleName();
     private SearchList mList;
-    private SearchFragment.OnFragmentInteractionListener mListener;
+    private SearchList mSelectedList;
     private Context mContext;
 
-    public SearchAdapter(Context context, SearchList aList, SearchFragment.OnFragmentInteractionListener listener) {
+    public SearchAdapter(Context context, SearchList aList, SearchList aSelectedList) {
         mContext = context;
         mList = aList;
-        mListener = listener;
+        mSelectedList = aSelectedList;
     }
 
     @Override
@@ -67,8 +68,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
             @Override
             public void onClick(View view) {
                 item.toggleSelected();
-                if (null != mListener) {
-                    mListener.updateSelectedList(item);
+                if (item.getSelected()) {
+                    if (!mSelectedList.contains(item)) {
+                        Log.d(TAG, "updateSelectedList: ADDED");
+                        mSelectedList.add(item);
+                    }
+                } else {
+                    Log.d(TAG, "updateSelectedList: REMOVED");
+                    mSelectedList.remove(item);
                 }
             }
         });
@@ -83,7 +90,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mList != null ? mList.size() : 0;
     }
 
     // View Holder

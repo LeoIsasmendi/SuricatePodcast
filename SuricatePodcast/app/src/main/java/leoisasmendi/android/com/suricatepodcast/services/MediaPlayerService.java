@@ -164,7 +164,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             // Set the data source to the mediaFile location
             mediaPlayer.setDataSource(activeAudio.getAudio());
             mediaPlayer.prepareAsync();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             publishStatus(STATUS_ERROR);
             stopSelf();

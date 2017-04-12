@@ -24,7 +24,8 @@
 package leoisasmendi.android.com.suricatepodcast.ui;
 
 import android.app.Fragment;
-import android.content.Context;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -47,15 +48,16 @@ import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
 import leoisasmendi.android.com.suricatepodcast.BuildConfig;
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
+import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
+import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
 
 public class SearchFragment extends Fragment {
 
     private final String TAG = getClass().getSimpleName();
-
-    private OnFragmentInteractionListener mListener;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -66,6 +68,8 @@ public class SearchFragment extends Fragment {
     RecyclerView.LayoutManager mLayoutManager;
     SearchView searchView;
 
+    //List of selected items on SearchView
+    SearchList selectedItems;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -75,13 +79,13 @@ public class SearchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((FloatingActionButton) getActivity().findViewById(R.id.contextual_fab)).setImageResource(R.drawable.plus);
+        selectedItems = new SearchList();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
-        checkListenerImplementation(view.getContext());
         initSearchView(view);
         initListView(view);
         initAds(view);
@@ -103,7 +107,7 @@ public class SearchFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new SearchAdapter(getActivity(), new SearchList(), mListener);
+        mAdapter = new SearchAdapter(getActivity(), null, selectedItems);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -118,7 +122,7 @@ public class SearchFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListener.addSelectedItemsToPlaylist();
+                addSelectedItemsToPlaylist();
             }
         });
         fab.setContentDescription(getString(R.string.cd_add_to_main_list_fab));
@@ -145,18 +149,6 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        checkListenerImplementation(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onPause() {
         if (mAdView != null) {
             mAdView.pause();
@@ -170,6 +162,7 @@ public class SearchFragment extends Fragment {
         if (mAdView != null) {
             mAdView.resume();
         }
+        selectedItems = new SearchList();
     }
 
     @Override
@@ -183,20 +176,29 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void checkListenerImplementation(Context context) {
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnMainListInteractionListener");
+    public void addSelectedItemsToPlaylist() {
+        Log.d(TAG, "addSelectedItemsToPlaylist: ");
+        ContentResolver resolver = getActivity().getContentResolver();
+
+        if (selectedItems.size() > 0) {
+            int length = selectedItems.size();
+            for (int i = 0; i < length; i++) {
+                Cursor c = resolver.query(DataProvider.CONTENT_URI,
+                        null,
+                        ItemsContract.Items.ID_PODCAST + " = " + selectedItems.get(i).getId(),
+                        null,
+                        null);
+                if (c.getCount() == 0) {
+                    // not found in database
+                    resolver.insert(DataProvider.CONTENT_URI, ParserUtils.buildContentValue(selectedItems.get(i)));
+                }
+                c.close();
+                Toast.makeText(getActivity(), R.string.items_added, Toast.LENGTH_SHORT).show();
+            }
         }
+
     }
 
-    public interface OnFragmentInteractionListener {
-        void updateSelectedList(SearchItem item);
-
-        void addSelectedItemsToPlaylist();
-    }
 
     private class AudioSearchClient extends AsyncTask<String, Void, EpisodeQueryResult> {
         @Override
@@ -223,7 +225,9 @@ public class SearchFragment extends Fragment {
                 List<EpisodeResult> episodes = queryResult.getResults();
                 SearchList list = new SearchList();
 
-                for (EpisodeResult episode : episodes) {
+                int length = episodes.size();
+                for (int i = 0; i < length; i++) {
+                    EpisodeResult episode = episodes.get(i);
                     Log.d(TAG, "onPostExecute: episode ->" + episode.getTitle());
                     list.add(new SearchItem(episode.getId(),
                             episode.getTitle(),
@@ -231,9 +235,9 @@ public class SearchFragment extends Fragment {
                             episode.getAudioFiles().get(0).getMp3(),
                             episode.getImageUrls().getThumb(),
                             episode.getDescription()));
-                }
 
-                mAdapter = new SearchAdapter(getActivity(), list, mListener);
+                }
+                mAdapter = new SearchAdapter(getActivity(), list, selectedItems);
                 mRecyclerView.setAdapter(mAdapter);
             } else {
                 Toast.makeText(getActivity().getBaseContext(), getString(R.string.toast_no_query), Toast.LENGTH_SHORT).show();
