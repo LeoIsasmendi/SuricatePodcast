@@ -29,7 +29,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
-import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 
@@ -47,12 +47,12 @@ public final class ParserUtils {
 
     public static ContentValues buildContentValue(PlaylistItem item) {
         ContentValues aValue = new ContentValues();
-        aValue.put(ItemsContract.Items.ID_PODCAST, item.getId());
-        aValue.put(ItemsContract.Items.TITLE, item.getTitle());
-        aValue.put(ItemsContract.Items.DURATION, item.getDuration());
-        aValue.put(ItemsContract.Items.AUDIO, item.getAudio());
-        aValue.put(ItemsContract.Items.POSTER, item.getPoster());
-        aValue.put(ItemsContract.Items.DESCRIPTION, item.getDescription());
+        aValue.put(PodcastContract.PodcastEntry.COLUMN_ID, item.getId());
+        aValue.put(PodcastContract.PodcastEntry.COLUMN_TITLE, item.getTitle());
+        aValue.put(PodcastContract.PodcastEntry.COLUMN_DURATION, item.getDuration());
+        aValue.put(PodcastContract.PodcastEntry.COLUMN_AUDIO, item.getAudio());
+        aValue.put(PodcastContract.PodcastEntry.COLUMN_POSTER, item.getPoster());
+        aValue.put(PodcastContract.PodcastEntry.COLUMN_DESCRIPTION, item.getDescription());
         return aValue;
     }
 

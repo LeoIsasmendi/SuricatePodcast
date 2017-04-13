@@ -38,13 +38,13 @@ public class ItemLoader extends CursorLoader {
 
     public interface Query {
         String[] PROJECTION = {
-                ItemsContract.Items._ID,
-                ItemsContract.Items.ID_PODCAST,
-                ItemsContract.Items.TITLE,
-                ItemsContract.Items.DURATION,
-                ItemsContract.Items.AUDIO,
-                ItemsContract.Items.POSTER,
-                ItemsContract.Items.DESCRIPTION
+                PodcastContract.PodcastEntry._ID,
+                PodcastContract.PodcastEntry.COLUMN_ID,
+                PodcastContract.PodcastEntry.COLUMN_TITLE,
+                PodcastContract.PodcastEntry.COLUMN_DURATION,
+                PodcastContract.PodcastEntry.COLUMN_AUDIO,
+                PodcastContract.PodcastEntry.COLUMN_POSTER,
+                PodcastContract.PodcastEntry.COLUMN_DESCRIPTION
         };
 
         int _ID = 0;

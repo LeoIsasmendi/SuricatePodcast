@@ -41,7 +41,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.ads.AdRequest;
@@ -50,10 +49,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 import io.fabric.sdk.android.Fabric;
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
-import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
-import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
-import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
-import leoisasmendi.android.com.suricatepodcast.data.SearchList;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
@@ -310,11 +306,11 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         Log.d(TAG, "onDeleteItem: " + itemId);
         Cursor c = getContentResolver().query(DataProvider.CONTENT_URI,
                 null,
-                ItemsContract.Items.ID_PODCAST + "=" + itemId,
+                PodcastContract.PodcastEntry.COLUMN_ID + "=" + itemId,
                 null,
                 null);
         if (c.getCount() != 0) {
-            String where = ItemsContract.Items.ID_PODCAST + "=?";
+            String where = PodcastContract.PodcastEntry.COLUMN_ID + "=?";
             String[] args = new String[]{Integer.toString(itemId)};
             getContentResolver().delete(DataProvider.CONTENT_ITEM, where, args);
         }

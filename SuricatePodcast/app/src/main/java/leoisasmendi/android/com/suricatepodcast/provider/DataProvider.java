@@ -34,7 +34,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import leoisasmendi.android.com.suricatepodcast.data.PodcastsDataSource;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastsHelper;
 
 public class DataProvider extends ContentProvider {
@@ -95,7 +95,7 @@ public class DataProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues contentValues) {
 
-        long rowID = db.insert(PodcastsDataSource.PODCASTS_TABLE_NAME, "", contentValues);
+        long rowID = db.insert(PodcastContract.PodcastEntry.TABLE_NAME, "", contentValues);
 
         // If record is added successfully
         if (rowID > 0) {
@@ -113,7 +113,7 @@ public class DataProvider extends ContentProvider {
         SQLiteDatabase db = podcastsHelper.getWritableDatabase();
         switch (uriMatcher.match(uri)) {
             case PODCAST_ID:
-                count = db.delete(PodcastsDataSource.PODCASTS_TABLE_NAME, selection, selectionArgs);
+                count = db.delete(PodcastContract.PodcastEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -128,7 +128,7 @@ public class DataProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         SQLiteQueryBuilder qb = new SQLiteQueryBuilder();
-        qb.setTables(PodcastsDataSource.PODCASTS_TABLE_NAME);
+        qb.setTables(PodcastContract.PodcastEntry.TABLE_NAME);
 
         switch (uriMatcher.match(uri)) {
             case PODCAST_ID:

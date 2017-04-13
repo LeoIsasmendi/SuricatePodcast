@@ -24,43 +24,30 @@
 package leoisasmendi.android.com.suricatepodcast.data;
 
 import android.net.Uri;
+import android.provider.BaseColumns;
 
-public class ItemsContract {
+public final class PodcastContract {
+
+    // To prevent to someone from accidentally instantiating the contract class,
+    // make the constructor private.
+    private PodcastContract() {
+    }
+
     public static final String CONTENT_AUTHORITY = "leoisasmendi.android.com.suricatepodcast.provider.DataProvider";
     public static final Uri BASE_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    interface ItemsColumns {
-        /**
-         * Type: INTEGER PRIMARY KEY AUTOINCREMENT
-         */
-        String _ID = "_id";
-        /**
-         * Type: TEXT
-         */
-        String ID_PODCAST = "podcast";
-        /**
-         * Type: TEXT NOT NULL
-         */
-        String TITLE = "title";
-        /**
-         * Type: TEXT NOT NULL
-         */
-        String DURATION = "duration";
-        /**
-         * Type: TEXT NOT NULL
-         */
-        String AUDIO = "audio";
-        /**
-         * Type: TEXT NOT NULL
-         */
-        String POSTER = "poster";
-        /**
-         * Type: TEXT NOT NULL
-         */
-        String DESCRIPTION = "description";
-    }
+    /* Inner class that defines the table contents */
+    public static final class PodcastEntry implements BaseColumns {
 
-    public static class Items implements ItemsColumns {
+        public static final String TABLE_NAME = "Playlist";
+
+        public static final String COLUMN_ID = "podcast";
+        public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_DURATION = "duration";
+        public static final String COLUMN_AUDIO = "audio";
+        public static final String COLUMN_POSTER = "poster";
+        public static final String COLUMN_DESCRIPTION = "description";
+
         /**
          * Matches: /items/
          */
@@ -83,6 +70,11 @@ public class ItemsContract {
         }
     }
 
-    private ItemsContract() {
+
+    /* Inner class that defines the table types */
+    public static final class PodcastType {
+        public static final String STRING_TYPE = "text";
+        public static final String INT_TYPE = "integer";
+        public static final String LONG_TYPE = "long";
     }
 }

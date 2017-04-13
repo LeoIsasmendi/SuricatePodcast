@@ -48,7 +48,7 @@ import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
 import leoisasmendi.android.com.suricatepodcast.BuildConfig;
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.data.ItemsContract;
+import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
 import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
@@ -185,7 +185,7 @@ public class SearchFragment extends Fragment {
             for (int i = 0; i < length; i++) {
                 Cursor c = resolver.query(DataProvider.CONTENT_URI,
                         null,
-                        ItemsContract.Items.ID_PODCAST + " = " + selectedItems.get(i).getId(),
+                        PodcastContract.PodcastEntry.COLUMN_ID + " = " + selectedItems.get(i).getId(),
                         null,
                         null);
                 if (c.getCount() == 0) {

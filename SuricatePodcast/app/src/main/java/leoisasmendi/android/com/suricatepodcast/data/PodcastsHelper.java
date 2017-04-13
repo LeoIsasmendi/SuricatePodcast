@@ -51,7 +51,18 @@ public class PodcastsHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL(PodcastsDataSource.CREATE_SCRIPT);
+        //Script of creation
+        String CREATE_SCRIPT =
+                "create table " + PodcastContract.PodcastEntry.TABLE_NAME + "(" +
+                        PodcastContract.PodcastEntry._ID + " " + PodcastContract.PodcastType.INT_TYPE + " primary key autoincrement," +
+                        PodcastContract.PodcastEntry.COLUMN_ID + " " + PodcastContract.PodcastType.LONG_TYPE + " not null," +
+                        PodcastContract.PodcastEntry.COLUMN_TITLE + " " + PodcastContract.PodcastType.STRING_TYPE + "," +
+                        PodcastContract.PodcastEntry.COLUMN_DURATION + " " + PodcastContract.PodcastType.STRING_TYPE + "," +
+                        PodcastContract.PodcastEntry.COLUMN_AUDIO + " " + PodcastContract.PodcastType.STRING_TYPE + "," +
+                        PodcastContract.PodcastEntry.COLUMN_POSTER + " " + PodcastContract.PodcastType.STRING_TYPE + " ," +
+                        PodcastContract.PodcastEntry.COLUMN_DESCRIPTION + " " + PodcastContract.PodcastType.STRING_TYPE + ")";
+
+        sqLiteDatabase.execSQL(CREATE_SCRIPT);
     }
 
     @Override
