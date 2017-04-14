@@ -96,7 +96,7 @@ public class PlaylistCursorAdapter extends RecyclerViewCursorAdapter<PlaylistCur
 
         @Override
         public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.setHeaderTitle("Select The Action");
+            contextMenu.setHeaderTitle(R.string.context_menu_title);
             contextMenu.add(0, 1, 0, R.string.item_menu_delete).setOnMenuItemClickListener(mOnMyActionClickListener);
             contextMenu.add(0, 2, 0, R.string.item_menu_details).setOnMenuItemClickListener(mOnMyActionClickListener);
         }
