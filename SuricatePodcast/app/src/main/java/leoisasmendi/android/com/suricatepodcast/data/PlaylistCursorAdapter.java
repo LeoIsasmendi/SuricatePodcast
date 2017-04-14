@@ -1,4 +1,5 @@
 /*
+ *
  * The MIT License (MIT)
  * Copyright (c) 2016. Sergio Leonardo Isasmendi
  *
@@ -19,11 +20,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
+ *
  */
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
-import android.content.BroadcastReceiver;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -36,71 +37,61 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService;
 import leoisasmendi.android.com.suricatepodcast.ui.MainFragment;
 
-public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder> {
+public class PlaylistCursorAdapter extends RecyclerViewCursorAdapter<PlaylistCursorAdapter.ViewHolder> {
 
-    private Cursor items;
     private MainFragment.OnFragmentInteractionListener mListener;
 
-    private static final String ACTION = MediaPlayerService.ACTION_STOP;
-    private BroadcastReceiver yourReceiver;
 
-    public PlaylistAdapter(MainFragment.OnFragmentInteractionListener aListener) {
+    public PlaylistCursorAdapter(MainFragment.OnFragmentInteractionListener aListener) {
         this.mListener = aListener;
     }
 
-    public void swapCursor(Cursor aCursor) {
-        if (aCursor != null) {
-            items = aCursor;
-            notifyDataSetChanged();
-        }
+    @Override
+    public void onBindViewHolder(ViewHolder holder, Cursor cursor) {
+        holder.bindData(cursor);
     }
 
     @Override
-    public void onBindViewHolder(final PlaylistViewHolder holder, int position) {
-        items.moveToPosition(position);
-        holder.getCounterView().setText(String.format(Locale.US, "%d.", position));
-        holder.getNameView().setText(items.getString(ItemLoader.Query.TITLE));
-        holder.getDurationView().setText(items.getString(ItemLoader.Query.DURATION));
-    }
-
-    @Override
-    public PlaylistViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_playlist_item, parent, false);
-        return new PlaylistViewHolder(view);
+        return new PlaylistCursorAdapter.ViewHolder(view);
     }
 
-    @Override
-    public int getItemCount() {
-        return items != null ? items.getCount() : 0;
-    }
 
-    // View Holder class
-    public class PlaylistViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
+    // ViewHolder class
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener {
 
-        public final View view;
-
+        private Cursor mCursor;
         private TextView counterView;
         private TextView nameView;
         private TextView durationView;
 
-        PlaylistViewHolder(View itemView) {
+        private final MenuItem.OnMenuItemClickListener mOnMyActionClickListener;
+
+        public ViewHolder(View itemView) {
             super(itemView);
-            view = itemView;
             counterView = (TextView) itemView.findViewById(R.id.list_item_counter);
             nameView = (TextView) itemView.findViewById(R.id.playlist_item_name);
             durationView = (TextView) itemView.findViewById(R.id.playlist_item_length);
+            mOnMyActionClickListener = getMenuItemListener();
             itemView.setOnClickListener(this);
-            view.setOnCreateContextMenuListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
 
+        public void bindData(final Cursor cursor) {
+            mCursor = cursor;
+            counterView.setText(String.format(Locale.US, "%d.", getAdapterPosition()));
+            nameView.setText(mCursor.getString(ItemLoader.Query.TITLE));
+            durationView.setText(mCursor.getString(ItemLoader.Query.DURATION));
+        }
+
         @Override
         public void onClick(View view) {
-            items.moveToPosition(getAdapterPosition());
-            mListener.onClick(getAdapterPosition(), items);
+            mCursor.moveToPosition(getAdapterPosition());
+            mListener.onClick(getAdapterPosition(), mCursor);
         }
 
         @Override
@@ -111,33 +102,27 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.Playli
         }
 
 
-        private final MenuItem.OnMenuItemClickListener mOnMyActionClickListener = new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                items.moveToPosition(getAdapterPosition());
-                switch (item.getItemId()) {
-                    case 1:
-                        mListener.onDeleteItem(items.getInt(ItemLoader.Query.ID_PODCAST));
-                        return true;
-                    case 2:
-                        mListener.onShowDetail(items);
-                        return true;
-                    default:
-                        return true;
+        private MenuItem.OnMenuItemClickListener getMenuItemListener() {
+            return new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    mCursor.moveToPosition(getAdapterPosition());
+                    switch (item.getItemId()) {
+                        case 1:
+                            mListener.onDeleteItem(mCursor.getInt(ItemLoader.Query.ID_PODCAST));
+                            return true;
+                        case 2:
+                            mListener.onShowDetail(mCursor);
+                            return true;
+                        default:
+                            return true;
+                    }
                 }
-            }
-        };
-
-        private TextView getNameView() {
-            return nameView;
+            };
         }
 
-        private TextView getDurationView() {
-            return durationView;
-        }
 
-        private TextView getCounterView() {
-            return counterView;
-        }
     }
+
+
 }

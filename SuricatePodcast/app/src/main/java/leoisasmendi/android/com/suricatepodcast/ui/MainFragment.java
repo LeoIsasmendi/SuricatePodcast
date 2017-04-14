@@ -40,7 +40,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import leoisasmendi.android.com.suricatepodcast.R;
-import leoisasmendi.android.com.suricatepodcast.data.PlaylistAdapter;
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistCursorAdapter;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 
 
@@ -52,7 +52,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
     final String TAG = getClass().getSimpleName();
     RecyclerView.LayoutManager mLayoutManager;
     RecyclerView mRecyclerView;
-    PlaylistAdapter mAdapter;
+    PlaylistCursorAdapter mAdapter;
 
 
 
@@ -77,7 +77,7 @@ public class MainFragment extends Fragment implements LoaderManager.LoaderCallba
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PlaylistAdapter(mListener);
+        mAdapter = new PlaylistCursorAdapter(mListener);
         mRecyclerView.setAdapter(mAdapter);
         setupFAB();
         return view;
