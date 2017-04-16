@@ -42,6 +42,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import aj.canvas.audiosearch.Audiosearch;
 import aj.canvas.audiosearch.model.EpisodeQueryResult;
@@ -231,7 +232,7 @@ public class SearchFragment extends Fragment {
                     Log.d(TAG, "onPostExecute: episode ->" + episode.getTitle());
                     list.add(new PlaylistItem.Builder(episode.getId())
                             .setTitle(episode.getTitle())
-                            .setDuration(episode.getAudioFiles().get(0).getDuration())
+                            .setDuration(ParserUtils.buildTime(episode.getDuration()))
                             .setAudio(episode.getAudioFiles().get(0).getMp3())
                             .setPoster(episode.getImageUrls().getThumb())
                             .setDescription(episode.getDescription())

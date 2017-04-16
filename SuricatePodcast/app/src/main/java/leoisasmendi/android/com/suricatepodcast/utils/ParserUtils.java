@@ -28,6 +28,9 @@ package leoisasmendi.android.com.suricatepodcast.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
@@ -64,5 +67,13 @@ public final class ParserUtils {
                 .setPoster(mCursor.getString(ItemLoader.Query.POSTER))
                 .setDescription(mCursor.getString(ItemLoader.Query.DESCRIPTION))
                 .build();
+    }
+
+    public static String buildTime(long duration) {
+        long hours = TimeUnit.SECONDS.toHours(duration) % 24;
+        long minutes = TimeUnit.SECONDS.toMinutes(duration) % 60;
+        long seconds = TimeUnit.SECONDS.toSeconds(duration) % 60;
+
+        return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
