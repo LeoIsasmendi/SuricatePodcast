@@ -48,9 +48,9 @@ import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
 import leoisasmendi.android.com.suricatepodcast.BuildConfig;
 import leoisasmendi.android.com.suricatepodcast.R;
+import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter;
-import leoisasmendi.android.com.suricatepodcast.data.SearchItem;
 import leoisasmendi.android.com.suricatepodcast.data.SearchList;
 import leoisasmendi.android.com.suricatepodcast.provider.DataProvider;
 import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
@@ -229,12 +229,14 @@ public class SearchFragment extends Fragment {
                 for (int i = 0; i < length; i++) {
                     EpisodeResult episode = episodes.get(i);
                     Log.d(TAG, "onPostExecute: episode ->" + episode.getTitle());
-                    list.add(new SearchItem(episode.getId(),
-                            episode.getTitle(),
-                            episode.getAudioFiles().get(0).getDuration(),
-                            episode.getAudioFiles().get(0).getMp3(),
-                            episode.getImageUrls().getThumb(),
-                            episode.getDescription()));
+                    list.add(new PlaylistItem.Builder(episode.getId())
+                            .setTitle(episode.getTitle())
+                            .setDuration(episode.getAudioFiles().get(0).getDuration())
+                            .setAudio(episode.getAudioFiles().get(0).getMp3())
+                            .setPoster(episode.getImageUrls().getThumb())
+                            .setDescription(episode.getDescription())
+                            .build()
+                    );
 
                 }
                 mAdapter = new SearchAdapter(getActivity(), list, selectedItems);

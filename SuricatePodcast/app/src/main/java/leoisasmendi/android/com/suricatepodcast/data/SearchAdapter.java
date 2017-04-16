@@ -52,7 +52,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
     @Override
     public void onBindViewHolder(SearchListViewHolder holder, int position) {
-        final SearchItem item = mList.get(position);
+        final PlaylistItem item = mList.get(position);
         holder.item = item;
 
         Picasso.with(mContext)
@@ -97,7 +97,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
     class SearchListViewHolder extends RecyclerView.ViewHolder {
 
         private final View view;
-        public SearchItem item;
+        public PlaylistItem item;
 
         private TextView nameView;
         private TextView durationView;

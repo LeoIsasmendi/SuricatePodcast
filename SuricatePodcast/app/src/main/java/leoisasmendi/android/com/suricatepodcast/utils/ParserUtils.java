@@ -57,13 +57,12 @@ public final class ParserUtils {
     }
 
     public static PlaylistItem buildPlaylistItem(Cursor mCursor) {
-        return new PlaylistItem(
-                mCursor.getInt(ItemLoader.Query.ID_PODCAST),
-                mCursor.getString(ItemLoader.Query.TITLE),
-                mCursor.getString(ItemLoader.Query.DURATION),
-                mCursor.getString(ItemLoader.Query.AUDIO),
-                mCursor.getString(ItemLoader.Query.POSTER),
-                mCursor.getString(ItemLoader.Query.DESCRIPTION)
-        );
+        return new PlaylistItem.Builder(mCursor.getInt(ItemLoader.Query.ID_PODCAST))
+                .setTitle(mCursor.getString(ItemLoader.Query.TITLE))
+                .setDuration(mCursor.getString(ItemLoader.Query.DURATION))
+                .setAudio(mCursor.getString(ItemLoader.Query.AUDIO))
+                .setPoster(mCursor.getString(ItemLoader.Query.POSTER))
+                .setDescription(mCursor.getString(ItemLoader.Query.DESCRIPTION))
+                .build();
     }
 }

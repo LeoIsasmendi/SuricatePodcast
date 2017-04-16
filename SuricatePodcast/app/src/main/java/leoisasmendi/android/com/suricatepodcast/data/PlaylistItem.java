@@ -23,82 +23,123 @@
 
 package leoisasmendi.android.com.suricatepodcast.data;
 
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PlaylistItem implements Parcelable {
 
-    private int id;
-    private String title;
-    private String duration;
-    private String poster;
-    private String audio;
-    private String description;
+    private final int id;
+    private final String title;
+    private final String duration;
+    private final String poster;
+    private final String audio;
+    private final String description;
+    private Boolean isSelected;
+    private Boolean isFavorite;
 
-    public PlaylistItem() {
-        // default constructor
-        this.id = 0;
-        this.title = "";
-        this.duration = "";
-        this.poster = "";
-        this.description = "";
-    }
-
-    public PlaylistItem(int id, String title, String duration, String audio, String poster, String description) {
-        this.title = title;
-        this.duration = duration;
-        this.id = id;
-        this.poster = poster;
-        this.audio = audio;
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
+    private PlaylistItem(Builder builder) {
+        this.id = builder.id;
+        this.title = builder.title;
+        this.duration = builder.duration;
+        this.poster = builder.poster;
+        this.audio = builder.audio;
+        this.description = builder.description;
+        this.isSelected = builder.isSelected;
+        this.isFavorite = builder.isFavorite;
     }
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDuration() {
+        return duration;
     }
 
     public String getPoster() {
         return poster;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
-    }
-
     public String getAudio() {
         return audio;
-    }
-
-    public void setAudio(String audio) {
-        this.audio = audio;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public Boolean getSelected() {
+        return isSelected;
+    }
+
+    public Boolean getFavorite() {
+        return isFavorite;
+    }
+
+    public void toggleSelected() {
+        this.isSelected = !this.isSelected;
+    }
+
+
+    /* BUILDER */
+    public static class Builder {
+        private final int id;
+        private String title;
+        private String duration;
+        private String poster;
+        private String audio;
+        private String description;
+        private Boolean isSelected;
+        private Boolean isFavorite;
+
+
+        public Builder(int id) {
+            this.id = id;
+        }
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setDuration(String duration) {
+            this.duration = duration;
+            return this;
+        }
+
+        public Builder setPoster(String poster) {
+            this.poster = poster;
+            return this;
+        }
+
+        public Builder setAudio(String audio) {
+            this.audio = audio;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setSelected(Boolean selected) {
+            isSelected = selected;
+            return this;
+        }
+
+        public Builder setFavorite(Boolean favorite) {
+            isFavorite = favorite;
+            return this;
+        }
+
+        public PlaylistItem build() {
+            return new PlaylistItem(this);
+        }
     }
 
     @Override

@@ -26,7 +26,7 @@ package leoisasmendi.android.com.suricatepodcast.data;
 
 import java.util.ArrayList;
 
-public class SearchList extends ArrayList<SearchItem> {
+public class SearchList extends ArrayList<PlaylistItem> {
 
     public SearchList() {
     }
