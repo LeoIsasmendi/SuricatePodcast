@@ -36,6 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "network",
         "locations",
         "image_url",
+        "show_image_urls",
         "tasties",
         "buzz_score",
         "contributors",
@@ -94,6 +95,8 @@ public class EpisodeResult {
     private Object locations;
     @JsonProperty("image_urls")
     private ImageUrls imageUrls;
+    @JsonProperty("show_image_urls")
+    private ImageUrls showImageUrls;
     @JsonProperty("tasties")
     private List<Integer> tasties;
     @JsonProperty("buzz_score")
@@ -392,6 +395,22 @@ public class EpisodeResult {
     @JsonProperty("image_urls")
     public void setImageUrls(ImageUrls imageUrls) {
         this.imageUrls = imageUrls;
+    }
+
+    /**
+     * @param show_image_urls The image_urls
+     */
+    @JsonProperty("show_image_urls")
+    public ImageUrls getShowImageUrls() {
+        return showImageUrls;
+    }
+
+    /**
+     * @param show_image_urls The image_urls
+     */
+    @JsonProperty("show_image_urls")
+    public void setShowImageUrls(ImageUrls showImageUrls) {
+        this.showImageUrls= showImageUrls;
     }
 
     /**
