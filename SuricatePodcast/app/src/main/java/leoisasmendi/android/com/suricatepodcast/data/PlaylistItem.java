@@ -104,6 +104,8 @@ public class PlaylistItem implements Parcelable {
 
         public Builder setTitle(String title) {
             this.title = title;
+            this.isSelected = false;
+            this.isFavorite = false;
             return this;
         }
 
