@@ -42,7 +42,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import aj.canvas.audiosearch.Audiosearch;
 import aj.canvas.audiosearch.model.EpisodeQueryResult;
