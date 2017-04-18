@@ -96,9 +96,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
     // View Holder
     class SearchListViewHolder extends RecyclerView.ViewHolder {
 
-        private final View view;
         public PlaylistItem item;
-
         private TextView nameView;
         private TextView durationView;
         private CheckBox selectedView;
@@ -106,7 +104,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
         SearchListViewHolder(View itemView) {
             super(itemView);
-            view = itemView;
             posterView = (ImageView) itemView.findViewById(R.id.search_item_poster);
             nameView = (TextView) itemView.findViewById(R.id.search_item_name);
             durationView = (TextView) itemView.findViewById(R.id.search_item_length);
@@ -123,10 +120,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
 
         public CheckBox getSelectedView() {
             return selectedView;
-        }
-
-        public View getView() {
-            return view;
         }
 
     }
