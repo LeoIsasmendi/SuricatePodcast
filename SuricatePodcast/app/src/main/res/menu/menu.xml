@@ -30,9 +30,21 @@
         android:title="@string/share_podcast"
         android:visible="false"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_main"
+        android:title="@string/menu_main_list" />
+
+    <item
+        android:id="@+id/menu_search"
+        android:title="@string/menu_search" />
+
     <item
         android:id="@+id/menu_about"
         android:icon="@drawable/ic_menu_info"
-        app:showAsAction="ifRoom"
         android:title="@string/menu_op1" />
+
+    <item
+        android:id="@+id/menu_exit"
+        android:title="@string/menu_exit" />
 </menu>

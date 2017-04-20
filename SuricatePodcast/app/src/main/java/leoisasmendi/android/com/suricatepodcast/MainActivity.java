@@ -127,9 +127,10 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
 
     private void initToolbar() {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.inflateMenu(R.menu.menu);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     private void initFragments() {

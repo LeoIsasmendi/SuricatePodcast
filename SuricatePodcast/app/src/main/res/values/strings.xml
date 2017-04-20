@@ -75,6 +75,9 @@
     <string name="items_added">Items added successfully</string>
     <string name="media_player_successful_fetch">Connection successful</string>
     <string name="context_menu_title">Select The Action</string>
+    <string name="menu_main_list">Main playlist</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_exit">Exit</string>
 
 
 </resources>
