@@ -37,7 +37,9 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -66,7 +68,7 @@ import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment;
 import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils;
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainFragment.OnFragmentInteractionListener {
 
     final String TAG = getClass().getSimpleName();
 
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
     private Toolbar mToolbar;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+
     private FragmentManager fragmentManager;
 
     // MEDIA PLAYER
@@ -154,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         };
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_list);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     private void initFragments() {
@@ -199,9 +205,9 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         return false;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(TAG, "onOptionsItemSelected: " + item);
         int id = item.getItemId();
 
         if (id == R.id.menu_about) {
@@ -224,6 +230,42 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Log.d(TAG, "onNavigationItemSelected: ");
+        int id = item.getItemId();
+        Intent intent;
+
+        switch (id) {
+            case R.id.menu_main:
+                intent = new Intent(this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            case R.id.menu_search:
+                showSearchFragment();
+                return true;
+            case R.id.menu_about:
+                showAbout();
+                return true;
+            case R.id.menu_item_share:
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBodyText = getString(R.string.share_body_text);
+                // TODO: INSERT THE CORRECT URL
+//                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "www.audiosear.ch/audio.mp3");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
+                startActivity(Intent.createChooser(sharingIntent, "Shearing Option"));
+                return true;
+            case R.id.menu_exit:
+                intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_HOME);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            default:
+                return false;
+        }
     }
 
     private void showAbout() {
