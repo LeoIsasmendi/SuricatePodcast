@@ -44,8 +44,8 @@
 
     <dimen name="fab_size">56dp</dimen>
     <dimen name="description_margin_top_bottom">10dp</dimen>
-    <dimen name="item_title_size">18sp</dimen>
-    <dimen name="item_length_size">16sp</dimen>
+    <dimen name="item_title_size">16sp</dimen>
+    <dimen name="item_length_size">14sp</dimen>
 
     <dimen name="widget_min_height">100dp</dimen>
     <dimen name="widget_min_width">266dp</dimen>

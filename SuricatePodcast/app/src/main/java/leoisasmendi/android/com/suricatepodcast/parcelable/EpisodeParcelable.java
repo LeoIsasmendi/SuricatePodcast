@@ -44,6 +44,7 @@ public class EpisodeParcelable implements Parcelable {
 
     private int id;
     private String title;
+    private String showTitle;
     private String detail;
     private String duration;
     private String poster;
@@ -59,6 +60,7 @@ public class EpisodeParcelable implements Parcelable {
     public EpisodeParcelable(Parcel pc) {
         id = pc.readInt();
         title = pc.readString();
+        showTitle = pc.readString();
         detail = pc.readString();
         duration = pc.readString();
         poster = pc.readString();
@@ -74,6 +76,7 @@ public class EpisodeParcelable implements Parcelable {
     public void writeToParcel(Parcel pc, int flags) {
         pc.writeLong(id);
         pc.writeString(title);
+        pc.writeString(showTitle);
         pc.writeString(detail);
         pc.writeString(duration);
         pc.writeString(poster);
@@ -94,6 +97,14 @@ public class EpisodeParcelable implements Parcelable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getShowTitle() {
+        return showTitle;
+    }
+
+    public void setShowTitle(String showTitle) {
+        this.showTitle = showTitle;
     }
 
     public String getDetail() {

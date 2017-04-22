@@ -25,6 +25,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
+    android:divider="@color/colorDivider"
     android:background="@drawable/item_list_background"
     android:contentDescription="@string/cd_item_list"
     android:focusable="true"
@@ -50,14 +51,23 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/playlist_item_name"
+            android:id="@+id/playlist_item_show_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:maxLines="1"
             android:textSize="@dimen/item_title_size"
             android:textStyle="bold"
-            tools:text="Suricate Podcast" />
+            tools:text="Show name" />
+
+        <TextView
+            android:id="@+id/playlist_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:textSize="@dimen/item_title_size"
+            tools:text="Episode title" />
 
         <TextView
             android:id="@+id/playlist_item_length"

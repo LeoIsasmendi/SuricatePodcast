@@ -65,6 +65,7 @@ public class PlaylistCursorAdapter extends RecyclerViewCursorAdapter<PlaylistCur
 
         private Cursor mCursor;
         private TextView counterView;
+        private TextView showTitleView;
         private TextView nameView;
         private TextView durationView;
 
@@ -73,6 +74,7 @@ public class PlaylistCursorAdapter extends RecyclerViewCursorAdapter<PlaylistCur
         public ViewHolder(View itemView) {
             super(itemView);
             counterView = (TextView) itemView.findViewById(R.id.list_item_counter);
+            showTitleView = (TextView) itemView.findViewById(R.id.playlist_item_show_name);
             nameView = (TextView) itemView.findViewById(R.id.playlist_item_name);
             durationView = (TextView) itemView.findViewById(R.id.playlist_item_length);
             mOnMyActionClickListener = getMenuItemListener();
@@ -85,6 +87,7 @@ public class PlaylistCursorAdapter extends RecyclerViewCursorAdapter<PlaylistCur
             mCursor = cursor;
             counterView.setText(String.format(Locale.US, "%d.", getAdapterPosition()));
             nameView.setText(mCursor.getString(ItemLoader.Query.TITLE));
+            showTitleView.setText(mCursor.getString(ItemLoader.Query.SHOW_TITLE));
             durationView.setText(mCursor.getString(ItemLoader.Query.DURATION));
         }
 

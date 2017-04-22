@@ -231,8 +231,9 @@ public class SearchFragment extends Fragment {
                     Log.d(TAG, "onPostExecute: episode ->" + episode.getTitle());
                     list.add(new PlaylistItem.Builder(episode.getId())
                             .setTitle(episode.getTitle())
+                            .setShowTitle(episode.getShowTitle())
                             .setDuration(ParserUtils.buildTime(episode.getDuration()))
-                            .setAudio(episode.getAudioFiles().get(0).getMp3())
+                            .setAudio(ParserUtils.getMp3(episode.getAudioFiles()))
                             .setPoster(episode.getImageUrls().getThumb())
                             .setDescription(episode.getDescription())
                             .build()

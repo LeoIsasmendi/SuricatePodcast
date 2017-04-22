@@ -27,10 +27,13 @@ package leoisasmendi.android.com.suricatepodcast.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+import aj.canvas.audiosearch.model.AudioFile;
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
@@ -42,6 +45,7 @@ public final class ParserUtils {
         EpisodeParcelable parcelable = new EpisodeParcelable();
         parcelable.setId(item.getInt(ItemLoader.Query.ID_PODCAST));
         parcelable.setTitle(item.getString(ItemLoader.Query.TITLE));
+        parcelable.setShowTitle(item.getString(ItemLoader.Query.SHOW_TITLE));
         parcelable.setDuration(item.getString(ItemLoader.Query.DURATION));
         parcelable.setPoster(item.getString(ItemLoader.Query.POSTER));
         parcelable.setDescription(item.getString(ItemLoader.Query.DESCRIPTION));
@@ -52,6 +56,7 @@ public final class ParserUtils {
         ContentValues aValue = new ContentValues();
         aValue.put(PodcastContract.PodcastEntry.COLUMN_ID, item.getId());
         aValue.put(PodcastContract.PodcastEntry.COLUMN_TITLE, item.getTitle());
+        aValue.put(PodcastContract.PodcastEntry.COLUMN_SHOW_TITLE, item.getShowTitle());
         aValue.put(PodcastContract.PodcastEntry.COLUMN_DURATION, item.getDuration());
         aValue.put(PodcastContract.PodcastEntry.COLUMN_AUDIO, item.getAudio());
         aValue.put(PodcastContract.PodcastEntry.COLUMN_POSTER, item.getPoster());
@@ -62,6 +67,7 @@ public final class ParserUtils {
     public static PlaylistItem buildPlaylistItem(Cursor mCursor) {
         return new PlaylistItem.Builder(mCursor.getInt(ItemLoader.Query.ID_PODCAST))
                 .setTitle(mCursor.getString(ItemLoader.Query.TITLE))
+                .setShowTitle(mCursor.getString(ItemLoader.Query.SHOW_TITLE))
                 .setDuration(mCursor.getString(ItemLoader.Query.DURATION))
                 .setAudio(mCursor.getString(ItemLoader.Query.AUDIO))
                 .setPoster(mCursor.getString(ItemLoader.Query.POSTER))
@@ -75,5 +81,14 @@ public final class ParserUtils {
         long seconds = TimeUnit.SECONDS.toSeconds(duration) % 60;
 
         return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    public static String getMp3(List<AudioFile> audioFiles) {
+        try {
+            return audioFiles.get(0).getMp3();
+        } catch (Exception e) {
+            Log.d(ParserUtils.class.getSimpleName(), "getMp3: " + e);
+            return "";
+        }
     }
 }

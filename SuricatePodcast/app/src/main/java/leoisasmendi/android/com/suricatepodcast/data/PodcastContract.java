@@ -43,6 +43,7 @@ public final class PodcastContract {
 
         public static final String COLUMN_ID = "podcast";
         public static final String COLUMN_TITLE = "title";
+        public static final String COLUMN_SHOW_TITLE = "showtitle";
         public static final String COLUMN_DURATION = "duration";
         public static final String COLUMN_AUDIO = "audio";
         public static final String COLUMN_POSTER = "poster";

@@ -31,6 +31,7 @@ public class PlaylistItem implements Parcelable {
 
     private final int id;
     private final String title;
+    private final String showTitle;
     private final String duration;
     private final String poster;
     private final String audio;
@@ -41,6 +42,7 @@ public class PlaylistItem implements Parcelable {
     private PlaylistItem(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
+        this.showTitle = builder.showTitle;
         this.duration = builder.duration;
         this.poster = builder.poster;
         this.audio = builder.audio;
@@ -55,6 +57,10 @@ public class PlaylistItem implements Parcelable {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getShowTitle() {
+        return showTitle;
     }
 
     public String getDuration() {
@@ -90,6 +96,7 @@ public class PlaylistItem implements Parcelable {
     public static class Builder {
         private final int id;
         private String title;
+        private String showTitle;
         private String duration;
         private String poster;
         private String audio;
@@ -100,12 +107,17 @@ public class PlaylistItem implements Parcelable {
 
         public Builder(int id) {
             this.id = id;
+            this.isSelected = false;
+            this.isFavorite = false;
         }
 
         public Builder setTitle(String title) {
             this.title = title;
-            this.isSelected = false;
-            this.isFavorite = false;
+            return this;
+        }
+
+        public Builder setShowTitle(String showTitle) {
+            this.showTitle = showTitle;
             return this;
         }
 
@@ -153,6 +165,7 @@ public class PlaylistItem implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.title);
+        dest.writeString(this.showTitle);
         dest.writeString(this.duration);
         dest.writeString(this.poster);
         dest.writeString(this.audio);
@@ -162,6 +175,7 @@ public class PlaylistItem implements Parcelable {
     protected PlaylistItem(Parcel in) {
         this.id = in.readInt();
         this.title = in.readString();
+        this.showTitle = in.readString();
         this.duration = in.readString();
         this.poster = in.readString();
         this.audio = in.readString();

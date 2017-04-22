@@ -41,19 +41,20 @@ public class ItemLoader extends CursorLoader {
                 PodcastContract.PodcastEntry._ID,
                 PodcastContract.PodcastEntry.COLUMN_ID,
                 PodcastContract.PodcastEntry.COLUMN_TITLE,
+                PodcastContract.PodcastEntry.COLUMN_SHOW_TITLE,
                 PodcastContract.PodcastEntry.COLUMN_DURATION,
                 PodcastContract.PodcastEntry.COLUMN_AUDIO,
                 PodcastContract.PodcastEntry.COLUMN_POSTER,
                 PodcastContract.PodcastEntry.COLUMN_DESCRIPTION
         };
 
-        int _ID = 0;
         int ID_PODCAST = 1;
         int TITLE = 2;
-        int DURATION = 3;
-        int AUDIO = 4;
-        int POSTER = 5;
-        int DESCRIPTION = 6;
+        int SHOW_TITLE = 3;
+        int DURATION = 4;
+        int AUDIO = 5;
+        int POSTER = 6;
+        int DESCRIPTION = 7;
     }
 
 }

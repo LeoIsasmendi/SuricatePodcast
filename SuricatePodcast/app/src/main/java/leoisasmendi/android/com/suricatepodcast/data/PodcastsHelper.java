@@ -57,6 +57,7 @@ public class PodcastsHelper extends SQLiteOpenHelper {
                         PodcastContract.PodcastEntry._ID + " " + PodcastContract.PodcastType.INT_TYPE + " primary key autoincrement," +
                         PodcastContract.PodcastEntry.COLUMN_ID + " " + PodcastContract.PodcastType.LONG_TYPE + " not null," +
                         PodcastContract.PodcastEntry.COLUMN_TITLE + " " + PodcastContract.PodcastType.STRING_TYPE + "," +
+                        PodcastContract.PodcastEntry.COLUMN_SHOW_TITLE + " " + PodcastContract.PodcastType.STRING_TYPE + "," +
                         PodcastContract.PodcastEntry.COLUMN_DURATION + " " + PodcastContract.PodcastType.STRING_TYPE + "," +
                         PodcastContract.PodcastEntry.COLUMN_AUDIO + " " + PodcastContract.PodcastType.STRING_TYPE + "," +
                         PodcastContract.PodcastEntry.COLUMN_POSTER + " " + PodcastContract.PodcastType.STRING_TYPE + " ," +
