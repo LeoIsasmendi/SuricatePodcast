@@ -207,25 +207,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d(TAG, "onOptionsItemSelected: " + item);
-        int id = item.getItemId();
-
-        if (id == R.id.menu_about) {
-            showAbout();
-            return true;
-        }
-
-        if (id == R.id.menu_item_share) {
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            String shareBodyText = getString(R.string.share_body_text);
-            // TODO: INSERT THE CORRECT URL
-//                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "www.audiosear.ch/audio.mp3");
-            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
-            startActivity(Intent.createChooser(sharingIntent, "Shearing Option"));
-            return true;
-        }
-
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
