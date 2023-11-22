@@ -38,15 +38,15 @@ import android.view.ViewGroup;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
 import aj.canvas.audiosearch.Audiosearch;
 import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
-import leoisasmendi.android.com.suricatepodcast.BuildConfig;
+//import leoisasmendi.android.com.suricatepodcast.BuildConfig;
 import leoisasmendi.android.com.suricatepodcast.R;
 import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
@@ -61,7 +61,7 @@ public class SearchFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private AdView mAdView;
+    //private AdView mAdView;
     private AudioSearchClient mAudioSearchClient;
 
     /*local*/
@@ -88,11 +88,12 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.search_fragment, container, false);
         initSearchView(view);
         initListView(view);
-        initAds(view);
+        //initAds(view);
         setupFAB();
         return view;
     }
 
+    /*
     private void initAds(View view) {
         mAdView = (AdView) view.findViewById(R.id.adBannerView);
         AdRequest adRequest = new AdRequest.Builder()
@@ -103,6 +104,8 @@ public class SearchFragment extends Fragment {
         mAdView.loadAd(adRequest);
     }
 
+
+     */
     private void initListView(View view) {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.search_list);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -150,27 +153,27 @@ public class SearchFragment extends Fragment {
 
     @Override
     public void onPause() {
-        if (mAdView != null) {
-            mAdView.pause();
-        }
+       //if (mAdView != null) {
+       //     mAdView.pause();
+       // }
         super.onPause();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (mAdView != null) {
-            mAdView.resume();
-        }
+        //if (mAdView != null) {
+        //    mAdView.resume();
+        //}
         selectedItems = new SearchList();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mAdView != null) {
-            mAdView.destroy();
-        }
+        //if (mAdView != null) {
+       //     mAdView.destroy();
+        //}
         if (mAudioSearchClient != null) {
             mAudioSearchClient.cancel(true);
         }
@@ -203,6 +206,7 @@ public class SearchFragment extends Fragment {
     private class AudioSearchClient extends AsyncTask<String, Void, EpisodeQueryResult> {
         @Override
         protected EpisodeQueryResult doInBackground(String... strings) {
+            /*
             try {
                 Audiosearch client = new Audiosearch()
                         .setSecret(BuildConfig.CLIENT_SECRET_ID)
@@ -214,6 +218,8 @@ public class SearchFragment extends Fragment {
             } catch (Exception e) {
                 Log.i(TAG, "doInBackground: Exception" + e.toString());
             }
+
+             */
             return null;
         }
 

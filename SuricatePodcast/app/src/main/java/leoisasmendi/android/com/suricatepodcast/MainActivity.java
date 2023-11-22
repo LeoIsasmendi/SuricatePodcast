@@ -25,7 +25,7 @@
 
 package leoisasmendi.android.com.suricatepodcast;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
+//import com.google.firebase.analytics.FirebaseAnalytics;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -49,12 +49,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+//import com.crashlytics.android.Crashlytics;
+//import com.google.android.gms.ads.AdRequest;
+//import com.google.android.gms.ads.InterstitialAd;
 
 
-import io.fabric.sdk.android.Fabric;
+//import io.fabric.sdk.android.Fabric;
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader;
 import leoisasmendi.android.com.suricatepodcast.data.PodcastContract;
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable;
@@ -87,17 +87,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ServiceConnection serviceConnection;
 
     // ADS MOB
-    InterstitialAd mInterstitialAd;
+    //InterstitialAd mInterstitialAd;
 
     // FIREBASE ANALYTICS
-    private FirebaseAnalytics mFirebaseAnalytics;
+    //private FirebaseAnalytics mFirebaseAnalytics;
 
     public static final String ACTION_DATA_UPDATED = "leoisasmendi.android.com.suricatepodcast.app.ACTION_DATA_UPDATED";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        //Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         initToolbar();
         initAds();
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void initAnalytics() {
         // Obtain the FirebaseAnalytics instance.
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        //mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     private void initServiceConnection() {
@@ -132,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initAds() {
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(BuildConfig.INTERSTITIAL_FULL_SCREEN);
+        //mInterstitialAd = new InterstitialAd(this);
+        //mInterstitialAd.setAdUnitId(BuildConfig.INTERSTITIAL_FULL_SCREEN);
     }
 
     private void initToolbar() {
@@ -181,6 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.commit();
     }
 
+    /*
     private void loadAds() {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -191,6 +192,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mInterstitialAd.loadAd(adRequest);
     }
 
+
+
     private void showAds() {
         if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
@@ -198,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             loadAds();
         }
     }
-
+ */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -219,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         Intent intent;
 
+        /*
         switch (id) {
             case R.id.menu_main:
                 intent = new Intent(this, MainActivity.class);
@@ -247,10 +251,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             default:
                 return false;
         }
+
+         */
+        return false;
     }
 
     private void showAbout() {
-        showAds();
+        //showAds();
         fragmentManager.beginTransaction()
                 .replace(R.id.master_container, new AboutFragment())
                 .addToBackStack(AboutFragment.class.getSimpleName())
