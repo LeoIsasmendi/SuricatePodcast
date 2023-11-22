@@ -49,7 +49,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/contextual_fab"
         android:layout_width="@dimen/fab_size"
         android:layout_height="@dimen/fab_size"
@@ -59,13 +59,13 @@
         android:focusable="true"
         android:src="@drawable/magnifier" />
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/app_bar_elevation">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_height"
@@ -82,8 +82,8 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/logo" />
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
 </LinearLayout>

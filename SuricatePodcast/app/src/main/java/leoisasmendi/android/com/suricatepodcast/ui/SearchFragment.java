@@ -28,9 +28,9 @@ import android.content.ContentResolver;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +43,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import aj.canvas.audiosearch.Audiosearch;
 import aj.canvas.audiosearch.model.EpisodeQueryResult;
 import aj.canvas.audiosearch.model.EpisodeResult;
 //import leoisasmendi.android.com.suricatepodcast.BuildConfig;

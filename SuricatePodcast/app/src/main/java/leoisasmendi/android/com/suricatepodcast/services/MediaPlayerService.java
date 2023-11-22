@@ -42,11 +42,12 @@ import android.media.session.MediaSessionManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaControllerCompat;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.support.v7.app.NotificationCompat;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -285,11 +286,11 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         NotificationCompat.Builder notificationBuilder = (NotificationCompat.Builder) new NotificationCompat.Builder(this)
                 .setShowWhen(false)
                 // Set the Notification style
-                .setStyle(new NotificationCompat.MediaStyle()
+                //.setStyle(new NotificationCompat.MediaStyle()
                         // Attach our MediaSession token
-                        .setMediaSession(mediaSession.getSessionToken())
+                  //      .setMediaSession(mediaSession.getSessionToken())
                         // Show our playback controls in the compact notification view.
-                        .setShowActionsInCompactView(0, 1, 2))
+                    //    .setShowActionsInCompactView(0, 1, 2))
                 // Set the Notification color
                 .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryDark))
                 // Set the large and small icons
@@ -359,19 +360,19 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             case 0:
                 // Play
                 playbackAction.setAction(ACTION_PLAY);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             case 1:
                 // Pause
                 playbackAction.setAction(ACTION_PAUSE);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             case 2:
                 // Next track
                 playbackAction.setAction(ACTION_NEXT);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             case 3:
                 // Previous track
                 playbackAction.setAction(ACTION_PREVIOUS);
-                return PendingIntent.getService(this, actionNumber, playbackAction, 0);
+                return PendingIntent.getService(this, actionNumber, playbackAction, PendingIntent.FLAG_IMMUTABLE);
             default:
                 break;
         }
