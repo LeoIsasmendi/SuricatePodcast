@@ -55,7 +55,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
         final PlaylistItem item = mList.get(position);
         holder.item = item;
 
-        Picasso.with(mContext)
+        Picasso.get()
                 .load(holder.item.getPoster())
                 .placeholder(R.drawable.picture)
                 .error(R.drawable.picture)

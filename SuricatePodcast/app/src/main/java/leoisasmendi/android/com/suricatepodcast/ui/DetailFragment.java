@@ -110,7 +110,7 @@ public class DetailFragment extends Fragment {
 
     private void setPoster(String aString) {
         ImageView imageView = (ImageView) getView().findViewById(R.id.detail_poster);
-        Picasso.with(getActivity())
+        Picasso.get()
                 .load(aString)
                 .placeholder(R.drawable.default_poster)
                 .error(R.drawable.default_poster)

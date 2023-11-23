@@ -319,7 +319,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
         view.setTextViewText(R.id.widget_title, activeAudio.getTitle());
         view.setTextViewText(R.id.widget_length, activeAudio.getDuration());
 
-        Picasso.with(getBaseContext()).setLoggingEnabled(true);
+        Picasso.get().setLoggingEnabled(true);
 
         Target target = new Target() {
             @Override
@@ -328,7 +328,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             }
 
             @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
                 view.setImageViewResource(R.id.widget_thumbail, R.drawable.picture);
             }
 
@@ -338,7 +338,7 @@ public class MediaPlayerService extends Service implements MediaPlayer.OnComplet
             }
         };
 
-        Picasso.with(getBaseContext())
+        Picasso.get()
                 .load(activeAudio.getPoster())
                 .into(target);
 
