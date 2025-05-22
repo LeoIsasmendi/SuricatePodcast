@@ -1,5 +1,4 @@
 /*
- *
  * The MIT License (MIT)
  * Copyright (c) 2016. Sergio Leonardo Isasmendi
  *
@@ -20,49 +19,34 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- *
  */
+package leoisasmendi.android.com.suricatepodcast.ui
 
-package leoisasmendi.android.com.suricatepodcast.data;
+import android.app.Fragment
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
+import leoisasmendi.android.com.suricatepodcast.R
 
-import android.database.Cursor;
-import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class RecyclerViewCursorAdapter<VH extends RecyclerView.ViewHolder>
-        extends RecyclerView.Adapter<VH> {
-
-    private Cursor cursor;
-
-    public void swapCursor(final Cursor cursor) {
-        this.cursor = cursor;
-        this.notifyDataSetChanged();
+class AboutFragment : Fragment() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
-    @Override
-    public int getItemCount() {
-        return this.cursor != null
-                ? this.cursor.getCount()
-                : 0;
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_about, container, false)
     }
 
-    public Cursor getItem(final int position) {
-        if (this.cursor != null && !this.cursor.isClosed()) {
-            this.cursor.moveToPosition(position);
-        }
-
-        return this.cursor;
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        menu.findItem(R.id.menu_about).setVisible(false)
+        super.onPrepareOptionsMenu(menu)
     }
-
-    public Cursor getCursor() {
-        return this.cursor;
-    }
-
-    @Override
-    public void onBindViewHolder(VH holder, int position) {
-        final Cursor cursor = this.getItem(position);
-        this.onBindViewHolder(holder, cursor);
-    }
-
-    public abstract void onBindViewHolder(final VH holder, final Cursor cursor);
-
 }

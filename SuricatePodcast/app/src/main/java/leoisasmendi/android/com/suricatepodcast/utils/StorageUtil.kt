@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2016. Sergio Leonardo Isasmendi
+ * Copyright (c) 2017. Sergio Leonardo Isasmendi
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,44 +20,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package leoisasmendi.android.com.suricatepodcast.utils
 
-package leoisasmendi.android.com.suricatepodcast.ui;
+import android.content.Context
+import android.content.SharedPreferences
 
+class StorageUtil(private val context: Context) {
+    private val STORAGE = "leoisasmendi.android.com.suricatepodcast.audioplayer.STORAGE"
+    private var preferences: SharedPreferences? = null
 
-import android.app.Fragment;
-import android.os.Bundle;
-import androidx.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-
-import leoisasmendi.android.com.suricatepodcast.R;
-
-
-public class AboutFragment extends Fragment {
-
-    public AboutFragment() {
-        // Required empty public constructor
+    fun storeAudioIndex(index: Int) {
+        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE)
+        val editor = preferences!!.edit()
+        editor.putInt("audioIndex", index)
+        editor.apply()
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+    fun loadAudioIndex(): Int {
+        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE)
+        return preferences!!.getInt("audioIndex", -1) //return -1 if no data found
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false);
-
-    }
-
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.menu_about).setVisible(false);
-        super.onPrepareOptionsMenu(menu);
+    fun clearCachedAudioPlaylist() {
+        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE)
+        val editor = preferences!!.edit()
+        editor.clear()
+        editor.apply()
     }
 }

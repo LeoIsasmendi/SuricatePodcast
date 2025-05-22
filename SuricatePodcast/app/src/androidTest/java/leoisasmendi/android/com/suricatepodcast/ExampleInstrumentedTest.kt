@@ -1,6 +1,6 @@
 /*
  * The MIT License (MIT)
- * Copyright (c) 2017. Sergio Leonardo Isasmendi
+ * Copyright (c) 2016. Sergio Leonardo Isasmendi
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -20,15 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package leoisasmendi.android.com.suricatepodcast
 
-package leoisasmendi.android.com.suricatepodcast.data;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.Assert
+import org.junit.Test
+import org.junit.runner.RunWith
 
+/**
+ * Instrumentation test, which will execute on an Android device.
+ *
+ * @see [Testing documentation](http://d.android.com/tools/testing)
+ */
+@RunWith(AndroidJUnit4ClassRunner::class)
+class ExampleInstrumentedTest {
+    @Test
+    @Throws(Exception::class)
+    fun useAppContext() {
+        // Context of the app under test.
+        val appContext = InstrumentationRegistry.getInstrumentation().getTargetContext()
 
-import java.util.ArrayList;
-
-public class SearchList extends ArrayList<PlaylistItem> {
-
-    public SearchList() {
+        Assert.assertEquals("leoisasmendi.android.com.suricatepodcast", appContext.getPackageName())
     }
-
 }

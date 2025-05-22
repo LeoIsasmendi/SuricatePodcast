@@ -20,31 +20,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package leoisasmendi.android.com.suricatepodcast
 
-package leoisasmendi.android.com.suricatepodcast;
-
-import android.content.Context;
-
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
-import androidx.test.platform.app.InstrumentationRegistry;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import static org.junit.Assert.assertEquals;
+import org.junit.Assert
+import org.junit.Test
 
 /**
- * Instrumentation test, which will execute on an Android device.
+ * Example local unit test, which will execute on the development machine (host).
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-@RunWith(AndroidJUnit4ClassRunner.class)
-public class ExampleInstrumentedTest {
+class ExampleUnitTest {
     @Test
-    public void useAppContext() throws Exception {
-        // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
-        assertEquals("leoisasmendi.android.com.suricatepodcast", appContext.getPackageName());
+    @Throws(Exception::class)
+    fun addition_isCorrect() {
+        Assert.assertEquals(4, (2 + 2).toLong())
     }
 }
