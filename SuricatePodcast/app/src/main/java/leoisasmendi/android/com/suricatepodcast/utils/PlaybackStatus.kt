@@ -20,38 +20,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package leoisasmendi.android.com.suricatepodcast.utils
 
-package leoisasmendi.android.com.suricatepodcast.utils;
-
-import android.content.Context;
-import android.content.SharedPreferences;
-
-public class StorageUtil {
-
-    private final String STORAGE = "leoisasmendi.android.com.suricatepodcast.audioplayer.STORAGE";
-    private SharedPreferences preferences;
-    private Context context;
-
-    public StorageUtil(Context context) {
-        this.context = context;
-    }
-
-    public void storeAudioIndex(int index) {
-        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("audioIndex", index);
-        editor.apply();
-    }
-
-    public int loadAudioIndex() {
-        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
-        return preferences.getInt("audioIndex", -1);//return -1 if no data found
-    }
-
-    public void clearCachedAudioPlaylist() {
-        preferences = context.getSharedPreferences(STORAGE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.apply();
-    }
+enum class PlaybackStatus {
+    PLAYING,
+    PAUSED
 }

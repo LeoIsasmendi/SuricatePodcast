@@ -56,13 +56,13 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchList
         holder.item = item;
 
         Picasso.get()
-                .load(holder.item.getPoster())
+                .load(holder.item.poster)
                 .placeholder(R.drawable.picture)
                 .error(R.drawable.picture)
                 .into(holder.posterView);
 
-        holder.getNameView().setText(item.getTitle());
-        holder.getDurationView().setText(item.getDuration());
+        holder.getNameView().setText(item.title);
+        holder.getDurationView().setText(item.duration);
         holder.getSelectedView().setChecked(item.getSelected());
         holder.getSelectedView().setOnClickListener(new View.OnClickListener() {
             @Override

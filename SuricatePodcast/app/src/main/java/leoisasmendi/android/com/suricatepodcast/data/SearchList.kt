@@ -20,10 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package leoisasmendi.android.com.suricatepodcast.data
 
-package leoisasmendi.android.com.suricatepodcast.utils;
 
-public enum PlaybackStatus {
-    PLAYING,
-    PAUSED
-}
+class SearchList : ArrayList<PlaylistItem?>()

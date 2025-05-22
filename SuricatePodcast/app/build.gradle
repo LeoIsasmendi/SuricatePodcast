@@ -37,8 +37,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     namespace 'leoisasmendi.android.com.suricatepodcast'
-    compileSdk 33
-    buildToolsVersion "30.0.3"
+    compileSdk 35
 
     signingConfigs {
         config {

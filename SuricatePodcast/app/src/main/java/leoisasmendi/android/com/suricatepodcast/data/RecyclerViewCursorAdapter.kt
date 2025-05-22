@@ -1,4 +1,5 @@
 /*
+ *
  * The MIT License (MIT)
  * Copyright (c) 2016. Sergio Leonardo Isasmendi
  *
@@ -19,22 +20,42 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
- */
-
-package leoisasmendi.android.com.suricatepodcast;
-
-import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-
-/**
- * Example local unit test, which will execute on the development machine (host).
  *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+package leoisasmendi.android.com.suricatepodcast.data
+
+import android.database.Cursor
+import androidx.recyclerview.widget.RecyclerView
+
+abstract class RecyclerViewCursorAdapter<VH : RecyclerView.ViewHolder?>
+    : RecyclerView.Adapter<VH?>() {
+    var cursor: Cursor? = null
+        private set
+
+    fun swapCursor(cursor: Cursor?) {
+        this.cursor = cursor
+        this.notifyDataSetChanged()
     }
+
+    override fun getItemCount(): Int {
+        return if (this.cursor != null)
+            this.cursor!!.getCount()
+        else
+            0
+    }
+
+    fun getItem(position: Int): Cursor? {
+        if (this.cursor != null && !this.cursor!!.isClosed()) {
+            this.cursor!!.moveToPosition(position)
+        }
+
+        return this.cursor
+    }
+
+    override fun onBindViewHolder(holder: VH & Any, position: Int) {
+        val cursor = this.getItem(position)
+        this.onBindViewHolder(holder, cursor)
+    }
+
+    abstract fun onBindViewHolder(holder: VH?, cursor: Cursor?)
 }

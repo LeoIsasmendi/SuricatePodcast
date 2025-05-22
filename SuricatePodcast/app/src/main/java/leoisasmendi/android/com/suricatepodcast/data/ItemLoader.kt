@@ -20,25 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+package leoisasmendi.android.com.suricatepodcast.data
 
-package leoisasmendi.android.com.suricatepodcast.data;
-
-import android.content.Context;
-import android.content.CursorLoader;
-import android.net.Uri;
+import android.content.Context
+import android.content.CursorLoader
+import android.net.Uri
 
 /**
  * Helper for loading a list of items or a single item.
  */
-public class ItemLoader extends CursorLoader {
-
-    public ItemLoader(Context context, Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        super(context, uri, projection, selection, selectionArgs, sortOrder);
-    }
-
-    public interface Query {
-        String[] PROJECTION = {
-                PodcastContract.PodcastEntry._ID,
+class ItemLoader(
+    context: Context?,
+    uri: Uri?,
+    projection: Array<String?>?,
+    selection: String?,
+    selectionArgs: Array<String?>?,
+    sortOrder: String?
+) : CursorLoader(context, uri, projection, selection, selectionArgs, sortOrder) {
+    interface Query {
+        companion object {
+            val PROJECTION: Array<String?> = arrayOf<String?>(
+                PodcastContract.PodcastEntry._ID.toString(),
                 PodcastContract.PodcastEntry.COLUMN_ID,
                 PodcastContract.PodcastEntry.COLUMN_TITLE,
                 PodcastContract.PodcastEntry.COLUMN_SHOW_TITLE,
@@ -46,15 +48,15 @@ public class ItemLoader extends CursorLoader {
                 PodcastContract.PodcastEntry.COLUMN_AUDIO,
                 PodcastContract.PodcastEntry.COLUMN_POSTER,
                 PodcastContract.PodcastEntry.COLUMN_DESCRIPTION
-        };
+            )
 
-        int ID_PODCAST = 1;
-        int TITLE = 2;
-        int SHOW_TITLE = 3;
-        int DURATION = 4;
-        int AUDIO = 5;
-        int POSTER = 6;
-        int DESCRIPTION = 7;
+            const val ID_PODCAST: Int = 1
+            const val TITLE: Int = 2
+            const val SHOW_TITLE: Int = 3
+            const val DURATION: Int = 4
+            const val AUDIO: Int = 5
+            const val POSTER: Int = 6
+            const val DESCRIPTION: Int = 7
+        }
     }
-
 }
