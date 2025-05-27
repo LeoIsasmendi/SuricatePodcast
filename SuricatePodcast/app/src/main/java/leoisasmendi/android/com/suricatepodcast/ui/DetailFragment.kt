@@ -22,14 +22,15 @@
  */
 package leoisasmendi.android.com.suricatepodcast.ui
 
-import android.app.Fragment
+
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
 import leoisasmendi.android.com.suricatepodcast.R
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable
@@ -39,10 +40,8 @@ class DetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-        if (getArguments() != null) {
-            mParcelable = getArguments().getParcelable<EpisodeParcelable?>("EXTRA_EPISODE")
-        }
+        setMenuVisibility(false)
+        mParcelable = arguments?.getParcelable("EXTRA_EPISODE")
     }
 
     override fun onCreateView(
@@ -58,9 +57,13 @@ class DetailFragment : Fragment() {
         loadParcelableIntoView()
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.menu_item_share).setVisible(true)
-        super.onPrepareOptionsMenu(menu)
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        menu.findItem(R.id.menu_item_share).isVisible = true
+        super.onCreateContextMenu(menu, v, menuInfo)
     }
 
     private fun loadParcelableIntoView() {
@@ -74,30 +77,30 @@ class DetailFragment : Fragment() {
     }
 
     private fun setTitle(aString: String?) {
-        val textView = getView()!!.findViewById<View?>(R.id.detail_name) as TextView
+        val textView = view?.findViewById<View?>(R.id.detail_name) as TextView
         setText(textView, aString, R.string.default_detail_title)
     }
 
     private fun setDetail(aString: String?) {
-        val textView = getView()!!.findViewById<View?>(R.id.detail_description) as TextView
+        val textView = view?.findViewById<View?>(R.id.detail_description) as TextView
         setText(textView, aString, R.string.default_description_text)
     }
 
     private fun setDuration(aString: String?) {
-        val textView = getView()!!.findViewById<View?>(R.id.detail_duration) as TextView
+        val textView = view?.findViewById<View?>(R.id.detail_duration) as TextView
         setText(textView, aString, R.string.default_detail_duration)
     }
 
-    private fun setText(textView: TextView, aString: String?, resource_id: Int) {
+    private fun setText(textView: TextView, aString: String?, resourceId: Int) {
         if (aString != null && !aString.isEmpty()) {
-            textView.setText(aString)
+            textView.text = aString
         } else {
-            textView.setText(resource_id)
+            textView.setText(resourceId)
         }
     }
 
     private fun setPoster(aString: String?) {
-        val imageView = getView()!!.findViewById<View?>(R.id.detail_poster) as ImageView?
+        val imageView = view?.findViewById<View?>(R.id.detail_poster) as ImageView?
         Picasso.get()
             .load(aString)
             .placeholder(R.drawable.default_poster)
@@ -106,7 +109,7 @@ class DetailFragment : Fragment() {
     }
 
     private fun setDescription(aString: String?) {
-        val textView = getView()!!.findViewById<View?>(R.id.detail_description) as TextView
+        val textView = view?.findViewById<View?>(R.id.detail_description) as TextView
         setText(textView, aString, R.string.default_description_text)
     }
 }

@@ -22,29 +22,22 @@
  */
 package leoisasmendi.android.com.suricatepodcast.ui
 
-import android.app.Fragment
-import android.content.ContentResolver
-import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import leoisasmendi.android.com.suricatepodcast.R
-import leoisasmendi.android.com.suricatepodcast.data.PlaylistItem
-import leoisasmendi.android.com.suricatepodcast.data.PodcastContract
 import leoisasmendi.android.com.suricatepodcast.data.SearchAdapter
 import leoisasmendi.android.com.suricatepodcast.data.SearchList
-import leoisasmendi.android.com.suricatepodcast.provider.DataProvider
-import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils
 
 class SearchFragment : Fragment() {
-    private val TAG: String = javaClass.getSimpleName()
+    private val TAG: String = javaClass.simpleName
 
     private var mRecyclerView: RecyclerView? = null
     private var mAdapter: RecyclerView.Adapter<*>? = null
@@ -61,7 +54,7 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (getActivity().findViewById<View?>(R.id.contextual_fab) as FloatingActionButton).setImageResource(
+        (activity?.findViewById<View?>(R.id.contextual_fab) as FloatingActionButton).setImageResource(
             R.drawable.plus
         )
         selectedItems = SearchList()
@@ -94,9 +87,9 @@ class SearchFragment : Fragment() {
      */
     private fun initListView(view: View) {
         mRecyclerView = view.findViewById<View?>(R.id.search_list) as RecyclerView
-        mLayoutManager = LinearLayoutManager(getActivity())
+        mLayoutManager = LinearLayoutManager(activity)
         mRecyclerView?.setLayoutManager(mLayoutManager)
-        mAdapter = SearchAdapter(getActivity(), null, selectedItems)
+        mAdapter = SearchAdapter(activity, null, selectedItems)
         mRecyclerView?.setAdapter(mAdapter)
     }
 
@@ -107,24 +100,22 @@ class SearchFragment : Fragment() {
 
     private fun setupFAB() {
         val fab: FloatingActionButton =
-            getActivity().findViewById<View?>(R.id.contextual_fab) as FloatingActionButton
+            activity?.findViewById<View?>(R.id.contextual_fab) as FloatingActionButton
         fab.setImageResource(R.drawable.plus)
         fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 addSelectedItemsToPlaylist()
             }
         })
-        fab.setContentDescription(getString(R.string.cd_add_to_main_list_fab))
+        fab.contentDescription = getString(R.string.cd_add_to_main_list_fab)
     }
 
     private val queryListener: SearchView.OnQueryTextListener
         get() = object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 Log.d(TAG, "onQueryTextSubmit: ")
-                getView()!!.findViewById<View?>(R.id.loadingPanel)
-                    .setVisibility(View.VISIBLE)
-                getView()!!.findViewById<View?>(R.id.search_list)
-                    .setVisibility(View.GONE)
+                view?.findViewById<View?>(R.id.loadingPanel)?.visibility = View.VISIBLE
+                view?.findViewById<View?>(R.id.search_list)?.visibility = View.GONE
                 //mAudioSearchClient = AudioSearchClient()
                 //mAudioSearchClient.execute(query)
                 searchView!!.clearFocus()
@@ -163,7 +154,7 @@ class SearchFragment : Fragment() {
 
     fun addSelectedItemsToPlaylist() {
         Log.d(TAG, "addSelectedItemsToPlaylist: ")
-        val resolver: ContentResolver = getActivity().getContentResolver()
+        //val resolver: ContentResolver = activity?.getContentResolver()
         /*
                 if (selectedItems.size > 0) {
                     val length = selectedItems?.size

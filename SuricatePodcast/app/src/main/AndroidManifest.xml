@@ -29,10 +29,11 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
 
     <application
-        android:allowBackup="false"
+        android:dataExtractionRules="new_config.xml"
+        android:fullBackupContent="old_config.xml"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -52,12 +53,12 @@
         <provider
             android:name=".provider.DataProvider"
             android:authorities="leoisasmendi.android.com.suricatepodcast.provider.DataProvider"
-            android:exported="true" />
+            android:exported="false" />
 
         <service
             android:name=".services.MediaPlayerService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
 
         <receiver
             android:name=".widget.PodcastWidgetProvider"
@@ -72,9 +73,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/podcast_widget_info" />
         </receiver>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="b1bc1217669c5b1d63826096c78ed897aa6ec430" />
     </application>
 
 </manifest>

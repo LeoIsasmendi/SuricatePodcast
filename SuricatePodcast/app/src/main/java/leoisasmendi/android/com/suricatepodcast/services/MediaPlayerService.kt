@@ -70,7 +70,7 @@ import leoisasmendi.android.com.suricatepodcast.widget.PodcastWidgetProvider
 class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
     MediaPlayer.OnErrorListener, OnSeekCompleteListener, MediaPlayer.OnInfoListener,
     OnBufferingUpdateListener, OnAudioFocusChangeListener {
-    private val TAG: String = javaClass.getSimpleName()
+    private val TAG: String = javaClass.simpleName
 
     // Binder given to clients
     private val iBinder: IBinder = LocalBinder()
@@ -105,7 +105,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
         super.onCreate()
 
         // Perform one-time setup procedures
-        mCursor = getContentResolver().query(
+        mCursor = contentResolver.query(
             DataProvider.CONTENT_URI,
             null,
             "",
@@ -119,7 +119,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
         //ACTION_AUDIO_BECOMING_NOISY -- change in audio outputs -- BroadcastReceiver
         registerBecomingNoisyReceiver()
         //Listen for new Audio to play -- BroadcastReceiver
-        register_playNewAudio()
+        registerPlayNewAudio()
     }
 
 
@@ -156,9 +156,9 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
         mediaSessionManager = getSystemService(MEDIA_SESSION_SERVICE) as MediaSessionManager?
         // Create a new MediaSession
-        mediaSession = MediaSessionCompat(getApplicationContext(), "AudioPlayer")
+        mediaSession = MediaSessionCompat(applicationContext, "AudioPlayer")
         //Get MediaSessions transport controls
-        transportControls = mediaSession!!.getController().getTransportControls()
+        transportControls = mediaSession!!.controller.transportControls
         //set MediaSession -> ready to receive media commands
         mediaSession!!.setActive(true)
         //indicate that the MediaSession handles transport control commands
@@ -222,7 +222,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
     private fun updateMetaData() {
         if (activeAudio != null) {
             val albumArt = BitmapFactory.decodeResource(
-                getResources(),
+                resources,
                 R.drawable.ic_default_poster
             ) //replace with medias albumArt
             // Update the current metadata
@@ -241,22 +241,22 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
         updateWidgets(playbackStatus)
 
         var notificationAction = R.drawable.ic_media_control_pause //needs to be initialized
-        var play_pauseAction: PendingIntent? = null
+        var playPauseAction: PendingIntent? = null
 
         //Build a new notification according to the current state of the MediaPlayer
         if (playbackStatus == PlaybackStatus.PLAYING) {
             notificationAction = R.drawable.ic_media_control_pause
             //create the pause action
-            play_pauseAction = playbackAction(1)
+            playPauseAction = playbackAction(1)
         } else if (playbackStatus == PlaybackStatus.PAUSED) {
             notificationAction = R.drawable.ic_media_control_play
             //create the play action
-            play_pauseAction = playbackAction(0)
+            playPauseAction = playbackAction(0)
         }
 
         //TODO: replace this with my icon
         val largeIcon = BitmapFactory.decodeResource(
-            getResources(),
+            resources,
             R.drawable.ic_default_poster
         ) //replace with your own image
 
@@ -271,7 +271,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
             // Set the Notification color
             .setColor(
                 ContextCompat.getColor(
-                    getBaseContext(),
+                    baseContext,
                     R.color.colorPrimaryDark
                 )
             ) // Set the large and small icons
@@ -279,7 +279,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
             .setSmallIcon(R.drawable.ic_headphones) // Set Notification content information
             .setContentText(activeAudio!!.title) // Add playback actions
             .addAction(R.drawable.ic_media_control_prev, "previous", playbackAction(3))
-            .addAction(notificationAction, "pause", play_pauseAction)
+            .addAction(notificationAction, "pause", playPauseAction)
             .addAction(R.drawable.ic_media_control_next, "next", playbackAction(2))
 
         (getSystemService(NOTIFICATION_SERVICE) as NotificationManager).notify(
@@ -289,7 +289,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
     }
 
     private fun updateWidgets(playbackStatus: PlaybackStatus?) {
-        val view = RemoteViews(getPackageName(), R.layout.podcast_widget_player)
+        val view = RemoteViews(packageName, R.layout.podcast_widget_player)
 
         if (playbackStatus == PlaybackStatus.PLAYING) {
             view.setImageViewResource(R.id.widget_play, R.drawable.media_player_pause_24x24)
@@ -300,7 +300,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
         view.setTextViewText(R.id.widget_title, activeAudio!!.title)
         view.setTextViewText(R.id.widget_length, activeAudio!!.duration)
 
-        Picasso.get().setLoggingEnabled(true)
+        Picasso.get().isLoggingEnabled = true
 
         val target: Target = object : Target {
             override fun onBitmapLoaded(bitmap: Bitmap?, from: LoadedFrom?) {
@@ -337,7 +337,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
         when (actionNumber) {
             0 -> {
                 // Play
-                playbackAction.setAction(ACTION_PLAY)
+                playbackAction.action = ACTION_PLAY
                 return PendingIntent.getService(
                     this,
                     actionNumber,
@@ -348,7 +348,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
             1 -> {
                 // Pause
-                playbackAction.setAction(ACTION_PAUSE)
+                playbackAction.action = ACTION_PAUSE
                 return PendingIntent.getService(
                     this,
                     actionNumber,
@@ -359,7 +359,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
             2 -> {
                 // Next track
-                playbackAction.setAction(ACTION_NEXT)
+                playbackAction.action = ACTION_NEXT
                 return PendingIntent.getService(
                     this,
                     actionNumber,
@@ -370,7 +370,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
             3 -> {
                 // Previous track
-                playbackAction.setAction(ACTION_PREVIOUS)
+                playbackAction.action = ACTION_PREVIOUS
                 return PendingIntent.getService(
                     this,
                     actionNumber,
@@ -385,9 +385,9 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
     }
 
     private fun handleIncomingActions(playbackAction: Intent?) {
-        if (playbackAction == null || playbackAction.getAction() == null) return
+        if (playbackAction == null || playbackAction.action == null) return
 
-        val actionString = playbackAction.getAction()
+        val actionString = playbackAction.action
         if (actionString.equals(ACTION_PLAY, ignoreCase = true)) {
             transportControls!!.play()
         } else if (actionString.equals(ACTION_PAUSE, ignoreCase = true)) {
@@ -402,7 +402,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
     }
 
     private fun loadActiveAudio() {
-        if (audioIndex != -1 && audioIndex < mCursor!!.getCount()) {
+        if (audioIndex != -1 && audioIndex < mCursor!!.count) {
             //index is in a valid range
             mCursor!!.moveToPosition(audioIndex)
             activeAudio = ParserUtils.buildPlaylistItem(mCursor!!)
@@ -420,7 +420,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         try {
             //Load data from SharedPreferences
-            val storage = StorageUtil(getApplicationContext())
+            val storage = StorageUtil(applicationContext)
             audioIndex = storage.loadAudioIndex()
             Log.d(TAG, "onStartCommand: " + R.string.media_player_connecting)
             loadActiveAudio()
@@ -470,7 +470,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
         unregisterReceiver(playNewAudio)
 
         //clear cached playlist
-        StorageUtil(getApplicationContext()).clearCachedAudioPlaylist()
+        StorageUtil(applicationContext).clearCachedAudioPlaylist()
         mCursor!!.close()
     }
 
@@ -493,17 +493,17 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
         when (what) {
             MediaPlayer.MEDIA_ERROR_NOT_VALID_FOR_PROGRESSIVE_PLAYBACK -> Log.d(
                 "MediaPlayer Error",
-                "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK " + extra
+                "MEDIA ERROR NOT VALID FOR PROGRESSIVE PLAYBACK $extra"
             )
 
             MediaPlayer.MEDIA_ERROR_SERVER_DIED -> Log.d(
                 "MediaPlayer Error",
-                "MEDIA ERROR SERVER DIED " + extra
+                "MEDIA ERROR SERVER DIED $extra"
             )
 
             MediaPlayer.MEDIA_ERROR_UNKNOWN -> Log.d(
                 "MediaPlayer Error",
-                "MEDIA ERROR UNKNOWN " + extra
+                "MEDIA ERROR UNKNOWN $extra"
             )
         }
         return false
@@ -531,13 +531,13 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
             AudioManager.AUDIOFOCUS_GAIN -> {
                 // resume playback
                 if (mediaPlayer == null) initMediaPlayer()
-                else if (!mediaPlayer!!.isPlaying()) mediaPlayer!!.start()
+                else if (!mediaPlayer!!.isPlaying) mediaPlayer!!.start()
                 mediaPlayer!!.setVolume(1.0f, 1.0f)
             }
 
             AudioManager.AUDIOFOCUS_LOSS -> {
                 // Lost focus for an unbounded amount of time: stop playback and release media player
-                if (mediaPlayer!!.isPlaying()) mediaPlayer!!.stop()
+                if (mediaPlayer!!.isPlaying) mediaPlayer!!.stop()
                 mediaPlayer!!.release()
                 mediaPlayer = null
             }
@@ -545,11 +545,11 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT ->                 // Lost focus for a short time, but we have to stop
                 // playback. We don't release the media player because playback
                 // is likely to resume
-                if (mediaPlayer!!.isPlaying()) mediaPlayer!!.pause()
+                if (mediaPlayer!!.isPlaying) mediaPlayer!!.pause()
 
             AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK ->                 // Lost focus for a short time, but it's ok to keep playing
                 // at an attenuated level
-                if (mediaPlayer!!.isPlaying()) mediaPlayer!!.setVolume(0.1f, 0.1f)
+                if (mediaPlayer!!.isPlaying) mediaPlayer!!.setVolume(0.1f, 0.1f)
         }
     }
 
@@ -578,7 +578,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
             override fun onReceive(context: Context?, intent: Intent?) {
                 //Get the new media index form SharedPreferences
 
-                audioIndex = StorageUtil(getApplicationContext()).loadAudioIndex()
+                audioIndex = StorageUtil(applicationContext).loadAudioIndex()
                 loadActiveAudio()
 
                 //A PLAY_NEW_AUDIO action received
@@ -591,7 +591,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
             }
         }
 
-    private fun register_playNewAudio() {
+    private fun registerPlayNewAudio() {
         //Register playNewMedia receiver
         val filter = IntentFilter(MainActivity.Broadcast_PLAY_NEW_AUDIO)
         registerReceiver(playNewAudio, filter)
@@ -650,7 +650,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
     //MEDIA PLAYER BASIC CONTROLS
     private fun playMedia() {
-        if (!mediaPlayer!!.isPlaying()) {
+        if (!mediaPlayer!!.isPlaying) {
             Log.d(TAG, "playMedia: " + R.string.media_player_playing)
             mediaPlayer!!.start()
             publishStatus(MEDIA_UPDATED)
@@ -660,22 +660,22 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
     private fun stopMedia() {
         if (mediaPlayer == null) return
-        if (mediaPlayer!!.isPlaying()) {
+        if (mediaPlayer!!.isPlaying) {
             mediaPlayer!!.stop()
             publishStatus(STATUS_STOPED)
         }
     }
 
     private fun pauseMedia() {
-        if (mediaPlayer!!.isPlaying()) {
+        if (mediaPlayer!!.isPlaying) {
             mediaPlayer!!.pause()
-            resumePosition = mediaPlayer!!.getCurrentPosition()
+            resumePosition = mediaPlayer!!.currentPosition
             publishStatus(STATUS_PAUSED)
         }
     }
 
     private fun resumeMedia() {
-        if (!mediaPlayer!!.isPlaying()) {
+        if (!mediaPlayer!!.isPlaying) {
             mediaPlayer!!.seekTo(resumePosition)
             mediaPlayer!!.start()
             publishStatus(STATUS_PLAYING)
@@ -683,7 +683,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
     }
 
     private fun skipToNext() {
-        if (audioIndex == mCursor!!.getCount() - 1) {
+        if (audioIndex == mCursor!!.count - 1) {
             //if last in playlist
             audioIndex = 0
         } else {
@@ -693,7 +693,7 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
         loadActiveAudio()
         //Update stored index
-        StorageUtil(getApplicationContext()).storeAudioIndex(audioIndex)
+        StorageUtil(applicationContext).storeAudioIndex(audioIndex)
         stopMedia()
         //reset mediaPlayer
         mediaPlayer!!.reset()
@@ -702,14 +702,14 @@ class MediaPlayerService : Service(), OnCompletionListener, OnPreparedListener,
 
     private fun skipToPrevious() {
         if (audioIndex == 0) {
-            audioIndex = mCursor!!.getCount() - 1
+            audioIndex = mCursor!!.count - 1
         } else {
             audioIndex = --audioIndex
         }
 
         loadActiveAudio()
         //Update stored index
-        StorageUtil(getApplicationContext()).storeAudioIndex(audioIndex)
+        StorageUtil(applicationContext).storeAudioIndex(audioIndex)
         stopMedia()
         //reset mediaPlayer
         mediaPlayer!!.reset()

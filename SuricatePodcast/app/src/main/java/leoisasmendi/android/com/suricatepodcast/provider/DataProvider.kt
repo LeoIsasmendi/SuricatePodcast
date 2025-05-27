@@ -44,8 +44,8 @@ class DataProvider : ContentProvider() {
 
 
     override fun onCreate(): Boolean {
-        podcastsHelper = PodcastsHelper(getContext())
-        db = podcastsHelper!!.getWritableDatabase()
+        podcastsHelper = PodcastsHelper(context)
+        db = podcastsHelper!!.writableDatabase
 
         return (db != null)
     }
@@ -53,7 +53,7 @@ class DataProvider : ContentProvider() {
     override fun getType(p0: Uri): String? {
         when (uriMatcher.match(p0)) {
             PODCAST_ID -> return "leoisasmendi.android.com.suricatepodcast.provider.DataProvider/podcast"
-            else -> throw IllegalArgumentException("Unsupported URI: " + p0)
+            else -> throw IllegalArgumentException("Unsupported URI: $p0")
         }
     }
 
@@ -71,24 +71,24 @@ class DataProvider : ContentProvider() {
         // If record is added successfully
         if (rowID > 0) {
             val _uri = ContentUris.withAppendedId(CONTENT_URI, rowID)
-            getContext()!!.getContentResolver().notifyChange(_uri, null)
+            context!!.contentResolver.notifyChange(_uri, null)
             return _uri
         }
 
-        throw SQLException("Failed to add a record into " + uri)
+        throw SQLException("Failed to add a record into $uri")
     }
 
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String?>?): Int {
         val count: Int
-        val db = podcastsHelper!!.getWritableDatabase()
+        val db = podcastsHelper!!.writableDatabase
         when (uriMatcher.match(uri)) {
             PODCAST_ID -> count =
                 db.delete(PodcastContract.PodcastEntry.TABLE_NAME, selection, selectionArgs)
 
-            else -> throw IllegalArgumentException("Unknown URI " + uri)
+            else -> throw IllegalArgumentException("Unknown URI $uri")
         }
 
-        getContext()!!.getContentResolver().notifyChange(uri, null)
+        context!!.contentResolver.notifyChange(uri, null)
         return count
     }
 
@@ -109,14 +109,14 @@ class DataProvider : ContentProvider() {
         sortOrder: String?
     ): Cursor? {
         val qb = SQLiteQueryBuilder()
-        qb.setTables(PodcastContract.PodcastEntry.TABLE_NAME)
+        qb.tables = PodcastContract.PodcastEntry.TABLE_NAME
 
         when (uriMatcher.match(uri)) {
-            PODCAST_ID -> qb.appendWhere(_ID + "=" + uri.getPathSegments().get(1))
+            PODCAST_ID -> qb.appendWhere(_ID + "=" + uri.pathSegments[1])
             else -> {}
         }
 
-        val db = podcastsHelper!!.getReadableDatabase()
+        val db = podcastsHelper!!.readableDatabase
         val c = qb.query(
             db, projection, selection,
             selectionArgs, null, null, sortOrder
@@ -124,14 +124,14 @@ class DataProvider : ContentProvider() {
         /*
          * register to watch a content URI for changes
          */
-        c.setNotificationUri(getContext()!!.getContentResolver(), uri)
+        c.setNotificationUri(context!!.contentResolver, uri)
         return c
     }
 
     companion object {
         const val PROVIDER_NAME: String =
             "leoisasmendi.android.com.suricatepodcast.provider.DataProvider"
-        val URL: String = "content://" + PROVIDER_NAME
+        val URL: String = "content://$PROVIDER_NAME"
         private const val BASE_PATH = "/podcast"
 
         @JvmField

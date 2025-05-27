@@ -22,19 +22,18 @@
  */
 package leoisasmendi.android.com.suricatepodcast.ui
 
-import android.app.Fragment
 import android.os.Bundle
+import android.view.ContextMenu
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import leoisasmendi.android.com.suricatepodcast.R
 
 
 class AboutFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -45,8 +44,12 @@ class AboutFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_about, container, false)
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.menu_about).setVisible(false)
-        super.onPrepareOptionsMenu(menu)
+    override fun onCreateContextMenu(
+        menu: ContextMenu,
+        v: View,
+        menuInfo: ContextMenu.ContextMenuInfo?
+    ) {
+        menu.findItem(R.id.menu_about).isVisible = false
+        super.onCreateContextMenu(menu, v, menuInfo)
     }
 }

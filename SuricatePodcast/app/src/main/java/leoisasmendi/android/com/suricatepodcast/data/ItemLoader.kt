@@ -23,15 +23,15 @@
 package leoisasmendi.android.com.suricatepodcast.data
 
 import android.content.Context
-import android.content.CursorLoader
 import android.net.Uri
+import androidx.loader.content.CursorLoader
 
 /**
  * Helper for loading a list of items or a single item.
  */
 class ItemLoader(
-    context: Context?,
-    uri: Uri?,
+    context: Context,
+    uri: Uri,
     projection: Array<String?>?,
     selection: String?,
     selectionArgs: Array<String?>?,

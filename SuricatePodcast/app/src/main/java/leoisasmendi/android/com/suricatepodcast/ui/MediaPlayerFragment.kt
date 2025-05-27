@@ -24,7 +24,6 @@
  */
 package leoisasmendi.android.com.suricatepodcast.ui
 
-import android.app.Fragment
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -35,6 +34,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import leoisasmendi.android.com.suricatepodcast.R
 import leoisasmendi.android.com.suricatepodcast.parcelable.EpisodeParcelable
 import leoisasmendi.android.com.suricatepodcast.services.MediaPlayerService
@@ -45,8 +45,8 @@ class MediaPlayerFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (getArguments() != null) {
-            mParcelable = getArguments().getParcelable<EpisodeParcelable?>("EXTRA_MEDIA_INFO")
+        if (arguments != null) {
+            mParcelable = arguments?.getParcelable<EpisodeParcelable?>("EXTRA_MEDIA_INFO")
         }
         initReceiver()
     }
@@ -54,10 +54,10 @@ class MediaPlayerFragment : Fragment() {
     private fun initReceiver() {
         receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent) {
-                val bundle = intent.getExtras()
+                val bundle = intent.extras
                 if (bundle != null) {
                     val string = bundle.getString(MediaPlayerService.STATUS)
-                    Log.d(javaClass.getSimpleName(), "onReceive: " + string)
+                    Log.d(javaClass.simpleName, "onReceive: $string")
                     when (string) {
                         MediaPlayerService.STATUS_DONE -> stopProgressBar()
                         MediaPlayerService.STATUS_PAUSED -> toggleToPause()
@@ -76,26 +76,26 @@ class MediaPlayerFragment : Fragment() {
     }
 
     private fun toggleToPause() {
-        getView()!!.findViewById<View?>(R.id.player_play).setVisibility(View.VISIBLE)
-        getView()!!.findViewById<View?>(R.id.player_pause).setVisibility(View.GONE)
+        view?.findViewById<View?>(R.id.player_play)?.visibility = View.VISIBLE
+        view?.findViewById<View?>(R.id.player_pause)?.visibility = View.GONE
     }
 
     private fun toggleToPlaying() {
-        getView()!!.findViewById<View?>(R.id.player_play).setVisibility(View.GONE)
-        getView()!!.findViewById<View?>(R.id.player_pause).setVisibility(View.VISIBLE)
+        view?.findViewById<View?>(R.id.player_play)?.visibility = View.GONE
+        view?.findViewById<View?>(R.id.player_pause)?.visibility = View.VISIBLE
     }
 
     private fun stopProgressBar() {
-        getView()!!.findViewById<View?>(R.id.loadingAnimation).setVisibility(View.INVISIBLE)
+        view?.findViewById<View?>(R.id.loadingAnimation)?.visibility = View.INVISIBLE
     }
 
     private fun startProgressBar() {
-        getView()!!.findViewById<View?>(R.id.loadingAnimation).setVisibility(View.VISIBLE)
+        view?.findViewById<View?>(R.id.loadingAnimation)?.visibility = View.VISIBLE
     }
 
 
     private fun getServiceIntent(action: String?): Intent {
-        return Intent(getActivity(), MediaPlayerService::class.java)
+        return Intent(activity, MediaPlayerService::class.java)
             .setAction(action)
     }
 
@@ -108,28 +108,28 @@ class MediaPlayerFragment : Fragment() {
         view.findViewById<View?>(R.id.player_next)
             .setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View?) {
-                    getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_NEXT))
+                    activity?.startService(getServiceIntent(MediaPlayerService.ACTION_NEXT))
                 }
             })
 
         view.findViewById<View?>(R.id.player_prev)
             .setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View?) {
-                    getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_PREVIOUS))
+                    activity?.startService(getServiceIntent(MediaPlayerService.ACTION_PREVIOUS))
                 }
             })
 
         view.findViewById<View?>(R.id.player_play)
             .setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View?) {
-                    getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_PLAY))
+                    activity?.startService(getServiceIntent(MediaPlayerService.ACTION_PLAY))
                 }
             })
 
         view.findViewById<View?>(R.id.player_pause)
             .setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View?) {
-                    getActivity().startService(getServiceIntent(MediaPlayerService.ACTION_PAUSE))
+                    activity?.startService(getServiceIntent(MediaPlayerService.ACTION_PAUSE))
                 }
             })
         return view
@@ -142,7 +142,7 @@ class MediaPlayerFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        getActivity().registerReceiver(
+        activity?.registerReceiver(
             receiver, IntentFilter(
                 MediaPlayerService.NOTIFICATION
             )
@@ -151,7 +151,7 @@ class MediaPlayerFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        getActivity().unregisterReceiver(receiver)
+        activity?.unregisterReceiver(receiver)
     }
 
     private fun loadParcelableIntoView() {
@@ -162,21 +162,21 @@ class MediaPlayerFragment : Fragment() {
     }
 
     private fun setTitle(aString: String?) {
-        val textView = getView()!!.findViewById<View?>(R.id.player_title) as TextView
+        val textView = view?.findViewById<View?>(R.id.player_title) as TextView
         setText(textView, aString, R.string.default_detail_title)
     }
 
 
     private fun setDuration(aString: String?) {
-        val textView = getView()!!.findViewById<View?>(R.id.player_length) as TextView
+        val textView = view?.findViewById<View?>(R.id.player_length) as TextView
         setText(textView, aString, R.string.default_detail_duration)
     }
 
-    private fun setText(textView: TextView, aString: String?, resource_id: Int) {
+    private fun setText(textView: TextView, aString: String?, resourceId: Int) {
         if (aString != null && !aString.isEmpty()) {
-            textView.setText(aString)
+            textView.text = aString
         } else {
-            textView.setText(resource_id)
+            textView.setText(resourceId)
         }
     }
 }

@@ -49,7 +49,7 @@ android {
     }
     defaultConfig {
         applicationId "leoisasmendi.android.com.suricatepodcast"
-        minSdkVersion 21
+        minSdkVersion 22
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -58,7 +58,7 @@ android {
         signingConfig signingConfigs.config
     }
     buildTypes {
-        all {
+        configureEach {
             //buildConfigField "String", "CLIENT_SECRET_ID", keystoreProperties['clientSecretId']
             //buildConfigField "String", "CLIENT_APPLICATION_ID", keystoreProperties['clientApplicationId']
             //buildConfigField "String", "INTERSTITIAL_FULL_SCREEN", keystoreProperties['adsInterstitialFullScreen']

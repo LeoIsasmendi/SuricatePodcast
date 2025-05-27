@@ -58,19 +58,10 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:paddingBottom="@dimen/list_item_padding_top_bottom"
-        android:paddingEnd="@dimen/list_item_padding_start_end"
         android:paddingStart="@dimen/list_item_padding_start_end"
         android:paddingTop="@dimen/list_item_padding_top_bottom"
+        android:paddingEnd="@dimen/list_item_padding_start_end"
+        android:paddingBottom="@dimen/list_item_padding_top_bottom"
         android:visibility="invisible" />
-
-    <!--
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adBannerView"
-        android:layout_width="match_parent"
-        ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"
-        android:layout_height="wrap_content" />
-        -->
 
 </LinearLayout>

@@ -61,7 +61,7 @@ object PodcastContract {
          * Read item ID item detail URI.
          */
         fun getItemId(itemUri: Uri): Long {
-            return itemUri.getPathSegments().get(1).toLong()
+            return itemUri.pathSegments[1].toLong()
         }
     }
 

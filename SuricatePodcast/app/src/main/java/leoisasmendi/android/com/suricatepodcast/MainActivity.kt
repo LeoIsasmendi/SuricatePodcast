@@ -24,7 +24,6 @@
  */
 package leoisasmendi.android.com.suricatepodcast
 
-import android.app.FragmentManager
 import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
@@ -40,6 +39,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.navigation.NavigationView
 import leoisasmendi.android.com.suricatepodcast.data.ItemLoader
 import leoisasmendi.android.com.suricatepodcast.data.PodcastContract
@@ -56,14 +56,9 @@ import leoisasmendi.android.com.suricatepodcast.ui.SearchFragment
 import leoisasmendi.android.com.suricatepodcast.utils.ParserUtils.buildParcelable
 import leoisasmendi.android.com.suricatepodcast.utils.StorageUtil
 
-
-//import com.crashlytics.android.Crashlytics;
-//import com.google.android.gms.ads.AdRequest;
-//import com.google.android.gms.ads.InterstitialAd;
-//import io.fabric.sdk.android.Fabric;
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     OnFragmentInteractionListener {
-    val TAG: String = javaClass.getSimpleName()
+    val TAG: String = javaClass.simpleName
 
     private var mToolbar: Toolbar? = null
     private var mDrawerToggle: ActionBarDrawerToggle? = null
@@ -119,9 +114,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun initToolbar() {
         mToolbar = findViewById<View?>(R.id.toolbar) as Toolbar?
         setSupportActionBar(mToolbar)
-        getSupportActionBar()!!.setDisplayShowTitleEnabled(false)
-        getSupportActionBar()!!.setDisplayHomeAsUpEnabled(true)
-        getSupportActionBar()!!.setHomeButtonEnabled(true)
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeButtonEnabled(true)
         mDrawerLayout = findViewById<View?>(R.id.drawer_layout) as DrawerLayout
         mDrawerToggle = object : ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, 0, 0) {
             override fun onDrawerOpened(drawerView: View) {
@@ -134,14 +129,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 invalidateOptionsMenu()
             }
         }
-        mDrawerToggle!!.setDrawerIndicatorEnabled(true)
+        mDrawerToggle!!.isDrawerIndicatorEnabled = true
         mDrawerLayout!!.addDrawerListener(mDrawerToggle!!)
         mNavigationView = findViewById<View?>(R.id.nav_list) as NavigationView
         mNavigationView!!.setNavigationItemSelectedListener(this)
     }
 
     private fun initFragments() {
-        fragmentManager = getFragmentManager()
         Log.d(TAG, "onCreate: twoPaneMode " + getResources().getBoolean(R.bool.twoPaneMode))
         val fragmentTransaction = fragmentManager!!.beginTransaction()
 
@@ -150,19 +144,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(
                     R.id.master_container,
                     MainFragment(),
-                    MainFragment::class.java.getSimpleName()
+                    MainFragment::class.java.simpleName
                 )
                 .replace(
                     R.id.detail_container,
                     DetailFragment(),
-                    MediaPlayerFragment::class.java.getSimpleName()
+                    MediaPlayerFragment::class.java.simpleName
                 )
         } else { //Single panel view
             fragmentTransaction
                 .replace(
                     R.id.master_container,
                     MainFragment(),
-                    MainFragment::class.java.getSimpleName()
+                    MainFragment::class.java.simpleName
                 )
         }
 
@@ -191,7 +185,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
  */
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        getMenuInflater().inflate(R.menu.menu, menu)
+        menuInflater.inflate(R.menu.menu, menu)
         return false
     }
 
@@ -204,7 +198,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         Log.d(TAG, "onNavigationItemSelected: ")
-        val id = item.getItemId()
+        val id = item.itemId
         var intent: Intent?
 
         /*
@@ -245,7 +239,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //showAds();
         fragmentManager!!.beginTransaction()
             .replace(R.id.master_container, AboutFragment())
-            .addToBackStack(AboutFragment::class.java.getSimpleName())
+            .addToBackStack(AboutFragment::class.java.simpleName)
             .commit()
     }
 
@@ -258,13 +252,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             fragmentTransaction.replace(
                 R.id.detail_container,
                 searchFragment,
-                SearchFragment::class.java.getSimpleName()
+                SearchFragment::class.java.simpleName
             )
         } else {
             fragmentTransaction.replace(R.id.master_container, searchFragment)
         }
 
-        fragmentTransaction.addToBackStack(SearchFragment::class.java.getSimpleName()).commit()
+        fragmentTransaction.addToBackStack(SearchFragment::class.java.simpleName).commit()
     }
 
     private fun showDetailFragment(parcelable: EpisodeParcelable?) {
@@ -275,7 +269,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         fragmentManager!!.beginTransaction()
             .replace(R.id.master_container, detailFragment)
-            .addToBackStack(DetailFragment::class.java.getSimpleName())
+            .addToBackStack(DetailFragment::class.java.simpleName)
             .commit()
     }
 
@@ -288,7 +282,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fragmentManager!!.beginTransaction()
             .setCustomAnimations(R.animator.fade_in, R.animator.fade_out)
             .replace(R.id.master_container, playerFragment)
-            .addToBackStack(MediaPlayerFragment::class.java.getSimpleName())
+            .addToBackStack(MediaPlayerFragment::class.java.simpleName)
             .commit()
     }
 
@@ -330,7 +324,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //Check is service is active
         if (!serviceBound) {
             //Store Serializable audioList to SharedPreferences
-            val storage = StorageUtil(getApplicationContext())
+            val storage = StorageUtil(applicationContext)
             storage.storeAudioIndex(audioIndex)
 
             val playerIntent = Intent(this, MediaPlayerService::class.java)
@@ -338,7 +332,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             bindService(playerIntent, serviceConnection!!, BIND_AUTO_CREATE)
         } else {
             //Store the new audioIndex to SharedPreferences
-            val storage = StorageUtil(getApplicationContext())
+            val storage = StorageUtil(applicationContext)
             storage.storeAudioIndex(audioIndex)
 
             //Service is active
@@ -351,24 +345,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     // INTERFACES
     override fun onClick(position: Int, item: Cursor?) {
-        Log.d(TAG, "onClickFragmentInteraction: playlist item pressed " + position)
+        Log.d(TAG, "onClickFragmentInteraction: playlist item pressed $position")
         showPlayerFragment(buildParcelable(item!!))
         this.playAudio(position)
     }
 
     override fun onDeleteItem(itemId: Int) {
-        Log.d(TAG, "onDeleteItem: " + itemId)
-        val c = getContentResolver().query(
+        Log.d(TAG, "onDeleteItem: $itemId")
+        val c = contentResolver.query(
             DataProvider.CONTENT_URI,
             null,
             PodcastContract.PodcastEntry.COLUMN_ID + "=" + itemId,
             null,
             null
         )
-        if (c!!.getCount() != 0) {
+        if (c!!.count != 0) {
             val where = PodcastContract.PodcastEntry.COLUMN_ID + "=?"
             val args: Array<String?> = arrayOf<String>(itemId.toString()) as Array<String?>
-            getContentResolver().delete(DataProvider.CONTENT_ITEM, where, args)
+            contentResolver.delete(DataProvider.CONTENT_ITEM, where, args)
         }
         c.close()
     }

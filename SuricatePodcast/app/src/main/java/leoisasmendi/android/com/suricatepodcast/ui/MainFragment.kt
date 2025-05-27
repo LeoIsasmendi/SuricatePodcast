@@ -22,17 +22,18 @@
  */
 package leoisasmendi.android.com.suricatepodcast.ui
 
-import android.app.Fragment
-import android.app.LoaderManager
+
 import android.content.Context
-import android.content.CursorLoader
-import android.content.Loader
 import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.loader.app.LoaderManager
+import androidx.loader.content.CursorLoader
+import androidx.loader.content.Loader
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -43,27 +44,21 @@ import leoisasmendi.android.com.suricatepodcast.provider.DataProvider
 class MainFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     /*local*/
     var mListener: OnFragmentInteractionListener? = null
-    val TAG: String = javaClass.getSimpleName()
+    val TAG: String = javaClass.simpleName
     var mLayoutManager: RecyclerView.LayoutManager? = null
     var mRecyclerView: RecyclerView? = null
     var mAdapter: PlaylistCursorAdapter? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // Start loader
-        getLoaderManager().restartLoader<Cursor?>(1, null, this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.main_fragment, container, false)
-        checkListenerImplementation(view.getContext())
+        checkListenerImplementation(view.context)
 
         mRecyclerView = view.findViewById<View?>(R.id.master_fragment) as RecyclerView
-        mLayoutManager = LinearLayoutManager(getActivity())
+        mLayoutManager = LinearLayoutManager(activity)
         mRecyclerView!!.setHasFixedSize(true)
         mRecyclerView!!.setLayoutManager(mLayoutManager)
         mAdapter = PlaylistCursorAdapter(mListener!!)
@@ -73,7 +68,7 @@ class MainFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     }
 
     private fun setupFAB() {
-        val fab = getActivity().findViewById<View?>(R.id.contextual_fab) as FloatingActionButton
+        val fab = activity?.findViewById<View?>(R.id.contextual_fab) as FloatingActionButton
         fab.setImageResource(R.drawable.magnifier)
         fab.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
@@ -81,7 +76,7 @@ class MainFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
             }
         }
         )
-        fab.setContentDescription(getString(R.string.cd_search_fab))
+        fab.contentDescription = getString(R.string.cd_search_fab)
     }
 
     private fun checkListenerImplementation(context: Context) {
@@ -103,7 +98,7 @@ class MainFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
     override fun onCreateLoader(i: Int, bundle: Bundle?): Loader<Cursor?> {
         Log.d(TAG, "onCreateLoader: ")
         return CursorLoader(
-            getActivity().getBaseContext(),
+            activity?.applicationContext!!,
             DataProvider.CONTENT_URI,
             null,
             null,
@@ -112,14 +107,18 @@ class MainFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor?> {
         )
     }
 
-    override fun onLoadFinished(loader: Loader<Cursor?>?, cursor: Cursor?) {
+    override fun onLoadFinished(
+        loader: Loader<Cursor?>,
+        data: Cursor?
+    ) {
         Log.d(TAG, "onLoadFinished: ")
         if (mAdapter != null) {
-            mAdapter!!.swapCursor(cursor)
+            mAdapter!!.swapCursor(data)
         }
     }
 
-    override fun onLoaderReset(loader: Loader<Cursor?>?) {
+    override fun onLoaderReset(loader: Loader<Cursor?>) {
+        TODO("Not yet implemented")
     }
 
     interface OnFragmentInteractionListener {
